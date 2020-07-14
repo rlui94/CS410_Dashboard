@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+  <head> 
+    <title>Seismic Dashboard</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <!--<link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"
-    />-->
-    <title>Seismic Dashboard</title>
+
+    <!--Bootstrap-->
     <link 
         rel="stylesheet"
         href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous" 
     />
-    <link rel="stylesheet" href="./styles.css" />
     <script 
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -27,6 +23,23 @@
       integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
       crossorigin="anonymous">
     </script>
+
+    <!--Leaflet-->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+      crossorigin=""
+    />
+    <script 
+      src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+      integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+      crossorigin="">
+    </script>
+
+    <!--Stamen-->
+    <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
+    <link rel="stylesheet" href="./styles.css" />
   </head>
 
   <body>
@@ -59,19 +72,32 @@
           </ul>
         </div>
       </nav>
-      <div class="container-fluid content">
-        <div class="row">
-          <div class="col-12 col-sm-4"></div>
-          <div class="col-12 col-sm-8"></div>
+    </header>
+    <!--Main Content-->
+    <div class="container-fluid content">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-3 col-lg-3 blank">Row1 Col1</div>
+        <div class="col-sm-12 col-md-9 col-lg-6 d-none d-sm-block">
+          <div class="d-none d-sm-block" id="map"></div>
+          <script>
+            var map = new L.Map("map", {
+            center: new L.LatLng(0, 12),
+            zoom: 1
+            });
+            var layer = new L.StamenTileLayer("terrain");
+            map.addLayer(layer);
+          </script>
         </div>
-        <div class="row">
-          <div class="col"></div>
-          <div class="col"></div>
-          <div class="col"></div>
-        </div>
+        <div class="col-12 col-sm-12 col-lg-2 col-xl-3 d-md-none d-lg-block blank">Row1 Col3</div>
       </div>
-      <footer>
-        <p>Footer</p>
-      </footer>
+      <div class="row">
+        <div class="col blank">Row2 Col1</div>
+        <div class="col blank">Row2 Col2</div>
+        <div class="col blank">Row2 Col3</div>
+      </div>
+    </div>
+    <footer>
+      <p>Footer</p>
+    </footer>
   </body>
 </html>

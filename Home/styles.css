@@ -8,15 +8,27 @@
     padding-right: 2em;
 }
 
-body{
+html, body{
     background-color: #000000;
+    height: 100%;
 }
-
+.row {
+    justify-content: space-around;
+}
 .content [class^="col"] {
-    background-color: #778899;
-    height: 11em;
-    border: solid #000000;
-    border-radius: 10px;
+    min-height: max-content;
+    border-radius: 5px;
+    border: solid 1px;
+}
+.blank {
+    background-color: #080808;
+}
+#map {
+    border-radius: 5px;
+    display: block;
+    margin: auto;
+    width: 43em;
+    height: 500px;
 }
 
 footer {
