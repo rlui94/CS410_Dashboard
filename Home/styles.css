@@ -1,0 +1,29 @@
+* {
+    box-sizing: border-box;
+}
+
+.navbar-brand {
+    float: center; 
+    font-size: x-large;
+    padding-right: 2em;
+}
+
+body{
+    background-color: #000000;
+}
+
+.content [class^="col"] {
+    background-color: #778899;
+    height: 11em;
+    border: solid #000000;
+    border-radius: 10px;
+}
+
+footer {
+    padding: 1em;
+    text-align: center;
+    bottom: 0;
+    width: 100%;
+    background-color: #2a2f33;
+    color: #ffffff;
+}
