@@ -76,19 +76,20 @@
     <!--Main Content-->
     <div class="container-fluid content">
       <div class="row">
-        <div class="col-12 col-sm-12 col-md-3 col-lg-3 blank">Row1 Col1</div>
-        <div class="col-sm-12 col-md-9 col-lg-6 d-none d-sm-block">
-          <div class="d-none d-sm-block" id="map"></div>
+        <div class="col-12 col-lg-2 blank">Row1 Col1</div>
+        <div class="col-sm-12 col-lg-10 col-xl-8 d-none d-sm-block">
+          <!--Interactive Map-->
+          <div class="d-none d-md-block" id="map"></div>
           <script>
             var map = new L.Map("map", {
-            center: new L.LatLng(0, 12),
-            zoom: 1
+            center: new L.LatLng(38, -94),
+            zoom: 4
             });
-            var layer = new L.StamenTileLayer("terrain");
+            var layer = new L.StamenTileLayer("toner");
             map.addLayer(layer);
           </script>
         </div>
-        <div class="col-12 col-sm-12 col-lg-2 col-xl-3 d-md-none d-lg-block blank">Row1 Col3</div>
+        <div class="col-12 col-xl-2">Row1 Col3</div>
       </div>
       <div class="row">
         <div class="col blank">Row2 Col1</div>
