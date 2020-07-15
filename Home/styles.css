@@ -13,7 +13,7 @@ html, body{
     height: 100%;
 }
 .row {
-    justify-content: space-around;
+    justify-content: flex-start;
 }
 .content [class^="col"] {
     min-height: max-content;
@@ -25,10 +25,11 @@ html, body{
 }
 #map {
     border-radius: 5px;
+    border: solid #000000 4px;
     display: block;
     margin: auto;
-    width: 795px;
-    height: 400px;
+    width: 61em;
+    height: 32em;
 }
 
 footer {
