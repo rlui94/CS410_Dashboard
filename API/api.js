@@ -25,3 +25,20 @@ async function invokeAPI(){
             <p>Magnitude: ${results.features[i.toString()].properties.mag}</p></li>`
     }
 }
+
+/**
+ * When a specific location needs to be queried. 
+ * @param {*} minLat    default -90
+ * @param {*} minLong   default -180
+ * @param {*} maxLat    default 90
+ * @param {*} maxLong   default 180
+ * @param {*} startTime default 2020-07-13T12:00:00
+ * @param {*} endTime   default 2020-07-13T18:00:00
+ */
+async function getViaLoc(minLat=-90, minLong=-180, maxLat=90, maxLong=180, startTime='2020-07-13T12:00:00', endTime='2020-07-13T18:00:00') {
+    let url=`https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&minlatitude=${minLat}&minlongitude=${minLong}&maxlatitude=${maxLat}&maxlongitude=${maxLong}&starttime=${startTime}&endtime=${endTime}`
+    let response = await fetch(url);
+    let results = await response.json();
+    console.log('Results', results);
+}
+
