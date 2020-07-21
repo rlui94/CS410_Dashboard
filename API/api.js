@@ -43,7 +43,12 @@ async function getViaLoc(minLat=-90, minLong=-180, maxLat=90, maxLong=180, start
     return results;
 }
 
-function displayChart(usgsObj, chartNode){
+/**
+ * Given a json object from USGS API and an html canvas node, create a donut chart in said node.
+ * @param {*} usgsObj   a json'd object from USGS API
+ * @param {*} chartNode html canvas node eg "<canvas id="typeChart" aria-label="donut chart" role="img"></canvas>"
+ */
+function makeDonutChart(usgsObj, chartNode){
     let results = {}, labels = [], vals = [];
     // count occurrences of each type
     for (let i=0; i<usgsObj.features.length; ++i){
@@ -58,6 +63,7 @@ function displayChart(usgsObj, chartNode){
     // get labels and values arrays chart requires
     labels = Object.getOwnPropertyNames(results);
     vals = Object.values(results);
+    // make the chart and insert into node
     let doughnut = new Chart(chartNode,{
         type: 'doughnut',
         data: {
@@ -96,5 +102,5 @@ function displayChart(usgsObj, chartNode){
  * Make this grab form data in the future
  */
 async function invokeChart(){
-    displayChart(await getViaLoc(), document.getElementById('typeChart'));
+    makeDonutChart(await getViaLoc(), document.getElementById('typeChart'));
 }
