@@ -40,6 +40,7 @@ async function getViaLoc(minLat=-90, minLong=-180, maxLat=90, maxLong=180, start
     let response = await fetch(url);
     let results = await response.json();
     console.log('Results', results);
+    return results;
 }
 
 function displayChart(usgsObj, chartNode){
@@ -91,3 +92,9 @@ function displayChart(usgsObj, chartNode){
       })
 }
 
+/**
+ * Make this grab form data in the future
+ */
+async function invokeChart(){
+    displayChart(await getViaLoc(), document.getElementById('typeChart'));
+}
