@@ -13,13 +13,13 @@ async function apiTest(){
 function chooseColor(value) {
     switch (true){
         case value < 3:
-            return "green";
+            return "rgb(0, 255, 0)";
         case value < 6:
-            return "yellow";
+            return "rgb(255, 255, 0)";
         case value < 8:
-            return "orange";
+            return "rgb(255, 0, 0)";
         case value >= 8:
-            return "red";
+            return "rgb(255, 0, 255)";
         default:
             console.log(value);
             return "blue";
@@ -27,7 +27,7 @@ function chooseColor(value) {
 }
 var map = new L.Map("map", {
     center: new L.LatLng(38, -97),
-    zoom: 2.5,
+    zoom: 2,
     worldCopyJump: true
 });
 var layer = new L.StamenTileLayer("toner");
