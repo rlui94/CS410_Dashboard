@@ -25,6 +25,11 @@ function chooseColor(value) {
             return "blue";
     }
 }
+
+function parseTime(epochDate) {
+    var date = new Date(epochDate)
+    return date.toGMTString()
+}
 var map = new L.Map("map", {
     center: new L.LatLng(38, -97),
     zoom: 2,
@@ -39,12 +44,12 @@ apiTest()
         L.geoJSON(data, {
             pointToLayer: function(feature, latlng){
                 return L.circleMarker(latlng, {
-                    title: "test",
                     radius: feature.properties.mag,
                     color: chooseColor(feature.properties.mag),
-                    opacity: 0.3
-                });
+                    opacity: 0.3,
+                }).bindPopup("<p><b>"+parseTime(feature.properties.time)+"</b><br/><b>Magnitude: "+feature.properties.mag+"</b></p>")
             },
+            
         }).addTo(map);
     })
     .catch(reason => console.log(reason.message));
