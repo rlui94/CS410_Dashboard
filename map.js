@@ -1,6 +1,6 @@
 const url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson';
 
-async function apiTest(){
+async function apiTest(url){
     let response = await fetch(url);
     if(response.status == 200){
         let data = await response.json();
@@ -38,8 +38,7 @@ var map = new L.Map("map", {
 var layer = new L.StamenTileLayer("toner");
 map.addLayer(layer);
 
-
-apiTest()
+apiTest(url)
     .then(data => {
         L.geoJSON(data, {
             pointToLayer: function(feature, latlng){
