@@ -101,6 +101,17 @@ function makeDonutChart(usgsObj, chartNode){
 /**
  * Make this grab form data in the future
  */
-async function invokeChart(){
-    makeDonutChart(await getViaLoc(), document.getElementById('typeChart'));
+async function createTestChart(chartID){
+    makeDonutChart(await getViaLoc(), document.getElementById(chartID));
+}
+
+/**
+ * Retrieve data from user input form, create a chart using said input.
+ * @param {*} formID  id of form to grab data from
+ * @param {*} chartID id of chart to draw chart into
+ */
+async function createChartViaForm(formID, chartID){
+  let form = document.getElementById(formID);
+  makeDonutChart(await getViaLoc(form.elements['minLat'].value, form.elements['minLong'].value,
+    form.elements['maxLat'].value, form.elements['maxLong'].value), document.getElementById(chartID));
 }
