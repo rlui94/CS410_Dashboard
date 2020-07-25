@@ -12,10 +12,13 @@
   </head>
   <body class="bg-dark">
     <section class="container border rounded bg-light w-50 mx-auto mt-5 p-3">
+      
       <h3 class="mt-2 mb-4">Charts</h3>
       <h4 class="mt-2 mb-4">Type Chart</h4>
-      <button class="btn btn-primary" onclick="createTestChart('typeChart')">Make a chart</button>
-      <canvas id="typeChart" aria-label="donut chart" role="img"></canvas>
+      <div class="container">
+        <div class="row"><button class="btn btn-primary" onclick="createTestChart('typeChart')">Make a chart</button></div>
+        <div class="row"><canvas id="typeChart" aria-label="donut chart" role="img"></canvas></div>
+      </div>
       <h4 class="mt-2 mb-4">Input Location</h4>
       <form id="location-form">
         <div class="form-group">
