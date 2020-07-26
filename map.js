@@ -1,6 +1,10 @@
-const url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson';
+//URLs for monthly, weekly, and daily earthquake geoJSON info
+const url_month = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
+const url_week = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+const url_day = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
 
-async function apiTest(url){
+//API access function
+async function apiInfo(url){
     let response = await fetch(url);
     if(response.status == 200){
         let data = await response.json();
@@ -10,6 +14,7 @@ async function apiTest(url){
     throw new Error(response.status);
 };
 
+//Used to set marker color in map layer based on magnitude
 function chooseColor(value) {
     switch (true){
         case value < 3:
@@ -26,29 +31,85 @@ function chooseColor(value) {
     }
 }
 
+//Used to translate date/time from geoJSON file
+//to human readable GMT format
 function parseTime(epochDate) {
     var date = new Date(epochDate)
     return date.toGMTString()
 }
-var map = new L.Map("map", {
-    center: new L.LatLng(38, -97),
-    zoom: 2,
-    worldCopyJump: true
-});
-var layer = new L.StamenTileLayer("toner");
-map.addLayer(layer);
 
-apiTest(url)
+//Create blank map container
+var map = new L.Map("map", {
+    center: new L.LatLng(10, -20),
+    zoom: 1.5,
+    worldCopyJump: true
+})
+
+//Add map to container using Stamen Tile
+var map_layer = new L.StamenTileLayer("toner");
+map.addLayer(map_layer);
+
+//Add markers to a map layer that can be added
+//or removed. Includes popup info on marker.
+var current = L.layerGroup().addTo(map);
+var addMarkers = function(feature, latlng){
+    return L.circleMarker(latlng, {
+        radius: feature.properties.mag,
+        color: chooseColor(feature.properties.mag),
+        opacity: 0.3,
+    }).bindPopup("<p><b>"+parseTime(feature.properties.time)+"</b><br/><b>Magnitude: "+feature.properties.mag+"</b></p>");
+}
+
+//Default map display(30 days)
+apiInfo(url_month)
     .then(data => {
         L.geoJSON(data, {
-            pointToLayer: function(feature, latlng){
-                return L.circleMarker(latlng, {
-                    radius: feature.properties.mag,
-                    color: chooseColor(feature.properties.mag),
-                    opacity: 0.3,
-                }).bindPopup("<p><b>"+parseTime(feature.properties.time)+"</b><br/><b>Magnitude: "+feature.properties.mag+"</b></p>")
-            },
-            
-        }).addTo(map);
+            pointToLayer: addMarkers,
+        }).addTo(current);
     })
     .catch(reason => console.log(reason.message));
+
+//Displays monthly info when pastMonth toggle is clicked
+var monthToggle = document.getElementById("pastMonth");
+monthToggle.addEventListener("click", function(event) {
+    if(!monthToggle.classList.contains("active")){
+        current.clearLayers();
+        apiInfo(url_month)
+        .then(data => {
+            L.geoJSON(data, {
+                pointToLayer: addMarkers,
+            }).addTo(current);
+        })
+        .catch(reason => console.log(reason.message));
+    }
+});
+
+//Displays weekly info on when pastWeek on toggle is clicked
+var weekToggle = document.getElementById("pastWeek");
+weekToggle.addEventListener("click", function(event) {
+    if(!weekToggle.classList.contains("active")){
+        current.clearLayers();
+        apiInfo(url_week)
+        .then(data => {
+            L.geoJSON(data, {
+                pointToLayer: addMarkers,
+            }).addTo(current);
+        })
+        .catch(reason => console.log(reason.message));
+    }
+});
+
+//Displays daily info when today on toggle is clicked
+var dayToggle = document.getElementById("today");
+dayToggle.addEventListener("click", function(event) {
+    if(!dayToggle.classList.contains("active")){
+        current.clearLayers();
+        apiInfo(url_day)
+        .then(data => {
+            L.geoJSON(data, {
+                pointToLayer: addMarkers,
+            }).addTo(current);
+        })
+        .catch(reason => console.log(reason.message));
+    }
+});

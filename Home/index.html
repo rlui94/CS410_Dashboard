@@ -90,19 +90,21 @@
         <div class="col-12 col-lg-10 col-xl-8">
 
           <!--Map control radio(30, 7, 1 days)-->
-          <div class="btn-group btn-group-toggle">
-            <label class="btn btn-secondary border active">
-              <input type="radio" id="pastMonth" checked>Past 30 Days
+          <div class="btn-group btn-group-toggle" id="toggleBar" data-toggle="buttons">
+            <label class="btn btn-secondary active" id="pastMonth">
+              <input type="radio" name="timeframe" checked>Past 30 Days
             </label>
-            <label class="btn btn-secondary">
-              <input type="radio" id="pastWeek">Past 7 Days
+            <label class="btn btn-secondary" id="pastWeek">
+              <input type="radio" name="timeframe">Past 7 Days
             </label>
-            <label class="btn btn-secondary">
-              <input type="radio" id="today">Today
+            <label class="btn btn-secondary" id="today">
+              <input type="radio" name="timeframe">Today
             </label>
           </div>
           <div class="row text-center text-white">
-            <div class="col">Past 30 Days</div>
+            <div class="col">
+              <h2>Past 30 Days</h2>
+            </div>
           </div>
           
           <!--Interactive Map-->
