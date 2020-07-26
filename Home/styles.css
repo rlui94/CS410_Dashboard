@@ -12,15 +12,19 @@ html, body{
     background-color: #000000;
     height: 100%;
 }
+
 .row {
     justify-content: flex-start;
 }
+
 .content [class^="col"] {
     min-height: max-content;
 }
+
 .blank {
     border: solid 2px;
 }
+
 #map {
     border-radius: 5px;
     border: solid #000000 4px;

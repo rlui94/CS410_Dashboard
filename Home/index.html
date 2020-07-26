@@ -43,12 +43,6 @@
       src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0">
     </script>
 
-    <!--Esri-->
-    <script 
-      src="https://unpkg.com/esri-leaflet@2.4.1/dist/esri-leaflet.js"
-      integrity="sha512-xY2smLIHKirD03vHKDJ2u4pqeHA7OQZZ27EjtqmuhDguxiUvdsOuXMwkg16PQrm9cgTmXtoxA6kwr8KBy3cdcw=="
-      crossorigin="">
-    </script>
     <link rel="stylesheet" href="./styles.css" />
   </head>
 
@@ -87,24 +81,19 @@
     <div class="container-fluid content">
       <div class="row font-weight-bold">
         <div class="col-12 col-lg-2 blank">Row1 Col1</div>
-        <div class="col-12 col-lg-10 col-xl-8">
+        <div class="col-12 col-lg-10 col-xl-8 text-center">
 
           <!--Map control radio(30, 7, 1 days)-->
           <div class="btn-group btn-group-toggle" id="toggleBar" data-toggle="buttons">
             <label class="btn btn-secondary active" id="pastMonth">
-              <input type="radio" name="timeframe" checked>Past 30 Days
+              <input type="radio" name="timeframe" checked><b>Past 30 Days</b>
             </label>
             <label class="btn btn-secondary" id="pastWeek">
-              <input type="radio" name="timeframe">Past 7 Days
+              <input type="radio" name="timeframe"><b>Past 7 Days</b>
             </label>
             <label class="btn btn-secondary" id="today">
-              <input type="radio" name="timeframe">Today
+              <input type="radio" name="timeframe"><b>Today</b>
             </label>
-          </div>
-          <div class="row text-center text-white">
-            <div class="col">
-              <h2>Past 30 Days</h2>
-            </div>
           </div>
           
           <!--Interactive Map-->
