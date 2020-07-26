@@ -16,14 +16,18 @@ const url = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&sta
  * type: "FeatureCollection"
  */
 async function invokeAPI(){
-    let response = await fetch(url);
-    let results = await response.json();
-    console.log('Results', results);
-    document.getElementById('heading').innerHTML += `url: ${results.metadata.url}`;
-    for (let i=0; i<results.features.length; i++){
-        document.getElementById('results').innerHTML += `<li class="list-group-item"><p>Place: ${results.features[i.toString()].properties.place}</p>
-            <p>Magnitude: ${results.features[i.toString()].properties.mag}</p></li>`
-    }
+  try{
+    var response = await fetch(url);
+    var results = await response.json();
+  } catch(err){
+    console.log(err);
+  }
+  console.log('Results', results);
+  document.getElementById('heading').innerHTML += `url: ${results.metadata.url}`;
+  for (let i=0; i<results.features.length; i++){
+      document.getElementById('results').innerHTML += `<li class="list-group-item"><p>Place: ${results.features[i.toString()].properties.place}</p>
+          <p>Magnitude: ${results.features[i.toString()].properties.mag}</p></li>`
+  }
 }
 
 /**
@@ -37,8 +41,12 @@ async function invokeAPI(){
  */
 async function getViaLoc(minLat=-90, minLong=-180, maxLat=90, maxLong=180, startTime='2020-07-13T12:00:00', endTime='2020-07-13T18:00:00') {
     let url=`https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&minlatitude=${minLat}&minlongitude=${minLong}&maxlatitude=${maxLat}&maxlongitude=${maxLong}&starttime=${startTime}&endtime=${endTime}`
-    let response = await fetch(url);
-    let results = await response.json();
+    try{
+      var response = await fetch(url);
+      var results = await response.json();
+    } catch(err){
+      console.log(err);
+    }
     console.log('Results', results);
     return results;
 }
@@ -101,6 +109,17 @@ function makeDonutChart(usgsObj, chartNode){
 /**
  * Make this grab form data in the future
  */
-async function invokeChart(){
-    makeDonutChart(await getViaLoc(), document.getElementById('typeChart'));
+async function createTestChart(chartID){
+    makeDonutChart(await getViaLoc(), document.getElementById(chartID));
+}
+
+/**
+ * Retrieve data from user input form, create a chart using said input.
+ * @param {*} formID  id of form to grab data from
+ * @param {*} chartID id of chart to draw chart into
+ */
+async function createChartViaForm(formID, chartID){
+  let form = document.getElementById(formID);
+  makeDonutChart(await getViaLoc(form.elements['minLat'].value, form.elements['minLong'].value,
+    form.elements['maxLat'].value, form.elements['maxLong'].value), document.getElementById(chartID));
 }
