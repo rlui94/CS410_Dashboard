@@ -12,3 +12,17 @@ async function apiInfo(url){
     }
     throw new Error(response.status);
 }
+
+/*Usage Instructions
+In your javascript code, call the function below using
+url_month, url_week, or url_day (more can be added from USGS site):
+    https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
+
+apiInfo(url_{month | week | year})
+    .then(data => {
+        **YOUR CODE GOES HERE**
+           console.log(data);     
+        }
+    })
+    .catch(reason => console.log(reason.message));
+*/
