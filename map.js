@@ -1,3 +1,4 @@
+/*
 //URLs for monthly, weekly, and daily earthquake geoJSON info
 const url_month = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
 const url_week = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
@@ -13,6 +14,7 @@ async function apiInfo(url){
     }
     throw new Error(response.status);
 };
+*/
 
 //Used to set marker color in map layer based on magnitude
 function chooseColor(value) {
@@ -31,6 +33,8 @@ function chooseColor(value) {
     }
 }
 
+
+
 //Used to translate date/time from geoJSON file
 //to human readable GMT format
 function parseTime(epochDate) {
@@ -41,7 +45,9 @@ function parseTime(epochDate) {
 //Create blank map container
 var map = new L.Map("map", {
     center: new L.LatLng(10, -20),
-    zoom: 1.5,
+    zoomSnap: 0.5,
+    minZoom: 2,
+    zoom: 2,
     worldCopyJump: true
 })
 
@@ -61,7 +67,7 @@ var addMarkers = function(feature, latlng){
 }
 
 //Default map display(30 days)
-apiInfo(url_month)
+apiInfo(url_day)
     .then(data => {
         L.geoJSON(data, {
             pointToLayer: addMarkers,
@@ -112,4 +118,26 @@ dayToggle.addEventListener("click", function(event) {
         })
         .catch(reason => console.log(reason.message));
     }
+});
+
+function lkjlkj(sublayer, zoom, stzoom){
+    if(zoom > stzoom){
+        return sublayer.options.radius * (zoom/3.0);
+    }
+    else {
+        return sublayer.options.radius / (stzoom/3.0);
+    }
+}
+var stzoom = 0;
+map.on("zoomstart", function() {
+    stzoom = map.getZoom();
+    console.log(stzoom);
+});
+map.on("zoomend", function() {
+    var zoom = map.getZoom();
+    current.eachLayer(function(layer){
+        layer.eachLayer(function(sublayer){
+                sublayer.setStyle({radius: lkjlkj(sublayer, zoom, stzoom)});
+        })
+    })
 });
