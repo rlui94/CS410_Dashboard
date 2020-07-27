@@ -8,7 +8,6 @@ async function apiInfo(url){
     let response = await fetch(url);
     if(response.status == 200){
         let data = await response.json();
-        console.log(data);
         return data;
     }
     throw new Error(response.status);

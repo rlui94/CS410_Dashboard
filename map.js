@@ -120,7 +120,8 @@ dayToggle.addEventListener("click", function(event) {
     }
 });
 
-function lkjlkj(sublayer, zoom, stzoom){
+//Helper function to adjust markers on zoom
+function markerAdjust(sublayer, zoom, stzoom){
     if(zoom > stzoom){
         return sublayer.options.radius * (zoom/3.0);
     }
@@ -128,16 +129,19 @@ function lkjlkj(sublayer, zoom, stzoom){
         return sublayer.options.radius / (stzoom/3.0);
     }
 }
+
+//Capture where zoom in/out starts
 var stzoom = 0;
 map.on("zoomstart", function() {
     stzoom = map.getZoom();
-    console.log(stzoom);
 });
+
+//Adjust size of markers based on zoom level
 map.on("zoomend", function() {
     var zoom = map.getZoom();
     current.eachLayer(function(layer){
         layer.eachLayer(function(sublayer){
-                sublayer.setStyle({radius: lkjlkj(sublayer, zoom, stzoom)});
+                sublayer.setStyle({radius: markerAdjust(sublayer, zoom, stzoom)});
         })
     })
 });
