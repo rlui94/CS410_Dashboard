@@ -1,5 +1,5 @@
 
-apiInfo(url_day)
+apiInfo(url_hour)
     .then(data => {
         for(feature of data.features){
             var parent = document.getElementById("activityPanel");

@@ -44,9 +44,9 @@
     </script>
 
     <!--USGS API-->
-    <script src="../simpleAPI.js"></script>
+    <script src="../JS/simpleAPI.js"></script>
 
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="../styles.css" />
   </head>
 
   <body>
@@ -65,16 +65,16 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
           <ul class="navbar-nav">
             <li class="nav-item active">
-              <a class="nav-link" href="/Home/index.html">Home</a>
+              <a class="nav-link" href="home.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="map.html">Map</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#link">Link</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#link">Link</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/About/index.html">About</a>
+              <a class="nav-link" href="about.html">About</a>
             </li>
           </ul>
         </div>
@@ -86,8 +86,8 @@
       <div class="row font-weight-bold align-items-center">
         <!--Activity Panel-->
         <div class="col-12 col-md-3 bg-secondary" id="activityPanel">
-          <h5 class="text-white text-center">Activity Today</h5>
-          <script src="../alerts.js"></script>
+          <h5 class="text-white text-center">Past Hour</h5>
+          <script src="../JS/alerts.js"></script>
         </div>
         <!--Map Panel-->
         <div class="col-12 col-md-9 text-center" id="mapContainer">
@@ -106,7 +106,7 @@
           
           <!--Interactive Map-->
           <div class="col border-dark" id="map">
-            <script src="../map.js"></script>
+            <script src="../JS/map.js"></script>
           </div>
           <div class="row justify-content-center text-center text-primary" id="mapLegend">
             <div class="col-8 col-sm bg-black border-0"><b>Magnitude:</b></div> 
