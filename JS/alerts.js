@@ -8,7 +8,7 @@ apiInfo(url_hour)
             toadd.classList.add("card");
             details.classList.add("card-body");
             details.innerHTML = "<b><u>Magnitude: " + feature.properties.mag.toFixed(2) +
-                                "</u></b><br>" + feature.properties.place;//feature.properties.time;
+                                "</u></b><br>" + feature.properties.place + "<br>" + parseTime(feature.properties.time);
             toadd.appendChild(details);
             parent.appendChild(toadd);
             
