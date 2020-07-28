@@ -1,4 +1,15 @@
+/*
+URLs for monthly, weekly, and daily earthquake geoJSON info
+const url_month = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
+const url_week = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+const url_day = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
+const url_hour = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
+*/
+
+// for testing
 const url = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2020-07-13T12:00:00&endtime=2020-07-13T18:00:00';
+// for modifying refresh chart
+var refreshUrl = url_hour;
 
 /**
  * Hits the url endpoint listed above and prints the resulting features as a list to DOM with 
@@ -52,9 +63,10 @@ async function getViaLoc(minLat=-90, minLong=-180, maxLat=90, maxLong=180, start
 }
 
 /**
- * Given a json object from USGS API and an html canvas node, create a donut chart in said node.
+ * Given a json object from USGS API and an html canvas node, 
+ * create a donut chart of types of seismic activity in said node.
  * @param {*} usgsObj   a json'd object from USGS API
- * @param {*} chartNode html canvas node eg "<canvas id="typeChart" aria-label="donut chart" role="img"></canvas>"
+ * @param {*} chartNode html canvas node eg "<canvas id="typeChart" role="img"></canvas>"
  */
 function makeDonutChart(usgsObj, chartNode){
     let results = {}, labels = [], vals = [];
@@ -72,7 +84,7 @@ function makeDonutChart(usgsObj, chartNode){
     labels = Object.getOwnPropertyNames(results);
     vals = Object.values(results);
     // make the chart and insert into node
-    let doughnut = new Chart(chartNode,{
+    let chart = new Chart(chartNode,{
         type: 'doughnut',
         data: {
           datasets: [{
@@ -107,6 +119,56 @@ function makeDonutChart(usgsObj, chartNode){
 }
 
 /**
+ * Given a json object from USGS API and an html canvas node, 
+ * create a scatter chart of time vs quake magnitude.
+ * @param {*} usgsObj   a json'd object from USGS API
+ * @param {*} chartNode html canvas node eg "<canvas id="scatterChart" role="img"></canvas>"
+ */
+function makeScatterChart(usgsObj, chartNode){
+  let results = []
+  // place results into array of objects {x, y}
+  for (let i=0; i<usgsObj.features.length; ++i){
+    results.push({
+      'x': usgsObj.features[i].properties.time,
+      'y': usgsObj.features[i].properties.mag
+    })
+  }
+  // make the chart and insert into node
+  let chart = new Chart(chartNode,{
+      type: 'scatter',
+      data: {
+        datasets: [{
+          data: results,
+          backgroundColor: [
+            'rgba(54, 162, 235, 0.8)',
+            'rgba(255, 206, 86, 0.8)',
+            'rgba(255, 99, 132, 0.8)',
+            'rgba(75, 192, 192, 0.8)',
+            'rgba(153, 102, 255, 0.8)',
+            'rgba(255, 159, 64, 0.8)',
+            'rgba(199, 199, 199, 0.8)',
+          ],
+          borderColor: [
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(255, 99, 132, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(159, 159, 159, 1)',
+          ]
+        }],
+        labels: 'Scatter Dataset',
+        },
+        options:{
+          legend: {
+            position: 'bottom'
+          },
+        },
+    })
+}
+
+/**
  * Make this grab form data in the future
  */
 async function createTestChart(chartID){
@@ -123,3 +185,14 @@ async function createChartViaForm(formID, chartID){
   makeDonutChart(await getViaLoc(form.elements['minLat'].value, form.elements['minLong'].value,
     form.elements['maxLat'].value, form.elements['maxLong'].value), document.getElementById(chartID));
 }
+
+async function createRefreshChart(chartNode){
+  apiInfo(refreshUrl)
+  .then(data => {
+    console.log(data);
+    makeScatterChart(data, chartNode);
+  })
+  .catch(reason => console.log(reason.message));
+}
+
+window.onload = createRefreshChart(document.getElementById('refresh-chart'))
