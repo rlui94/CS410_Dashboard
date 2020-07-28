@@ -129,7 +129,7 @@ function makeScatterChart(usgsObj, chartNode){
   // place results into array of objects {x, y}
   for (let i=0; i<usgsObj.features.length; ++i){
     results.push({
-      'x': usgsObj.features[i].properties.time,
+      'x': new Date(usgsObj.features[i].properties.time),
       'y': usgsObj.features[i].properties.mag
     })
   }
@@ -161,9 +161,16 @@ function makeScatterChart(usgsObj, chartNode){
         labels: 'Scatter Dataset',
         },
         options:{
-          legend: {
-            position: 'bottom'
-          },
+          scales: {
+            xAxes: [{
+              type: 'time',
+              distribution: 'linear',
+              time:{
+                min: results[results.length-1].x,
+              },
+              bounds: 'data',
+            }]
+          }
         },
     })
 }
