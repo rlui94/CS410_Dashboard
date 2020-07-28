@@ -9,6 +9,7 @@ const url_hour = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_
 // for testing
 const url = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2020-07-13T12:00:00&endtime=2020-07-13T18:00:00';
 // for modifying refresh chart
+var refreshChart = null;
 var refreshUrl = url_hour;
 var interval = 60000;
 
@@ -130,12 +131,12 @@ function makeScatterChart(usgsObj, chartNode){
   // place results into array of objects {x, y}
   for (let i=0; i<usgsObj.features.length; ++i){
     results.push({
-      'x': new Date(usgsObj.features[i].properties.time),
+      'x': usgsObj.features[i].properties.time,
       'y': usgsObj.features[i].properties.mag
     })
   }
   // make the chart and insert into node
-  let chart = new Chart(chartNode,{
+  refreshChart = new Chart(chartNode,{
       type: 'scatter',
       data: {
         datasets: [{
@@ -175,6 +176,30 @@ function makeScatterChart(usgsObj, chartNode){
 }
 
 /**
+ * Updates the refreshing chart by calling API again and updating
+ * the refreshChart object with new values
+ */
+async function updateRefreshChart(){
+  apiInfo(refreshUrl)
+  .then(usgsObj => {
+    let results = []
+    // place results into array of objects {x, y}
+    for (let i=0; i<usgsObj.features.length; ++i){
+      results.push({
+        'x': usgsObj.features[i].properties.time,
+        'y': usgsObj.features[i].properties.mag
+      })
+    }
+    console.log(refreshChart)
+    refreshChart.data.datasets[0].data = results;
+    refreshChart.options.scales.xAxes[0].time.min = moment().subtract(1, 'hour');
+    refreshChart.options.scales.xAxes[0].time.max = moment();
+    refreshChart.update();
+  })
+  .catch(reason => console.log(reason.message));
+}
+
+/**
  * Make this grab form data in the future
  */
 async function createTestChart(chartID){
@@ -192,6 +217,10 @@ async function createChartViaForm(formID, chartID){
     form.elements['maxLat'].value, form.elements['maxLong'].value), document.getElementById(chartID));
 }
 
+/**
+ * Create initial refreshing chart object
+ * @param {*} chartNode html canvas node eg "<canvas id="scatterChart" role="img"></canvas>"
+ */
 async function createRefreshChart(chartNode){
   apiInfo(refreshUrl)
   .then(data => {
@@ -201,4 +230,4 @@ async function createRefreshChart(chartNode){
 }
 
 window.onload = createRefreshChart('refresh-chart');
-let refresh = window.setInterval(function(){createRefreshChart('refresh-chart')}, interval);
+let refresh = window.setInterval(function(){updateRefreshChart()}, interval);
