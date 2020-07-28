@@ -39,17 +39,19 @@ function chooseColor(value) {
 //to human readable GMT format
 function parseTime(epochDate) {
     var date = new Date(epochDate)
-    return date.toGMTString()
+    return date.toLocaleString()
 }
 
 //Create blank map container
 var map = new L.Map("map", {
-    center: new L.LatLng(10, -20),
+    center: new L.LatLng(10, 25),
     zoomSnap: 0.5,
-    minZoom: 2,
-    zoom: 2,
+    minZoom: 0.5,
     worldCopyJump: true
 })
+map.fitWorld().zoomIn();
+console.log(map.getZoom());
+
 
 //Add map to container using Stamen Tile
 var map_layer = new L.StamenTileLayer("toner");
