@@ -10,6 +10,7 @@ const url_hour = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_
 const url = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2020-07-13T12:00:00&endtime=2020-07-13T18:00:00';
 // for modifying refresh chart
 var refreshUrl = url_hour;
+var interval = 60000;
 
 /**
  * Hits the url endpoint listed above and prints the resulting features as a list to DOM with 
@@ -199,4 +200,5 @@ async function createRefreshChart(chartNode){
   .catch(reason => console.log(reason.message));
 }
 
-window.onload = createRefreshChart(document.getElementById('refresh-chart'))
+window.onload = createRefreshChart('refresh-chart');
+let refresh = window.setInterval(function(){createRefreshChart('refresh-chart')}, interval);
