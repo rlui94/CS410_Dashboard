@@ -10,14 +10,9 @@
     padding-right: 2em;
 }
 
-html, body{
+body{
     background-color: #000000;
-    height: 100%;
-}
-
-.content [class^="col"] {
-    margin-top: 1em;
-    min-height: min-content;
+    height: max-content;
 }
 
 #map {
