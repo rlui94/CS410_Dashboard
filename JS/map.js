@@ -77,51 +77,52 @@ apiInfo(url_day)
     })
     .catch(reason => console.log(reason.message));
 
-//Displays monthly info when pastMonth toggle is clicked
-var monthToggle = document.getElementById("pastMonth");
-monthToggle.addEventListener("click", function(event) {
-    if(!monthToggle.classList.contains("active")){
-        current.clearLayers();
-        apiInfo(url_month)
-        .then(data => {
-            L.geoJSON(data, {
-                pointToLayer: addMarkers,
-            }).addTo(current);
-        })
-        .catch(reason => console.log(reason.message));
-    }
-});
+if(document.getElementById("toggleBar")){
+    //Displays monthly info when pastMonth toggle is clicked
+    var monthToggle = document.getElementById("pastMonth");
+    monthToggle.addEventListener("click", function(event) {
+        if(!monthToggle.classList.contains("active")){
+            current.clearLayers();
+            apiInfo(url_month)
+            .then(data => {
+                L.geoJSON(data, {
+                    pointToLayer: addMarkers,
+                }).addTo(current);
+            })
+            .catch(reason => console.log(reason.message));
+        }
+    });
 
-//Displays weekly info on when pastWeek on toggle is clicked
-var weekToggle = document.getElementById("pastWeek");
-weekToggle.addEventListener("click", function(event) {
-    if(!weekToggle.classList.contains("active")){
-        current.clearLayers();
-        apiInfo(url_week)
-        .then(data => {
-            L.geoJSON(data, {
-                pointToLayer: addMarkers,
-            }).addTo(current);
-        })
-        .catch(reason => console.log(reason.message));
-    }
-});
+    //Displays weekly info on when pastWeek on toggle is clicked
+    var weekToggle = document.getElementById("pastWeek");
+    weekToggle.addEventListener("click", function(event) {
+        if(!weekToggle.classList.contains("active")){
+            current.clearLayers();
+            apiInfo(url_week)
+            .then(data => {
+                L.geoJSON(data, {
+                    pointToLayer: addMarkers,
+                }).addTo(current);
+            })
+            .catch(reason => console.log(reason.message));
+        }
+    });
 
-//Displays daily info when today on toggle is clicked
-var dayToggle = document.getElementById("today");
-dayToggle.addEventListener("click", function(event) {
-    if(!dayToggle.classList.contains("active")){
-        current.clearLayers();
-        apiInfo(url_day)
-        .then(data => {
-            L.geoJSON(data, {
-                pointToLayer: addMarkers,
-            }).addTo(current);
-        })
-        .catch(reason => console.log(reason.message));
-    }
-});
-
+    //Displays daily info when today on toggle is clicked
+    var dayToggle = document.getElementById("today");
+    dayToggle.addEventListener("click", function(event) {
+        if(!dayToggle.classList.contains("active")){
+            current.clearLayers();
+            apiInfo(url_day)
+            .then(data => {
+                L.geoJSON(data, {
+                    pointToLayer: addMarkers,
+                }).addTo(current);
+            })
+            .catch(reason => console.log(reason.message));
+        }
+    });
+}
 //Helper function to adjust markers on zoom
 function markerAdjust(sublayer, zoom, stzoom){
     if(zoom > stzoom){
