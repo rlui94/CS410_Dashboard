@@ -65,16 +65,16 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
           <ul class="navbar-nav">
             <li class="nav-item active">
-              <a class="nav-link" href="home.html">Home</a>
+              <a class="nav-link" href="home.html">HOME</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="map.html">Map</a>
+              <a class="nav-link" href="map.html">MAP</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#link">Link</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="about.html">About</a>
+              <a class="nav-link" href="about.html">ABOUT</a>
             </li>
           </ul>
         </div>
@@ -82,18 +82,15 @@
     </header>
 
     <!--Main Content-->
-    <div class="container-fluid content my-3">
+    <div class="container-fluid content mb-3">
       <div class="row font-weight-bold">
-        <!--Activity Panel-->
-        <div class="col-12 col-md-3">
-          <h5 class="bg-secondary text-white text-center rounded mb-0">Past Hour</h5>
-          <div id="activityPanel">
-            <script src="../JS/alerts.js"></script>
-          </div>
+        <!--Stats Panel-->
+        <div class="col-12 col-lg-3 col-xl-2" id="quickStats">
+          <h3 class="text-primary text-center mt-2">Activity Today</h3>
+          <script src="../JS/stats.js"></script>
         </div>
         <!--Map Panel-->
-        <div class="col-12 col-md-9 col-lg-8 col-xl-7" id="mapContainer">
-          <h5 class="bg-secondary text-white text-center rounded mb-0">Today</h5>
+        <div class="col-12 col-md-9 col-lg-8 col-xl-7 mt-5" id="mapContainer">
           <!--Interactive Map-->
           <div class="border-dark my-0" id="map">
             <script src="../JS/map.js"></script>
@@ -110,6 +107,13 @@
                 <h5>8+</h5>
               </div>
             </div>
+          </div>
+        </div>
+        <!--Activity Panel-->
+        <div class="col-12 col-md-3 col-lg-4 col-xl-3">
+          <h3 class="text-primary text-center mt-2">Past Hour</h5>
+          <div id="activityPanel">
+            <script src="../JS/alerts.js"></script>
           </div>
         </div>
       </div>

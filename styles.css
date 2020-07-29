@@ -14,6 +14,13 @@ body{
     background-color: #000000;
     height: max-content;
 }
+.card {
+    text-align: center;
+    margin: 1em;
+    padding: 1em;
+    color: #ffffff;
+    background-color: #343a40/* #6c757d;*/
+}
 
 #map {
     border-radius: 5px;
