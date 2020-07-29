@@ -82,7 +82,7 @@
     </header>
 
     <!--Main Content-->
-    <div class="container-fluid content">
+    <div class="container-fluid content my-3">
       <div class="row font-weight-bold">
         <!--Activity Panel-->
         <div class="col-12 col-md-3">
@@ -92,17 +92,17 @@
           </div>
         </div>
         <!--Map Panel-->
-        <div class="col-12 col-md-7" id="mapContainer">
+        <div class="col-12 col-md-9 col-lg-8 col-xl-7" id="mapContainer">
           <h5 class="bg-secondary text-white text-center rounded mb-0">Today</h5>
           <!--Interactive Map-->
-          <div class="col border-dark my-0" id="map">
+          <div class="border-dark my-0" id="map">
             <script src="../JS/map.js"></script>
           </div>
-          <div class="row justify-content-center" id="mapLegend">
-            <div class="col-3 col-lg-2 text-primary">
+          <div class="row justify-content-around" id="mapLegend">
+            <div class="col-3 col-sm-2 col-md-3 col-lg-3 text-primary">
               <h4>Magnitude:</h4>
             </div> 
-            <div class="col-7">
+            <div class="col-7 col-sm-8">
               <div class="d-flex flex-row justify-content-around rounded" id="scale">
                 <h5>< 1</h5>
                 <h5>3</h5>
@@ -113,12 +113,8 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col blank">Row2 Col1</div>
-        <div class="col blank">Row2 Col2</div>
-        <div class="col blank">Row2 Col3</div>
-      </div>
     </div>
+
     <footer>
       <p>Footer</p>
     </footer>
