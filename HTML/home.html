@@ -83,29 +83,19 @@
 
     <!--Main Content-->
     <div class="container-fluid content">
-      <div class="row font-weight-bold align-items-center">
+      <div class="row font-weight-bold">
         <!--Activity Panel-->
-        <div class="col-12 col-md-3 bg-secondary rounded" id="activityPanel">
-          <h5 class="text-white text-center">Past Hour</h5>
-          <script src="../JS/alerts.js"></script>
+        <div class="col-12 col-md-3">
+          <h5 class="bg-secondary text-white text-center rounded mb-0">Past Hour</h5>
+          <div id="activityPanel">
+            <script src="../JS/alerts.js"></script>
+          </div>
         </div>
         <!--Map Panel-->
-        <div class="col-12 col-md-9 text-center" id="mapContainer">
-          <!--Map control toggle(30, 7, 1 days)-->
-          <div class="btn-group btn-group-toggle" id="toggleBar" data-toggle="buttons">
-            <label class="btn btn-secondary active" id="today">
-              <input type="radio" name="timeframe" checked><b>Today</b>
-            </label>
-            <label class="btn btn-secondary" id="pastWeek">
-              <input type="radio" name="timeframe"><b>Past 7 Days</b>
-            </label>
-            <label class="btn btn-secondary" id="pastMonth">
-              <input type="radio" name="timeframe"><b>Past 30 Days</b>
-            </label>
-          </div>
-          
+        <div class="col-12 col-md-7" id="mapContainer">
+          <h5 class="bg-secondary text-white text-center rounded mb-0">Today</h5>
           <!--Interactive Map-->
-          <div class="col border-dark" id="map">
+          <div class="col border-dark my-0" id="map">
             <script src="../JS/map.js"></script>
           </div>
           <div class="row justify-content-center" id="mapLegend">
