@@ -15,6 +15,18 @@ async function apiInfo(url){
     throw new Error(response.status);
 }
 
+//Find the maximum magnitude from API data
+function findMax(features){
+    var max = {mag: 0, loc: []};
+    for(feature of features){
+        if(feature.properties.mag > max.mag) {
+            max.mag = feature.properties.mag;
+            max.loc = feature.geometry.coordinates.slice(0,2);
+        }
+    }
+    return max;
+}
+
 /*Usage Instructions
 In your javascript code, call the function below using
 url_month, url_week, or url_day (more can be added from USGS site):

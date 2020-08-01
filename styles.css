@@ -22,6 +22,10 @@ body{
     background-color: #343a40/* #6c757d;*/
 }
 
+#quickStats .card:not(#total){
+    cursor: pointer;
+}
+
 #map {
     border-radius: 5px;
     border: solid #000000 4px;
