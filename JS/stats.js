@@ -16,7 +16,7 @@ apiInfo(url_day)
 apiInfo(url_day_sig)
     .then(data => {
         var sig = document.getElementById("significant");
-        sig.innerHTML = "<h5>Significant Quakes</h5><br><h1>" + data.features.length + "</h1>";
+        sig.innerHTML = "<h5>Significant Quakes</h5><br><h1>" + data.features.length + "</h1><h6><i>click tile to view locations on map</i></h6>";
         stats.appendChild(sig);
 
     })

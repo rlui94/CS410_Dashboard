@@ -29,6 +29,7 @@ var map = new L.Map("map", {
     worldCopyJump: true
 })
 map.fitWorld().zoomIn();
+let ctr = map.getCenter();
 
 //Add map tile to container using Stamen Tile
 var map_layer = new L.StamenTileLayer("toner");
@@ -133,12 +134,21 @@ if(document.getElementById("quickStats")){
     findLargest.addEventListener("click", function(event) {
         apiInfo(url_day)
         .then(data => {
-            var ctr = map.getCenter();
-            var zm = map.getZoom(); 
             var maxLoc = findMax(data.features).loc;
             maxLoc.reverse();
             map.flyTo(maxLoc, 5);
-            setTimeout(function(){map.flyTo(ctr, zm)}, 3000);
+            setTimeout(function(){map.flyTo(ctr, 1.5)}, 3000);
+        })
+    })
+
+    var showSig = document.getElementById("significant");
+    showSig.addEventListener("click", function(event) {
+        apiInfo(url_day_sig)
+        .then(data => {
+            for(feature of data.features){
+                map.flyTo(feature.geometry.coordinates.slice(0,2).reverse(), 5);
+                setTimeout(function(){map.flyTo(ctr, 1.5)}, 3000);
+            }
         })
     })
 }
