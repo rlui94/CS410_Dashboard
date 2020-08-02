@@ -45,7 +45,7 @@ body{
 
 #mapLegend #scale {
     height: max-content;
-    background-image: linear-gradient(to right, green, yellow,red, purple);
+    background-image: linear-gradient(to right, green, green, yellow, yellow,red, purple);
 }
 
 #mapLegend #scale h5 {
