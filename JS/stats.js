@@ -7,7 +7,7 @@ apiInfo(url_day)
         total.innerHTML = "<p>Total Quakes</p><h2>"+data.features.length+"</h2>";
 
         var largest = document.getElementById("largest");
-        largest.innerHTML = "<p>Largest Quake</p><h2>" + findMax(data.features).mag +"</h2>";
+        largest.innerHTML = "<p>Largest Quake</p><h2>" + findMax(data.features).mag.toFixed(1) +"</h2>";
     })
     .catch(reason => console.log(reason.message));
 
