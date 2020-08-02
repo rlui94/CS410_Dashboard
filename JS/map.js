@@ -44,7 +44,7 @@ var addMarkers = function(feature, latlng){
         radius: feature.properties.mag,
         color: chooseColor(feature.properties.mag),
         opacity: 0.3,
-    }).bindPopup("<p><b>"+parseTime(feature.properties.time)+"</b><br/><b>Magnitude: "+feature.properties.mag+"</b></p>");
+    }).bindPopup("<p><b>"+parseTime(feature.properties.time)+"<br/>Magnitude: "+feature.properties.mag+"<br/>"+feature.properties.place+"</b></p>");
 }
 
 //Helper function to adjust markers on zoom
