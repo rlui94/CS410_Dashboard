@@ -25,7 +25,8 @@ function parseTime(epochDate) {
 //Create blank map container and set zoom
 var map = new L.Map("map", {
     zoomSnap: 0.5,
-    minZoom: 0.5,
+    zoomDelta: 0.5,
+    minZoom: 1,
     worldCopyJump: true
 })
 map.fitWorld().zoomIn();
