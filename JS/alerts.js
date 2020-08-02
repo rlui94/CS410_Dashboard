@@ -1,4 +1,5 @@
-
+//All seismic activity for the past hour
+//Magnitude, location, time,
 if(document.getElementById("activityPanel")){
     apiInfo(url_hour)
         .then(data => {
@@ -6,27 +7,34 @@ if(document.getElementById("activityPanel")){
                 var parent = document.getElementById("activityPanel");
                 var toadd = document.createElement("div");
                 var details = document.createElement("div");
-                //var tsunami = document.getElementById("tsunami");
 
                 toadd.classList.add("card");
                 details.classList.add("card-body");
                 details.innerHTML = "<b><u>Magnitude: " + feature.properties.mag.toFixed(2) +
                                     "</u></b><br>" + feature.properties.place + "<br>" + parseTime(feature.properties.time);
+                //Intentional fall through of cases
                 switch (feature.properties.alert){
                     case "yellow":
-                        toadd.classList.add("bg-warning");
-                        break;
                     case "orange":
-                        toadd.classList.add("bg-warning");
-                        break;
                     case "red":
-                        toadd.classList.add("bg-warning");
+                        var aWarning = document.createElement("p");
+                        aWarning.textContent = "SEVERE QUAKE";
+                        aWarning.classList.add("text-warning");
+                        toadd.classList.add("border", "border-warning");
+                        toadd.appendChild(aWarning);
                         break;
                     default:
-                        toadd.classList.add("bg-dark");
+                        //toadd.classList.add("bg-dark");
                         break;
                 }
-
+                if(feature.properties.tsunami == 1){
+                    var tWarning = document.createElement("p");
+                    tWarning.textContent = "TSUNAMI WARNING";
+                    tWarning.classList.add("text-warning")
+                    toadd.classList.add("border","border-warning");
+                    toadd.appendChild(tWarning);
+                    
+                }
                 toadd.appendChild(details);
                 parent.appendChild(toadd);
             }
@@ -34,14 +42,15 @@ if(document.getElementById("activityPanel")){
         .catch(reason => console.log(reason.message));
 }
 
+//Pop-up Tsunami warning at under nav bar
 apiInfo(url_day)
     .then(data => {
         var previous = document.querySelector("header");
         for(feature of data.features){
             var newAlert = document.createElement("div");
+            var dismiss = document.createElement("button");
             newAlert.classList.add("alert", "alert-danger", "alert-dismissible", "fade", "show");
             newAlert.setAttribute("role", "alert");
-            var dismiss = document.createElement("button");
             if(feature.properties.tsunami == 1) {
                 console.log(feature.properties.title);
                 newAlert.innerHTML = "<strong>TSUNAMI WARNING</strong><p>"+feature.properties.title +"<br/>"+ parseTime(feature.properties.time)+"</p><a href='"+feature.properties.url+"'>More Info</a>";
