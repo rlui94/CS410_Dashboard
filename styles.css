@@ -59,8 +59,13 @@ body{
     width: 100%;
     min-height: 30em;
     height: 72vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
+}
+
+#infoPanel {
+    overflow-y: auto;
+    max-height: 100vh;
 }
 
 .btn {
