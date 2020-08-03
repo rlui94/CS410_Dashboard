@@ -12,6 +12,9 @@ const url = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&sta
 var refreshChart = null;
 var refreshUrl = url_hour;
 var interval = 60000;
+// for time
+var timeFormat = 'MM/DD/YYY HH:mm';
+var tooltipFormat = 'll HH:mm';
 
 /**
  * Hits the url endpoint listed above and prints the resulting features as a list to DOM with 
@@ -131,10 +134,11 @@ function makeScatterChart(usgsObj, chartNode){
   // place results into array of objects {x, y}
   for (let i=0; i<usgsObj.features.length; ++i){
     results.push({
-      'x': usgsObj.features[i].properties.time,
+      'x': moment(new Date(usgsObj.features[i].properties.time)),
       'y': usgsObj.features[i].properties.mag
     })
   }
+  console.log(results);
   // make the chart and insert into node
   refreshChart = new Chart(chartNode,{
       type: 'scatter',
@@ -157,6 +161,8 @@ function makeScatterChart(usgsObj, chartNode){
               type: 'time',
               distribution: 'linear',
               time:{
+                parser: timeFormat,
+                tooltipFormat: tooltipFormat,
                 min: moment().subtract(1, 'hour'),
                 max: moment(),
               },
