@@ -143,6 +143,7 @@ function makeScatterChart(usgsObj, chartNode){
           label: 'Refresh Chart',
           data: results,
           pointBackgroundColor: 'teal',
+          pointRadius: 6,
         }],
         labels: 'Scatter Dataset',
         },
