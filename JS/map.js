@@ -50,10 +50,10 @@ var addMarkers = function(feature, latlng){
 //Helper function to adjust markers on zoom
 function markerAdjust(sublayer, zoom, stzoom){
     if(zoom > stzoom){
-        return sublayer.options.radius * (zoom/3.0);
+        return sublayer.options.radius * (zoom/2.0);
     }
     else {
-        return sublayer.options.radius / (stzoom/3.0);
+        return sublayer.options.radius / (stzoom/2.0);
     }
 }
 
