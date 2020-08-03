@@ -46,6 +46,15 @@
     <!--USGS API-->
     <script src="./JS/simpleAPI.js"></script>
 
+    <!-- Moment.js -->
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+    <!--Chart Script-->
+    <script src="./JS/chart.js"></script>
+
     <link rel="stylesheet" href="styles.css" />
   </head>
 
@@ -90,7 +99,7 @@
             <div class="col-6 col-md-3 col-lg-12 card" id="total"></div>
             <div class="col-6 col-md-3 col-lg-12 card" id="largest"></div>
             <div class="col-6 col-md-3 col-lg-12 card" id="significant"></div>
-            <div class="col-6 col-md-3 col-lg-12 card" id="chart"><br>Donut?<br><br><br></div>
+            <div class="col-6 col-md-3 col-lg-12 card" id="type-chart"><br>Donut?<br><br><br></div>
             <script src="./JS/stats.js"></script>
         </div>
         <!--Map Panel-->
@@ -121,7 +130,10 @@
         </div>
       </div>
       <div class="row bg-dark rounded text-center text-white my-1">
-        <div class="col"><h2>-- Magnitude scatterplot? --</h2></div>
+        <div class="col"></div>
+          <h2 class="mt-2 mb-4">Refreshing Chart</h2>
+          <canvas id="refresh-chart" aria-label="refreshing chart" role="img"></canvas>
+        </div>
       </div>
       <div class="row bg-dark rounded text-center text-white my-1">
         <div class="col"><h2>-- Quakes per day bar graph? --</h2></div>
