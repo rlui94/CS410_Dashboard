@@ -202,6 +202,45 @@ function makeScatterChart(usgsObj, chartNode){
 }
 
 /**
+ * Updates the refreshing chart by calling API again and updating
+ * the refreshChart object with new values based on current
+ * refreshUrl value
+ */
+async function updateRefreshChart(){
+  let timeMin = timeMax = moment();
+  let timeFormat = 'M/D hA';
+  switch(refreshUrl){
+    case url_day : 
+      timeMin = moment().subtract(1, 'day');
+      break;
+    case url_week: 
+      timeMin = moment().subtract(1, 'week');
+      timeFormat = 'M/D';
+      break;
+    default: 
+      timeMin = moment().subtract(1, 'hour');
+  }
+  apiInfo(refreshUrl)
+  .then(usgsObj => {
+    let results = []
+    // place results into array of objects {x, y}
+    for (let i=0; i<usgsObj.features.length; ++i){
+      results.push({
+        'x': usgsObj.features[i].properties.time,
+        'y': usgsObj.features[i].properties.mag
+      })
+    }
+    console.log(refreshChart)
+    refreshChart.data.datasets[0].data = results;
+    refreshChart.options.scales.xAxes[0].time.min = timeMin;
+    refreshChart.options.scales.xAxes[0].time.max = timeMax;
+    refreshChart.options.scales.xAxes[0].time.displayFormats.hour = timeFormat;
+    refreshChart.update();
+  })
+  .catch(reason => console.log(reason.message));
+}
+
+/**
  * Given a json object from USGS API and an html canvas node, 
  * create a bar chart of time vs number of quakes.
  * @param {json string} usgsObj   a json'd object from USGS API
@@ -270,46 +309,43 @@ function makeBarChart(usgsObj, chartNode){
 }
 
 /**
- * Updates the refreshing chart by calling API again and updating
- * the refreshChart object with new values based on current
- * refreshUrl value
+ * Updates the bar chart by calling API again and updating
+ * the barChart object with new values based on current
+ * barUrl value
  */
-async function updateRefreshChart(){
-  let timeMin = timeMax = moment();
-  let timeFormat = 'M/D hA';
-  switch(refreshUrl){
-    case url_day : 
-      timeMin = moment().subtract(1, 'day');
+async function updateBarChart(time){
+  switch(time){
+    case 'week': barUrl = url_week;
       break;
-    case url_week: 
-      timeMin = moment().subtract(1, 'week');
-      timeFormat = 'M/D';
-      break;
-    default: 
-      timeMin = moment().subtract(1, 'hour');
+    default: barUrl = url_month;
   }
-  apiInfo(refreshUrl)
+  apiInfo(barUrl)
   .then(usgsObj => {
-    let results = []
-    // place results into array of objects {x, y}
+    let results = {}, labels = null, vals = null;
+    // count occurrences of each type
     for (let i=0; i<usgsObj.features.length; ++i){
-      results.push({
-        'x': usgsObj.features[i].properties.time,
-        'y': usgsObj.features[i].properties.mag
-      })
+        let type = moment(usgsObj.features[i].properties.time).format('MMM D');
+        if(!results[type]){
+            results[type] = 1;
+        }
+        else {
+            results[type] = results[type] + 1;
+        }
     }
-    console.log(refreshChart)
-    refreshChart.data.datasets[0].data = results;
-    refreshChart.options.scales.xAxes[0].time.min = timeMin;
-    refreshChart.options.scales.xAxes[0].time.max = timeMax;
-    refreshChart.options.scales.xAxes[0].time.displayFormats.hour = timeFormat;
-    refreshChart.update();
+    // get labels and values arrays chart requires
+    labels = Object.getOwnPropertyNames(results).reverse();
+    vals = Object.values(results).reverse();
+    console.log(barChart);
+    barChart.data.datasets[0].data = vals;
+    barChart.data.labels = labels;
+    barChart.update();
   })
   .catch(reason => console.log(reason.message));
 }
 
 /**
- * 
+ * Set the current refreshUrl based on time period chosen
+ * update refresh chart based on new refreshUrl
  * @param {string} time - time period to switch to
  */
 function setThenRefresh(time){
@@ -320,11 +356,8 @@ function setThenRefresh(time){
       break;
     default: refreshUrl = url_hour;
   }
-  console.log(time, refreshUrl);
   updateRefreshChart();
 }
-
-
 
 /**
  * Make this grab form data in the future
@@ -356,6 +389,10 @@ async function createRefreshChart(chartNode){
   .catch(reason => console.log(reason.message));
 }
 
+/**
+ * Create initial bar chart
+ * @param {html element obj} chartNode html canvas node eg "<canvas id="scatterChart" role="img"></canvas>"
+ */
 async function createQuakesChart(chartNode){
   apiInfo(barUrl)
   .then(data=>{

@@ -153,14 +153,11 @@
         <div class="col-12 col-md-9">
           <h2 >Quakes per Day</h2>
           <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-secondary active" onclick="">
+            <label class="btn btn-secondary active" onclick="updateBarChart('week')">
               <input type="radio" checked><b>Past Week</b>
             </label>
-            <label class="btn btn-secondary" onclick="">
+            <label class="btn btn-secondary" onclick="updateBarChart('month')">
               <input type="radio" ><b>Past Month</b>
-            </label>
-            <label class="btn btn-secondary" onclick="">
-              <input type="radio" ><b>Past Quarter</b>
             </label>
           </div>
           <canvas id="bar-chart" aria-label="quakes per day chart" role="img"></canvas>
