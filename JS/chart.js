@@ -199,7 +199,8 @@ function makeScatterChart(usgsObj, chartNode){
 
 /**
  * Updates the refreshing chart by calling API again and updating
- * the refreshChart object with new values
+ * the refreshChart object with new values based on current
+ * refreshUrl value
  */
 async function updateRefreshChart(){
   let timeMin = timeMax = moment();
