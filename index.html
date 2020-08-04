@@ -129,27 +129,42 @@
           </div>
         </div>
       </div>
-      <!--Charts-->
+      <!--Refresh Chart-->
       <div class="row bg-dark rounded text-center text-white my-1 justify-content-around">
         <div class="col-12 col-md-9">
           <h2 >Up-to-Date Chart</h2>
           <p>Refreshes every minute</p>
           <div class="btn-group btn-group-toggle" data-toggle="buttons">
             <label class="btn btn-secondary active" onclick="setThenRefresh('hour')">
-              <input type="radio" name="chartTime" checked><b>This Hour</b>
+              <input type="radio" checked><b>This Hour</b>
             </label>
             <label class="btn btn-secondary" onclick="setThenRefresh('day')">
-              <input type="radio" name="chartTime"><b>Past Day</b>
+              <input type="radio" ><b>Past Day</b>
             </label>
             <label class="btn btn-secondary" onclick="setThenRefresh('week')">
-              <input type="radio" name="chartTime"><b>Past Week</b>
+              <input type="radio" ><b>Past Week</b>
             </label>
           </div>
           <canvas id="refresh-chart" aria-label="refreshing chart" role="img"></canvas>
         </div>
       </div>
-      <div class="row bg-dark rounded text-center text-white my-1">
-        <div class="col"><h2>-- Quakes per day bar graph? --</h2></div>
+      <!--Bar Chart-->
+      <div class="row bg-dark rounded text-center text-white my-1 justify-content-around">
+        <div class="col-12 col-md-9">
+          <h2 >Quakes per Day</h2>
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-secondary active" onclick="">
+              <input type="radio" checked><b>Past Week</b>
+            </label>
+            <label class="btn btn-secondary" onclick="">
+              <input type="radio" ><b>Past Month</b>
+            </label>
+            <label class="btn btn-secondary" onclick="">
+              <input type="radio" ><b>Past Quarter</b>
+            </label>
+          </div>
+          <canvas id="bar-chart" aria-label="quakes per day chart" role="img"></canvas>
+        </div>
       </div>
     </div>
 

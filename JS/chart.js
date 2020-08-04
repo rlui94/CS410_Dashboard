@@ -12,6 +12,9 @@ const url = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&sta
 var refreshChart = null;
 var refreshUrl = url_hour;
 var interval = 60000;
+// for modifying bar chart
+var barChart = null;
+var barUrl = url_week;
 // for time
 var timeFormat = 'MM/DD/YYY HH:mm';
 var tooltipFormat = 'll HH:mm';
@@ -85,6 +88,7 @@ function makeDonutChart(usgsObj, chartNode){
             results[type] = results[type] + 1;
         }
     }
+    console.log('donut', results);
     // get labels and values arrays chart requires
     labels = Object.getOwnPropertyNames(results);
     vals = Object.values(results);
@@ -198,6 +202,74 @@ function makeScatterChart(usgsObj, chartNode){
 }
 
 /**
+ * Given a json object from USGS API and an html canvas node, 
+ * create a bar chart of time vs number of quakes.
+ * @param {json string} usgsObj   a json'd object from USGS API
+ * @param {html element obj} chartNode html canvas node eg "<canvas id="scatterChart" role="img"></canvas>"
+ */
+function makeBarChart(usgsObj, chartNode){
+  let results = {}, labels = null, vals = null;
+    // count occurrences of each type
+    for (let i=0; i<usgsObj.features.length; ++i){
+        let type = moment(usgsObj.features[i].properties.time).format('MMM D');
+        if(!results[type]){
+            results[type] = 1;
+        }
+        else {
+            results[type] = results[type] + 1;
+        }
+    }
+    // get labels and values arrays chart requires
+    labels = Object.getOwnPropertyNames(results).reverse();
+    vals = Object.values(results).reverse();
+  // make the chart and insert into node
+  Chart.defaults.global.defaultFontColor='#fff';
+  barChart = new Chart(chartNode,{
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Quakes per Day Chart',
+          data: vals,
+          backgroundColor: 'orange',
+          borderColor: 'white',
+        }],
+        },
+        options:{
+          scales: {
+            xAxes: [{
+              gridLines: {
+                display: true,
+                color: '#fff',
+              },
+              scaleLabel:{
+                display: true,
+                labelString: 'Date',
+              },
+              bounds: 'data',
+            }],
+            yAxes: [{
+              gridLines: {
+                display: true,
+                color: '#fff',
+              },
+              scaleLabel:{
+                display: true,
+                labelString: '# of Quakes',
+              },
+              ticks: {
+                min: 0,
+              }
+            }]
+          },
+          legend: {
+            display: false,
+          }
+        },
+    })
+}
+
+/**
  * Updates the refreshing chart by calling API again and updating
  * the refreshChart object with new values based on current
  * refreshUrl value
@@ -284,5 +356,14 @@ async function createRefreshChart(chartNode){
   .catch(reason => console.log(reason.message));
 }
 
+async function createQuakesChart(chartNode){
+  apiInfo(barUrl)
+  .then(data=>{
+    makeBarChart(data, chartNode);
+  })
+  .catch(reason => console.log(reason.message));
+}
+
 window.onload = createRefreshChart('refresh-chart');
 let refresh = window.setInterval(function(){updateRefreshChart()}, interval);
+window.onload = createQuakesChart('bar-chart');
