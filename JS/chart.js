@@ -150,7 +150,9 @@ function makeScatterChart(usgsObj, chartNode){
         datasets: [{
           label: 'Refresh Chart',
           data: results,
-          pointBackgroundColor: 'orange',
+          pointBackgroundColor: 'rgba(255, 165, 0, 0.7)',
+          pointBorderColor: 'orange',
+          pointBorderWidth: 1,
           pointRadius: 6,
         }],
         labels: 'Scatter Dataset',
@@ -268,10 +270,11 @@ function makeBarChart(usgsObj, chartNode){
       data: {
         labels: labels,
         datasets: [{
-          label: 'Quakes per Day Chart',
+          label: 'Total Quakes',
           data: vals,
-          backgroundColor: 'orange',
-          borderColor: 'white',
+          backgroundColor: 'rgba(255, 165, 0, 0.7)',
+          borderColor: 'orange',
+          borderWidth: 2,
         }],
         },
         options:{
