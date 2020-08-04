@@ -140,13 +140,14 @@ function makeScatterChart(usgsObj, chartNode){
   }
   console.log(results);
   // make the chart and insert into node
+  Chart.defaults.global.defaultFontColor='#fff';
   refreshChart = new Chart(chartNode,{
       type: 'scatter',
       data: {
         datasets: [{
           label: 'Refresh Chart',
           data: results,
-          pointBackgroundColor: 'teal',
+          pointBackgroundColor: 'orange',
           pointRadius: 6,
         }],
         labels: 'Scatter Dataset',
@@ -154,6 +155,10 @@ function makeScatterChart(usgsObj, chartNode){
         options:{
           scales: {
             xAxes: [{
+              gridLines: {
+                display: true,
+                color: '#fff',
+              },
               scaleLabel:{
                 display: true,
                 labelString: 'Time',
@@ -169,6 +174,10 @@ function makeScatterChart(usgsObj, chartNode){
               bounds: 'data',
             }],
             yAxes: [{
+              gridLines: {
+                display: true,
+                color: '#fff',
+              },
               scaleLabel:{
                 display: true,
                 labelString: 'Magnitude',
@@ -177,6 +186,9 @@ function makeScatterChart(usgsObj, chartNode){
                 min: 0,
               }
             }]
+          },
+          legend: {
+            display: false,
           }
         },
     })
