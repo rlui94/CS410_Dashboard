@@ -12,6 +12,9 @@ const url = 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&sta
 var refreshChart = null;
 var refreshUrl = url_hour;
 var interval = 60000;
+// for time
+var timeFormat = 'MM/DD/YYY HH:mm';
+var tooltipFormat = 'll HH:mm';
 
 /**
  * Hits the url endpoint listed above and prints the resulting features as a list to DOM with 
@@ -45,12 +48,12 @@ async function invokeAPI(){
 
 /**
  * When a specific location needs to be queried. 
- * @param {*} minLat    default -90
- * @param {*} minLong   default -180
- * @param {*} maxLat    default 90
- * @param {*} maxLong   default 180
- * @param {*} startTime default 2020-07-13T12:00:00
- * @param {*} endTime   default 2020-07-13T18:00:00
+ * @param {int} minLat    default -90
+ * @param {int} minLong   default -180
+ * @param {int} maxLat    default 90
+ * @param {int} maxLong   default 180
+ * @param {int} startTime default 2020-07-13T12:00:00
+ * @param {int} endTime   default 2020-07-13T18:00:00
  */
 async function getViaLoc(minLat=-90, minLong=-180, maxLat=90, maxLong=180, startTime='2020-07-13T12:00:00', endTime='2020-07-13T18:00:00') {
     let url=`https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&minlatitude=${minLat}&minlongitude=${minLong}&maxlatitude=${maxLat}&maxlongitude=${maxLong}&starttime=${startTime}&endtime=${endTime}`
@@ -67,8 +70,8 @@ async function getViaLoc(minLat=-90, minLong=-180, maxLat=90, maxLong=180, start
 /**
  * Given a json object from USGS API and an html canvas node, 
  * create a donut chart of types of seismic activity in said node.
- * @param {*} usgsObj   a json'd object from USGS API
- * @param {*} chartNode html canvas node eg "<canvas id="typeChart" role="img"></canvas>"
+ * @param {json string} usgsObj   a json'd object from USGS API
+ * @param {html element obj} chartNode html canvas node eg "<canvas id="typeChart" role="img"></canvas>"
  */
 function makeDonutChart(usgsObj, chartNode){
     let results = {}, labels = [], vals = [];
@@ -123,8 +126,8 @@ function makeDonutChart(usgsObj, chartNode){
 /**
  * Given a json object from USGS API and an html canvas node, 
  * create a scatter chart of time vs quake magnitude.
- * @param {*} usgsObj   a json'd object from USGS API
- * @param {*} chartNode html canvas node eg "<canvas id="scatterChart" role="img"></canvas>"
+ * @param {json string} usgsObj   a json'd object from USGS API
+ * @param {html element obj} chartNode html canvas node eg "<canvas id="scatterChart" role="img"></canvas>"
  */
 function makeScatterChart(usgsObj, chartNode){
   let results = []
@@ -136,19 +139,25 @@ function makeScatterChart(usgsObj, chartNode){
     })
   }
   // make the chart and insert into node
+  Chart.defaults.global.defaultFontColor='#fff';
   refreshChart = new Chart(chartNode,{
       type: 'scatter',
       data: {
         datasets: [{
           label: 'Refresh Chart',
           data: results,
-          pointBackgroundColor: 'teal',
+          pointBackgroundColor: 'orange',
+          pointRadius: 6,
         }],
         labels: 'Scatter Dataset',
         },
         options:{
           scales: {
             xAxes: [{
+              gridLines: {
+                display: true,
+                color: '#fff',
+              },
               scaleLabel:{
                 display: true,
                 labelString: 'Time',
@@ -156,12 +165,22 @@ function makeScatterChart(usgsObj, chartNode){
               type: 'time',
               distribution: 'linear',
               time:{
+                parser: timeFormat,
+                tooltipFormat: tooltipFormat,
+                displayFormats:{
+                  hour: 'M/D hA',
+                  week: 'MM D',
+                },
                 min: moment().subtract(1, 'hour'),
                 max: moment(),
               },
               bounds: 'data',
             }],
             yAxes: [{
+              gridLines: {
+                display: true,
+                color: '#fff',
+              },
               scaleLabel:{
                 display: true,
                 labelString: 'Magnitude',
@@ -170,6 +189,9 @@ function makeScatterChart(usgsObj, chartNode){
                 min: 0,
               }
             }]
+          },
+          legend: {
+            display: false,
           }
         },
     })
@@ -177,9 +199,23 @@ function makeScatterChart(usgsObj, chartNode){
 
 /**
  * Updates the refreshing chart by calling API again and updating
- * the refreshChart object with new values
+ * the refreshChart object with new values based on current
+ * refreshUrl value
  */
 async function updateRefreshChart(){
+  let timeMin = timeMax = moment();
+  let timeFormat = 'M/D hA';
+  switch(refreshUrl){
+    case url_day : 
+      timeMin = moment().subtract(1, 'day');
+      break;
+    case url_week: 
+      timeMin = moment().subtract(1, 'week');
+      timeFormat = 'M/D';
+      break;
+    default: 
+      timeMin = moment().subtract(1, 'hour');
+  }
   apiInfo(refreshUrl)
   .then(usgsObj => {
     let results = []
@@ -192,12 +228,31 @@ async function updateRefreshChart(){
     }
     console.log(refreshChart)
     refreshChart.data.datasets[0].data = results;
-    refreshChart.options.scales.xAxes[0].time.min = moment().subtract(1, 'hour');
-    refreshChart.options.scales.xAxes[0].time.max = moment();
+    refreshChart.options.scales.xAxes[0].time.min = timeMin;
+    refreshChart.options.scales.xAxes[0].time.max = timeMax;
+    refreshChart.options.scales.xAxes[0].time.displayFormats.hour = timeFormat;
     refreshChart.update();
   })
   .catch(reason => console.log(reason.message));
 }
+
+/**
+ * 
+ * @param {string} time - time period to switch to
+ */
+function setThenRefresh(time){
+  switch(time){
+    case 'day' : refreshUrl = url_day;
+      break;
+    case 'week': refreshUrl = url_week;
+      break;
+    default: refreshUrl = url_hour;
+  }
+  console.log(time, refreshUrl);
+  updateRefreshChart();
+}
+
+
 
 /**
  * Make this grab form data in the future
@@ -208,8 +263,8 @@ async function createTestChart(chartID){
 
 /**
  * Retrieve data from user input form, create a chart using said input.
- * @param {*} formID  id of form to grab data from
- * @param {*} chartID id of chart to draw chart into
+ * @param {string} formID  id of form to grab data from
+ * @param {string} chartID id of chart to draw chart into
  */
 async function createChartViaForm(formID, chartID){
   let form = document.getElementById(formID);
@@ -219,7 +274,7 @@ async function createChartViaForm(formID, chartID){
 
 /**
  * Create initial refreshing chart object
- * @param {*} chartNode html canvas node eg "<canvas id="scatterChart" role="img"></canvas>"
+ * @param {html element obj} chartNode html canvas node eg "<canvas id="scatterChart" role="img"></canvas>"
  */
 async function createRefreshChart(chartNode){
   apiInfo(refreshUrl)
