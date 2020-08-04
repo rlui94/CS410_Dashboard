@@ -167,6 +167,10 @@ function makeScatterChart(usgsObj, chartNode){
               time:{
                 parser: timeFormat,
                 tooltipFormat: tooltipFormat,
+                displayFormats:{
+                  hour: 'M/D hA',
+                  week: 'MM D',
+                },
                 min: moment().subtract(1, 'hour'),
                 max: moment(),
               },
@@ -198,13 +202,18 @@ function makeScatterChart(usgsObj, chartNode){
  * the refreshChart object with new values
  */
 async function updateRefreshChart(){
-  let tiemMin = timeMax = moment();
+  let timeMin = timeMax = moment();
+  let timeFormat = 'M/D hA';
   switch(refreshUrl){
-    case url_day : timeMin = moment().subtract(1, 'day');
+    case url_day : 
+      timeMin = moment().subtract(1, 'day');
       break;
-    case url_week: timeMin = moment().subtract(1, 'week');
+    case url_week: 
+      timeMin = moment().subtract(1, 'week');
+      timeFormat = 'M/D';
       break;
-    default: timeMin = moment().subtract(1, 'hour');
+    default: 
+      timeMin = moment().subtract(1, 'hour');
   }
   apiInfo(refreshUrl)
   .then(usgsObj => {
@@ -220,6 +229,7 @@ async function updateRefreshChart(){
     refreshChart.data.datasets[0].data = results;
     refreshChart.options.scales.xAxes[0].time.min = timeMin;
     refreshChart.options.scales.xAxes[0].time.max = timeMax;
+    refreshChart.options.scales.xAxes[0].time.displayFormats.hour = timeFormat;
     refreshChart.update();
   })
   .catch(reason => console.log(reason.message));
