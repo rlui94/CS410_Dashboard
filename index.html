@@ -132,7 +132,19 @@
       <!--Charts-->
       <div class="row bg-dark rounded text-center text-white my-1 justify-content-around">
         <div class="col-12 col-md-9">
-          <h2 class="mt-2 mb-4">Up-to-Date Chart</h2>
+          <h2 >Up-to-Date Chart</h2>
+          <p>Refreshes every minute</p>
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-secondary active" onclick="setThenRefresh('hour')">
+              <input type="radio" name="chartTime" checked><b>This Hour</b>
+            </label>
+            <label class="btn btn-secondary" onclick="setThenRefresh('day')">
+              <input type="radio" name="chartTime"><b>Past Day</b>
+            </label>
+            <label class="btn btn-secondary" onclick="setThenRefresh('week')">
+              <input type="radio" name="chartTime"><b>Past Week</b>
+            </label>
+          </div>
           <canvas id="refresh-chart" aria-label="refreshing chart" role="img"></canvas>
         </div>
       </div>
