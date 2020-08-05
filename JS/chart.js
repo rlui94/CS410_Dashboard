@@ -15,6 +15,9 @@ var interval = 60000;
 // for modifying bar chart
 var barChart = null;
 var barUrl = url_week;
+// for modifying donut chart
+var donutChart = null;
+var donutUrl = url_day;
 // for time
 var timeFormat = 'MM/DD/YYY HH:mm';
 var tooltipFormat = 'll HH:mm';
@@ -120,6 +123,7 @@ function makeDonutChart(usgsObj, chartNode){
           labels: labels,
           },
           options:{
+            aspectRatio: 1,
             legend: {
               position: 'bottom'
             },
@@ -370,6 +374,27 @@ async function createTestChart(chartID){
 }
 
 /**
+ * Create a donut chart given a canvas element ID and the time period
+ * with which to create the chart
+ * @param {string} time 'day', 'week', or 'hour'
+ * @param {string} chartID id of canvas element
+ */
+async function createSimpleDonut(time, chartID){
+  switch(time){
+    case 'day' : donutUrl = url_day;
+      break;
+    case 'week': donutUrl = url_week;
+      break;
+    default: donutUrl = url_hour;
+  }
+  apiInfo(donutUrl)
+  .then(data => {
+    makeDonutChart(data, document.getElementById(chartID));
+  })
+  .catch(reason => console.log(reason.message));
+}
+
+/**
  * Retrieve data from user input form, create a chart using said input.
  * @param {string} formID  id of form to grab data from
  * @param {string} chartID id of chart to draw chart into
@@ -407,3 +432,4 @@ async function createQuakesChart(chartNode){
 window.onload = createRefreshChart('refresh-chart');
 let refresh = window.setInterval(function(){updateRefreshChart()}, interval);
 window.onload = createQuakesChart('bar-chart');
+window.onload = createSimpleDonut('day', 'type-chart');
