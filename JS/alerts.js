@@ -52,7 +52,6 @@ apiInfo(url_day)
             newAlert.classList.add("alert", "alert-danger", "alert-dismissible", "fade", "show");
             newAlert.setAttribute("role", "alert");
             if(feature.properties.tsunami == 1) {
-                console.log(feature.properties.title);
                 newAlert.innerHTML = "<strong>TSUNAMI WARNING</strong><p>"+feature.properties.title +"<br/>"+ parseTime(feature.properties.time)+"</p><a href='"+feature.properties.url+"'>More Info</a>";
                 dismiss.setAttribute("type", "button");
                 dismiss.classList.add("close");
