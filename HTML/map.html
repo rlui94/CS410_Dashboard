@@ -82,32 +82,48 @@
     </header>
     
     <!--Main Content-->
-    <div class="container-fluid content">
-      <div class="row justify-content-center">
-        <article class="col-10 col-lg-3 col-xl-4 order-1 order-lg-0 mt-3" id="infoPanel">
-          <h1 class="text-primary text-center">About Magnitude</h1>
-          <p class="text-white">"Magnitude is expressed in whole numbers and decimal fractions. For example, a magnitude 5.3 is a moderate earthquake, and a 6.3 is a strong earthquake. Because of the logarithmic basis of the scale, each whole number increase in magnitude represents a tenfold increase in measured amplitude as measured on a seismogram.</p>
-          <p class="text-white">The Richter Scale (ML) is what most people have heard about, but in practice it is not commonly used anymore, except for small earthquakes recorded locally, for which ML and short-period surface wave magnitude (Mblg) are the only magnitudes that can be measured. For all other earthquakes, the moment magnitude (Mw) scale is a more accurate measure of the earthquake size. Magnitude (Mw) is based on physical properties of the earthquake derived from an analysis of all the waveforms recorded from the shaking.</p>
-          <p class="text-white">It takes into account the rigidity or strength of the rock along the fault, the area of the fault that slipped, and the distance the fault moved. Thus, stronger rock material, or a larger area, or more movement in an earthquake will all contribute to produce a larger magnitude."</p>
-          <a href="https://www.usgs.gov/natural-hazards/earthquake-hazards/science/earthquake-magnitude-energy-release-and-shaking-intensity?qt-science_center_objects=0#qt-science_center_objects">- USGS</a>
-        </article>
+    <div class="container-fluid content my-3">
+       <!--Tab navigation for map display and info-->
+      <ul class="nav nav-tabs" id="mapTabs"i role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#magnitude" role="tab" aria-controls="magnitude" aria-selected="true">Magnitude</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#depth" role="tab" aria-controls="depth" aria-selected="false">Depth</a>
+        </li>
+      </ul>
+      <div class="row">
+        <div class="col-12 col-lg-4 col-xl-5 order-1 order-lg-0">
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="magnitude" role="tabpanel" aria-labelledby="magnitude-tab">
+              <div class="container infoPanel">
+                <h1 class="text-primary text-center">About Magnitude</h1>
+                <p class="text-white">"Magnitude is expressed in whole numbers and decimal fractions. For example, a magnitude 5.3 is a moderate earthquake, and a 6.3 is a strong earthquake. Because of the logarithmic basis of the scale, each whole number increase in magnitude represents a tenfold increase in measured amplitude as measured on a seismogram.</p>
+                <p class="text-white">The Richter Scale (ML) is what most people have heard about, but in practice it is not commonly used anymore, except for small earthquakes recorded locally, for which ML and short-period surface wave magnitude (Mblg) are the only magnitudes that can be measured. For all other earthquakes, the moment magnitude (Mw) scale is a more accurate measure of the earthquake size. Magnitude (Mw) is based on physical properties of the earthquake derived from an analysis of all the waveforms recorded from the shaking.</p>
+                <p class="text-white">It takes into account the rigidity or strength of the rock along the fault, the area of the fault that slipped, and the distance the fault moved. Thus, stronger rock material, or a larger area, or more movement in an earthquake will all contribute to produce a larger magnitude."</p>
+                <a href="https://www.usgs.gov/natural-hazards/earthquake-hazards/science/earthquake-magnitude-energy-release-and-shaking-intensity?qt-science_center_objects=0#qt-science_center_objects">- USGS</a>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="depth" role="tabpanel" aria-labelledby="depth-tab"></div>
+          </div>
+        </div>
         <!--Map Container-->
-        <div class="col-12 col-md-10 col-lg-8 col-xl-7 text-center mt-3" id="mapContainer">
+        <div class="col-12 col-lg-8 col-xl-7 text-center mt-3" id="mapContainer">
           <!--Toggle Buttons-->
-          <div class="btn-group btn-group-toggle" id="toggleBar" data-toggle="buttons">
-            <label class="btn btn-secondary active" id="today">
-              <input type="radio" name="timeframe" checked><b>Today</b>
+          <div class="btn-group btn-group-toggle" id="toggleBar" data-toggle="buttons" role="group" aria-label="timeframe filter">
+            <label class="btn btn-primary active" id="today">
+              <input type="radio" name="timeframe" checked>Today
             </label>
-            <label class="btn btn-secondary" id="pastWeek">
-              <input type="radio" name="timeframe"><b>Past 7 Days</b>
+            <label class="btn btn-primary" id="pastWeek">
+              <input type="radio" name="timeframe">Past 7 Days
             </label>
-            <label class="btn btn-secondary" id="pastMonth">
-              <input type="radio" name="timeframe"><b>Past 30 Days</b>
+            <label class="btn btn-primary" id="pastMonth">
+              <input type="radio" name="timeframe">Past 30 Days
             </label>
           </div>
 
           <!--Interactive Map-->
-          <div id="map">
+          <div class="mx-auto" id="map">
             <script src="../JS/map.js"></script>
           </div>
           <div class="row justify-content-around" id="mapLegend">
@@ -124,11 +140,9 @@
             </div>
           </div>
         </div>
-        
       </div>
     </div>
     <footer>
-      <!--Collapsible Navigation Bar-->
       <nav class="navbar bg-dark navbar-dark">
         <!--NavBar Links-->
         <div class="container-fluid" id="footNavbar">

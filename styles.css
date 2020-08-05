@@ -7,6 +7,7 @@
     font-family: fantasy;
     font-size: 2em;
 }
+
 .nav-item {
     padding-left: 1em;
 }
@@ -64,15 +65,37 @@ body{
     overflow-x: hidden;
 }
 
-#infoPanel {
+.infoPanel {
     overflow-y: auto;
     max-height: 100vh;
+}
+
+#mapTabs {
+    border-color: var(--primary);
+    margin-bottom: 1em;
+}
+
+#mapTabs .nav-link:not(.active) {
+    color: lightblue;
+    font-style: italic;
+    background-image: linear-gradient(var(--dark), var(--dark), #000000);
+    border-color: var(--primary);
+}
+
+#mapTabs .active {
+    color: #ffffff;
+    font-weight: bold;
+    background-color: #000000;
+    border-color: var(--primary);
+    border-bottom-color: #000000;
 }
 
 .btn {
     color: #000000;
     background-color: #ffffff;
+    font-weight: bold;
 }
+
 footer {
     margin-top: 2em;
 }
