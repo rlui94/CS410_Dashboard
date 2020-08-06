@@ -1,5 +1,5 @@
 //Used to set marker color in map layer based on magnitude
-function chooseColor(value) {
+function chooseMagColor(value) {
     switch (true){
         case value < 3:
             return "rgb(0, 255, 0)";
@@ -11,7 +11,20 @@ function chooseColor(value) {
             return "rgb(255, 0, 255)";
         default:
             console.log(value);
-            return "blue";
+            return "#000000";
+    }
+}
+function chooseDepthColor(value) {
+    switch(true) {
+        case value <= 70:
+            return "rgb(0, 200, 255)";
+        case value <= 300:
+            return "#0000ff";
+        case value > 300:
+            return "#800080";
+        default:
+            console.log(value);
+            return "#000000";
     }
 }
 
@@ -27,7 +40,9 @@ var map = new L.Map("map", {
     zoomSnap: 0.5,
     zoomDelta: 0.5,
     minZoom: 1,
-    worldCopyJump: true
+    worldCopyJump: true,
+    maxBounds: [[90,-225],[-90, 225]],
+    maxBoundsViscosity: 1.0
 })
 map.fitWorld().zoomIn();
 let ctr = map.getCenter();
@@ -36,24 +51,35 @@ let ctr = map.getCenter();
 var map_layer = new L.StamenTileLayer("toner");
 map.addLayer(map_layer);
 
-//Add markers to a map layer that can be added
+//Add magnitude markers to a map layer that can be added
 //or removed. Includes popup info on marker.
 var current = L.layerGroup().addTo(map);
-var addMarkers = function(feature, latlng){
+var addMagMarkers = function(feature, latlng){
     return L.circleMarker(latlng, {
         radius: feature.properties.mag,
-        color: chooseColor(feature.properties.mag),
-        opacity: 0.3,
+        color: chooseMagColor(feature.properties.mag),
+        opacity: 0.7,
     }).bindPopup("<p><b>"+parseTime(feature.properties.time)+"<br/>Magnitude: "+feature.properties.mag+"<br/>"+feature.properties.place+"</b></p>");
+}
+
+var addDepthMarkers = function(feature, latlng){
+    return L.circleMarker(latlng, {
+        radius: feature.geometry.coordinates[2] / 100,
+        color: chooseDepthColor(feature.geometry.coordinates[2]),
+        opacity: 0.7,
+    }).bindPopup("<p><b>"+parseTime(feature.properties.time)+"<br/>Magnitude: "+feature.properties.mag+"<br/>"+feature.properties.place+"</b>"+feature.geometry.coordinates[2]+"</p>");
 }
 
 //Helper function to adjust markers on zoom
 function markerAdjust(sublayer, zoom, stzoom){
+    if(stzoom < 2 || stzoom > 6 || zoom < 2 || zoom > 6){
+        return;
+    }
     if(zoom > stzoom){
-        return sublayer.options.radius * (zoom/3.3);
+        return sublayer.options.radius * (zoom/3);
     }
     else {
-        return sublayer.options.radius / (stzoom/3.3);
+        return sublayer.options.radius / (stzoom/3);
     }
 }
 
@@ -73,61 +99,95 @@ map.on("zoomend", function() {
     })
 });
 
-//Default map display 1 day activity
+//Default map display 1 day magnitude activity
 var maxLoc = [];
 apiInfo(url_day)
+.then(data => {
+    L.geoJSON(data, {
+        pointToLayer: addMagMarkers,
+    }).addTo(current);
+})
+.catch(reason => console.log(reason.message));
+
+function displayMonth(request = "magnitude") {
+    let markerFunction = addMagMarkers;
+    if(request == "depth" || document.getElementById("depthTab").classList.contains("set")){
+        markerFunction = addDepthMarkers;
+    }
+    current.clearLayers();
+    apiInfo(url_month)
     .then(data => {
         L.geoJSON(data, {
-            pointToLayer: addMarkers,
+            pointToLayer: markerFunction,
         }).addTo(current);
     })
     .catch(reason => console.log(reason.message));
+}
 
-if(document.getElementById("toggleBar")){
-    //Displays monthly info when pastMonth toggle is clicked
-    var monthToggle = document.getElementById("pastMonth");
-    monthToggle.addEventListener("click", function(event) {
-        if(!monthToggle.classList.contains("active")){
-            current.clearLayers();
-            apiInfo(url_month)
-            .then(data => {
-                L.geoJSON(data, {
-                    pointToLayer: addMarkers,
-                }).addTo(current);
-            })
-            .catch(reason => console.log(reason.message));
-        }
-    });
+function displayWeek(request = "magnitude") {
+    let markerFunction = addMagMarkers;
+    if(request == "depth" || document.getElementById("depthTab").classList.contains("set")){
+        markerFunction = addDepthMarkers;
+    }
+    current.clearLayers();
+    apiInfo(url_week)
+    .then(data => {
+        L.geoJSON(data, {
+            pointToLayer: markerFunction
+        }).addTo(current);
+    })
+    .catch(reason => console.log(reason.message));
+}
 
-    //Displays weekly info on when pastWeek on toggle is clicked
-    var weekToggle = document.getElementById("pastWeek");
-    weekToggle.addEventListener("click", function(event) {
-        if(!weekToggle.classList.contains("active")){
-            current.clearLayers();
-            apiInfo(url_week)
-            .then(data => {
-                L.geoJSON(data, {
-                    pointToLayer: addMarkers,
-                }).addTo(current);
-            })
-            .catch(reason => console.log(reason.message));
-        }
-    });
+function displayDay(request = "magnitude") {
+    let markerFunction = addMagMarkers;
+    if(request == "depth" || document.getElementById("depthTab").classList.contains("set")){
+        markerFunction = addDepthMarkers;
+    }
+    current.clearLayers();
+    apiInfo(url_day)
+    .then(data => {
+        L.geoJSON(data, {
+            pointToLayer: markerFunction
+        }).addTo(current);
+    })
+    .catch(reason => console.log(reason.message));
+}
 
-    //Displays daily info when today on toggle is clicked
-    var dayToggle = document.getElementById("today");
-    dayToggle.addEventListener("click", function(event) {
-        if(!dayToggle.classList.contains("active")){
-            current.clearLayers();
-            apiInfo(url_day)
-            .then(data => {
-                L.geoJSON(data, {
-                    pointToLayer: addMarkers,
-                }).addTo(current);
-            })
-            .catch(reason => console.log(reason.message));
-        }
-    });
+function displayDepth() {
+    document.getElementById("magTab").classList.remove("set");
+    document.getElementById("depthTab").classList.add("set");
+    document.getElementById("magLegend").classList.add("d-none");
+    document.getElementById("depthLegend").classList.remove("d-none");
+    var toggle = document.getElementById("toggleBar");
+    var choice = toggle.getElementsByClassName("active");
+    if(choice[0].id == "pastMonth"){
+        displayMonth("depth");
+    }
+    else if(choice[0].id == "pastWeek"){
+        displayWeek("depth");
+    }
+    else{
+        displayDay("depth");
+    }
+}
+
+function displayMag() {
+    document.getElementById("depthTab").classList.remove("set");
+    document.getElementById("magTab").classList.add("set");
+    document.getElementById("depthLegend").classList.add("d-none");
+    document.getElementById("magLegend").classList.remove("d-none");
+    var toggle = document.getElementById("toggleBar");
+    var choice = toggle.getElementsByClassName("active");
+    if(choice[0].id == "pastMonth"){
+        displayMonth();
+    }
+    else if(choice[0].id == "pastWeek"){
+        displayWeek();
+    }
+    else {
+        displayDay();
+    }
 }
 
 if(document.getElementById("quickStats")){
@@ -135,10 +195,12 @@ if(document.getElementById("quickStats")){
     findLargest.addEventListener("click", function(event) {
         apiInfo(url_day)
         .then(data => {
+            var curCtr = map.getCenter();
+            var curZoom = map.getZoom();
             var maxLoc = findMax(data.features).loc;
             maxLoc.reverse();
             map.flyTo(maxLoc, 5);
-            setTimeout(function(){map.flyTo(ctr, 1.5)}, 3000);
+            setTimeout(function(){map.flyTo(curCtr, curZoom)}, 4000);
         })
     })
 
@@ -147,8 +209,10 @@ if(document.getElementById("quickStats")){
         apiInfo(url_day_sig)
         .then(data => {
             for(feature of data.features){
-                map.flyTo(feature.geometry.coordinates.slice(0,2).reverse(), 5);
-                setTimeout(function(){map.flyTo(ctr, 1.5)}, 3000);
+                var curCtr = map.getCenter();
+                var curZoom = map.getZoom();
+                map.flyTo(feature.geometry.coordinates.slice(0,2).reverse(), 6);
+                setTimeout(function(){map.flyTo(curCtr, curZoom)}, 4000);
             }
         })
     })
