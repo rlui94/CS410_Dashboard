@@ -86,10 +86,10 @@
        <!--Tab navigation for map display and info-->
       <ul class="nav nav-tabs" id="mapTabs"i role="tablist">
         <li class="nav-item">
-          <a class="nav-link active" data-toggle="tab" href="#magnitude" role="tab" aria-controls="magnitude" aria-selected="true">Magnitude</a>
+          <a class="nav-link active" data-toggle="tab" href="#magnitude" id="magTab" onclick="displayMag()" role="tab" aria-controls="magnitude" aria-selected="true">Magnitude</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#depth" role="tab" aria-controls="depth" aria-selected="false">Depth</a>
+          <a class="nav-link" data-toggle="tab" href="#depth" id="depthTab" onclick="displayDepth()" role="tab" aria-controls="depth" aria-selected="false">Depth</a>
         </li>
       </ul>
       <div class="row">
@@ -104,20 +104,28 @@
                 <a href="https://www.usgs.gov/natural-hazards/earthquake-hazards/science/earthquake-magnitude-energy-release-and-shaking-intensity?qt-science_center_objects=0#qt-science_center_objects">- USGS</a>
               </div>
             </div>
-            <div class="tab-pane fade" id="depth" role="tabpanel" aria-labelledby="depth-tab"></div>
+            <div class="tab-pane fade" id="depth" role="tabpanel" aria-labelledby="depth-tab">
+              <div class="container infoPanel">
+                <h1 class="text-primary text-center">About Depth</h1>
+                <p class="text-white">"Earthquakes can occur anywhere between the Earth's surface and about 700 kilometers below the surface. For scientific purposes, this earthquake depth range of 0 - 700 km is divided into three zones: shallow, intermediate, and deep.</p>
+                <p class="text-white">Shallow earthquakes are between 0 and 70 km deep; intermediate earthquakes, 70 - 300 km deep; and deep earthquakes, 300 - 700 km deep. In general, the term "deep-focus earthquakes" is applied to earthquakes deeper than 70 km. All earthquakes deeper than 70 km are localized within great slabs of lithosphere that are sinking into the Earth's mantle.</p>
+                <p class="text-white">For quarry blasts that are recorded by the seismic network, the depth is fixed at 0 km since we can never determine a precise depth for these, but we know they are very close to the surface."</p>
+                <a href="https://www.usgs.gov/natural-hazards/earthquake-hazards/science/determining-depth-earthquake?qt-science_center_objects=0#qt-science_center_objects">- USGS</a>
+              </div>
+            </div>
           </div>
         </div>
         <!--Map Container-->
         <div class="col-12 col-lg-8 col-xl-7 text-center mt-3" id="mapContainer">
           <!--Toggle Buttons-->
           <div class="btn-group btn-group-toggle" id="toggleBar" data-toggle="buttons" role="group" aria-label="timeframe filter">
-            <label class="btn btn-primary active" id="today">
+            <label class="btn btn-primary active" id="today" onclick="displayDay()">
               <input type="radio" name="timeframe" checked>Today
             </label>
-            <label class="btn btn-primary" id="pastWeek">
+            <label class="btn btn-primary" id="pastWeek" onclick="displayWeek()">
               <input type="radio" name="timeframe">Past 7 Days
             </label>
-            <label class="btn btn-primary" id="pastMonth">
+            <label class="btn btn-primary" id="pastMonth" onclick="displayMonth()">
               <input type="radio" name="timeframe">Past 30 Days
             </label>
           </div>
@@ -126,16 +134,28 @@
           <div class="mx-auto" id="map">
             <script src="../JS/map.js"></script>
           </div>
-          <div class="row justify-content-around" id="mapLegend">
+          <div class="row justify-content-around mapLegend" id="magLegend">
             <div class="col-3">
               <h4 class="text-primary">Magnitude:</h4>
             </div> 
             <div class="col-8">
-              <div class="d-flex flex-row justify-content-around rounded" id="scale">
+              <div class="d-flex flex-row justify-content-around rounded" id="magScale">
                 <h5>< 1</h5>
                 <h5>3</h5>
                 <h5>5</h5>
                 <h5>8+</h5>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-around mapLegend d-none" id="depthLegend">
+            <div class="col-3">
+              <h4 class="text-primary">Depth:</h4>
+            </div>
+            <div class="col-8">
+              <div class="d-flex flex-row justify-content-around rounded" id="depthScale">
+                <h5>< 70</h5>
+                <h5>70-300</h5>
+                <h5>300+</h5>
               </div>
             </div>
           </div>
