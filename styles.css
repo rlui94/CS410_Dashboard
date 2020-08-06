@@ -41,16 +41,20 @@ body{
     border-radius: 5px;
     border: solid #000000 4px;
     width: 100%;
+    max-width: 750px;
     min-height: 40em;
     height: 75vh;
 }
 
-#mapLegend #scale {
+.mapLegend #magScale {
     height: max-content;
     background-image: linear-gradient(to right, green, green, yellow, yellow,red, purple);
 }
 
-#mapLegend #scale h5 {
+.mapLegend #depthScale {
+    background-image: linear-gradient(to right, rgb(0, 200, 255), #0000ff, #800080);
+}
+.mapLegend h5 {
     color: #000000;
     font-weight: bolder;
 }
