@@ -67,7 +67,7 @@ var addDepthMarkers = function(feature, latlng){
         radius: feature.geometry.coordinates[2] / 100,
         color: chooseDepthColor(feature.geometry.coordinates[2]),
         opacity: 0.7,
-    }).bindPopup("<p><b>"+parseTime(feature.properties.time)+"<br/>Magnitude: "+feature.properties.mag+"<br/>"+feature.properties.place+"</b>"+feature.geometry.coordinates[2]+"</p>");
+    }).bindPopup("<p><b>"+parseTime(feature.properties.time)+"<br/>Magnitude: "+feature.properties.mag+"<br/>"+feature.properties.place+"</br>Depth: "+feature.geometry.coordinates[2]+"km</b></p>");
 }
 
 //Helper function to adjust markers on zoom

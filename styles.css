@@ -1,14 +1,12 @@
 * {
     box-sizing: border-box;
 }
-
+.navbar-nav {
+    margin-left: 1em;
+}
 .navbar-brand {
     float: left;
     font-size: 2em;
-}
-
-.nav-item {
-    padding-left: 1em;
 }
 
 body{
@@ -93,10 +91,16 @@ body{
     border-bottom-color: #000000;
 }
 
-.btn {
+#toggleBar .nav-link {
     color: #000000;
-    background-color: #ffffff;
     font-weight: bold;
+    background-color: #ffffff;
+    border: solid var(--dark) 2px;
+}
+
+#toggleBar .active {
+    color: #ffffff;
+    background-color: blue;
 }
 
 footer {
