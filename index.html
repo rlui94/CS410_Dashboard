@@ -129,27 +129,35 @@
         </div>
       </div>
       <!--Refresh Chart-->
-      <div class="row bg-dark rounded text-center text-white m-2 justify-content-around">
-        <div class="col-12 col-md-9">
-          <h2 >Up-to-Date Chart</h2>
-          <p>Refreshes every minute</p>
-          <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-secondary active" onclick="setThenRefresh('hour')">
-              <input type="radio" checked><b>This Hour</b>
-            </label>
-            <label class="btn btn-secondary" onclick="setThenRefresh('day')">
-              <input type="radio" ><b>Past Day</b>
-            </label>
-            <label class="btn btn-secondary" onclick="setThenRefresh('week')">
-              <input type="radio" ><b>Past Week</b>
-            </label>
+      <div class="row bg-dark rounded text-center text-white m-2 justify-content-around p-2">
+        <div class="col-12 col-md-9 text-center">
+          <div class="row justify-content-center"><h2 >Up-to-Date Chart</h2></div>
+          <div class="row justify-content-center"><p>Refreshes every minute</p></div>
+          <div class="row">
+            <div class="col-9 border rounded">    
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-secondary active" onclick="setThenRefresh('hour')">
+                <input type="radio" checked><b>This Hour</b>
+              </label>
+              <label class="btn btn-secondary" onclick="setThenRefresh('day')">
+                <input type="radio" ><b>Past Day</b>
+              </label>
+              <label class="btn btn-secondary" onclick="setThenRefresh('week')">
+                <input type="radio" ><b>Past Week</b>
+              </label>
+            </div>
+            <canvas id="refresh-chart" aria-label="refreshing chart" role="img"></canvas>
           </div>
-          <canvas id="refresh-chart" aria-label="refreshing chart" role="img"></canvas>
+            <div class="col-3 border rounded" id="info-panel">
+              <h2>Info Panel</h2>
+              <p>Select a data point!</p>
+            </div>
+          </div>
         </div>
       </div>
       <!--Bar Chart-->
-      <div class="row bg-dark rounded text-center text-white m-2 justify-content-around" >
-        <div class="col-12 col-md-9">
+      <div class="row bg-dark rounded text-center text-white m-2 justify-content-around p-2" >
+        <div class="col-12 col-md-9 rounded border">
           <h2 >Quakes per Day</h2>
           <div class="btn-group btn-group-toggle" data-toggle="buttons">
             <label class="btn btn-secondary active" onclick="updateBarChart('week')">

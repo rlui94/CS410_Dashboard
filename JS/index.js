@@ -12,7 +12,7 @@ var donutChart = null;
 var donutUrl = url_day;
 
 // create refresh chart
-window.onload = createRefreshChart('refresh-chart');
+window.onload = createRefreshChart('refresh-chart', 'info-panel');
 let refresh = window.setInterval(function(){updateRefreshChart()}, interval);
 // create bar chart
 window.onload = createQuakesChart('bar-chart');

@@ -397,12 +397,14 @@ async function createChartViaForm(formID, chartID){
  * Create initial refreshing chart object
  * @param {html element obj} chartNode html canvas node eg "<canvas id="scatterChart" role="img"></canvas>"
  */
-async function createRefreshChart(chartNode){
+async function createRefreshChart(chartNode, infoID = null){
   apiInfo(refreshUrl)
   .then(data => {
     apiData = data;
     makeScatterChart(data, chartNode);
-    setClickHandler(chartNode);
+    if(infoID){
+      setClickHandler(chartNode, infoID);
+    }
   })
   .catch(reason => console.log(reason.message));
 }
@@ -423,12 +425,24 @@ async function createQuakesChart(chartNode){
  * Create an event handler for getting information when clicking points on scatter plot
  * @param {string} chartID chart ID 
  */
-function setClickHandler(chartID){
+function setClickHandler(chartID, infoID){
   document.getElementById(chartID).onclick = function(e){
     var points = refreshChart.getElementAtEvent(e)[0];
-    console.log(points);
     if(points){
-      console.log(refreshChart.data.datasets[points._datasetIndex].data[points._index]);
+      let time = refreshChart.data.datasets[points._datasetIndex].data[points._index].x;
+      for(let i=0; i<apiData.features.length; i++){
+        if(apiData.features[i].properties.time == time){
+          console.log(apiData.features[i].properties);
+          let info = apiData.features[i].properties;
+          let infoNode = document.getElementById(infoID);
+          infoNode.innerHTML = `
+            <h2>Info Panel</h2>
+            <p><u>${info.title}</u></p>
+            <p>${info.type[0].toUpperCase() + info.type.slice(1)}</p>
+            <p>${moment(info.time)}</p>
+          `;
+        }
+      }
     }
   }
 }
