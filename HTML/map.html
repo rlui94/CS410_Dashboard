@@ -91,7 +91,7 @@
       <div class="row">
         <div class="col-12 col-lg-4 col-xl-5 order-1 order-lg-0">
           <div class="tab-content">
-            <div class="tab-pane fade show active" id="magnitude" role="tabpanel" aria-labelledby="magnitude-tab">
+            <div class="tab-pane fade show active" id="magnitude" role="tabpanel" aria-labelledby="magTab">
               <div class="container infoPanel">
                 <h1 class="text-primary text-center">About Magnitude</h1>
                 <p class="text-white">"Magnitude is expressed in whole numbers and decimal fractions. For example, a magnitude 5.3 is a moderate earthquake, and a 6.3 is a strong earthquake. Because of the logarithmic basis of the scale, each whole number increase in magnitude represents a tenfold increase in measured amplitude as measured on a seismogram.</p>
@@ -100,7 +100,7 @@
                 <a href="https://www.usgs.gov/natural-hazards/earthquake-hazards/science/earthquake-magnitude-energy-release-and-shaking-intensity?qt-science_center_objects=0#qt-science_center_objects">- USGS</a>
               </div>
             </div>
-            <div class="tab-pane fade" id="depth" role="tabpanel" aria-labelledby="depth-tab">
+            <div class="tab-pane fade" id="depth" role="tabpanel" aria-labelledby="depthTab">
               <div class="container infoPanel">
                 <h1 class="text-primary text-center">About Depth</h1>
                 <p class="text-white">"Earthquakes can occur anywhere between the Earth's surface and about 700 kilometers below the surface. For scientific purposes, this earthquake depth range of 0 - 700 km is divided into three zones: shallow, intermediate, and deep.</p>
@@ -114,16 +114,18 @@
         <!--Map Container-->
         <div class="col-12 col-lg-8 col-xl-7 text-center mt-3" id="mapContainer">
           <!--Toggle Buttons-->
-          <div class="btn-group btn-group-toggle" id="toggleBar" data-toggle="buttons" role="group" aria-label="timeframe filter">
-            <label class="btn btn-primary active" id="today" onclick="displayDay()">
-              <input type="radio" name="timeframe" checked>Today
-            </label>
-            <label class="btn btn-primary" id="pastWeek" onclick="displayWeek()">
-              <input type="radio" name="timeframe">Past 7 Days
-            </label>
-            <label class="btn btn-primary" id="pastMonth" onclick="displayMonth()">
-              <input type="radio" name="timeframe">Past 30 Days
-            </label>
+          <div class="d-flex flex-row justify-content-center">
+            <ul class="nav nav-pills" id="toggleBar">
+              <li class="nav-item">
+                <a class="nav-link active" id="today" data-toggle="pill" href="#" onclick="displayDay()" role="tab" aria-controls="pill-today" aria-selected="true">Today</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="pastWeek" data-toggle="pill" href="#" onclick="displayWeek()" role="tab" aria-controls="pill-week" aria-selected="false">Past 7 Days</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="pastMonth" data-toggle="pill" href="#" onclick="displayMonth()" role="tab" aria-contols="pill-month" aria-selected="false">Past 30 Days</a>
+              </li>
+            </ul>
           </div>
 
           <!--Interactive Map-->
@@ -149,9 +151,9 @@
             </div>
             <div class="col-8">
               <div class="d-flex flex-row justify-content-around rounded" id="depthScale">
-                <h5>< 70</h5>
-                <h5>70-300</h5>
-                <h5>300+</h5>
+                <h5 class="text-white">< 70</h5>
+                <h5 class="text-white">70-300</h5>
+                <h5 class="text-white">300+</h5>
               </div>
             </div>
           </div>
@@ -159,24 +161,22 @@
       </div>
     </div>
     <footer>
-      <nav class="navbar bg-dark navbar-dark">
+      <nav class="navbar navbar-expand bg-dark navbar-dark">
         <!--NavBar Links-->
-        <div class="container-fluid" id="footNavbar">
-          <ul class="nav navbar-nav d-flex flex-row">
-            <li class="nav-item">
-              <a class="nav-link" href="../index.html">HOME</a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="./map.html">MAP<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./chart.html">CHARTS</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./about.html">ABOUT</a>
-            </li>
-          </ul>
-        </div>
+        <ul class="nav navbar-nav">
+          <li class="nav-item d-inline">
+            <a class="nav-link" href="../index.html">HOME</a>
+          </li>
+          <li class="nav-item d-inline active">
+            <a class="nav-link" href="./map.html">MAP<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./chart.html">CHARTS</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./about.html">ABOUT</a>
+          </li>
+        </ul>
       </nav>
       <p class="text-center text-white">Authors: John Lewis, Ryan Lui</p>
     </footer>
