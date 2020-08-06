@@ -1,3 +1,5 @@
+// api data for reuse
+var apiData = null;
 // for modifying refresh chart
 var refreshChart = null;
 var refreshUrl = url_hour;
@@ -9,7 +11,10 @@ var barUrl = url_week;
 var donutChart = null;
 var donutUrl = url_day;
 
+// create refresh chart
 window.onload = createRefreshChart('refresh-chart');
 let refresh = window.setInterval(function(){updateRefreshChart()}, interval);
+// create bar chart
 window.onload = createQuakesChart('bar-chart');
+// create donut chart
 window.onload = createSimpleDonut('day', 'type-chart');

@@ -400,7 +400,9 @@ async function createChartViaForm(formID, chartID){
 async function createRefreshChart(chartNode){
   apiInfo(refreshUrl)
   .then(data => {
+    apiData = data;
     makeScatterChart(data, chartNode);
+    setClickHandler(chartNode);
   })
   .catch(reason => console.log(reason.message));
 }
@@ -415,4 +417,18 @@ async function createQuakesChart(chartNode){
     makeBarChart(data, chartNode);
   })
   .catch(reason => console.log(reason.message));
+}
+
+/**
+ * Create an event handler for getting information when clicking points on scatter plot
+ * @param {string} chartID chart ID 
+ */
+function setClickHandler(chartID){
+  document.getElementById(chartID).onclick = function(e){
+    var points = refreshChart.getElementAtEvent(e)[0];
+    console.log(points);
+    if(points){
+      console.log(refreshChart.data.datasets[points._datasetIndex].data[points._index]);
+    }
+  }
 }
