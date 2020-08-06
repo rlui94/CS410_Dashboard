@@ -81,7 +81,6 @@ function makeDonutChart(usgsObj, chartNode){
             results[type] = results[type] + 1;
         }
     }
-    console.log('donut', results);
     // get labels and values arrays chart requires
     labels = Object.getOwnPropertyNames(results);
     vals = Object.values(results);
@@ -226,7 +225,6 @@ async function updateRefreshChart(){
         'y': usgsObj.features[i].properties.mag
       })
     }
-    console.log(refreshChart)
     refreshChart.data.datasets[0].data = results;
     refreshChart.options.scales.xAxes[0].time.min = timeMin;
     refreshChart.options.scales.xAxes[0].time.max = timeMax;
