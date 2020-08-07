@@ -81,7 +81,6 @@ function makeDonutChart(usgsObj, chartNode){
             results[type] = results[type] + 1;
         }
     }
-    console.log('donut', results);
     // get labels and values arrays chart requires
     labels = Object.getOwnPropertyNames(results);
     vals = Object.values(results);
@@ -226,7 +225,6 @@ async function updateRefreshChart(){
         'y': usgsObj.features[i].properties.mag
       })
     }
-    console.log(refreshChart)
     refreshChart.data.datasets[0].data = results;
     refreshChart.options.scales.xAxes[0].time.min = timeMin;
     refreshChart.options.scales.xAxes[0].time.max = timeMax;
@@ -399,10 +397,14 @@ async function createChartViaForm(formID, chartID){
  * Create initial refreshing chart object
  * @param {html element obj} chartNode html canvas node eg "<canvas id="scatterChart" role="img"></canvas>"
  */
-async function createRefreshChart(chartNode){
+async function createRefreshChart(chartNode, infoID = null){
   apiInfo(refreshUrl)
   .then(data => {
+    apiData = data;
     makeScatterChart(data, chartNode);
+    if(infoID){
+      setClickHandler(chartNode, infoID);
+    }
   })
   .catch(reason => console.log(reason.message));
 }
@@ -417,4 +419,30 @@ async function createQuakesChart(chartNode){
     makeBarChart(data, chartNode);
   })
   .catch(reason => console.log(reason.message));
+}
+
+/**
+ * Create an event handler for getting information when clicking points on scatter plot
+ * @param {string} chartID chart ID 
+ */
+function setClickHandler(chartID, infoID){
+  document.getElementById(chartID).onclick = function(e){
+    var points = refreshChart.getElementAtEvent(e)[0];
+    if(points){
+      let time = refreshChart.data.datasets[points._datasetIndex].data[points._index].x;
+      for(let i=0; i<apiData.features.length; i++){
+        if(apiData.features[i].properties.time == time){
+          console.log(apiData.features[i].properties);
+          let info = apiData.features[i].properties;
+          let infoNode = document.getElementById(infoID);
+          infoNode.innerHTML = `
+            <h2>Info Panel</h2>
+            <p><u>${info.title}</u></p>
+            <p>${info.type[0].toUpperCase() + info.type.slice(1)}</p>
+            <p>${moment(info.time)}</p>
+          `;
+        }
+      }
+    }
+  }
 }

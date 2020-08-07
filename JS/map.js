@@ -221,6 +221,13 @@ if(document.getElementById("quickStats")){
     })
 }
 
+function onLocationError(e){
+    alert(e.message);
+}
+function onLocationFound(){
+    document.getElementById("locate").classList.add("active");
+}
+
 function zoomToUser() {
     var crosshair = document.getElementById("locate");
     if(crosshair.classList.contains("active")){
@@ -228,9 +235,10 @@ function zoomToUser() {
         map.flyToBounds([[70,-160],[-70, 160]]).invalidateSize();
         return;
     }
-    crosshair.classList.add("active");
     map.locate({
         setView: true,
         maxZoom: 5
     })
+    map.on("locationfound", onLocationFound);
+    map.on("locationerror", onLocationError);
 }

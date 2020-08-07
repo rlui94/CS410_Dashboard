@@ -24,27 +24,8 @@
       crossorigin="anonymous">
     </script>
 
-    <!--Leaflet-->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-      crossorigin=""
-    />
-    <script 
-      src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
-      integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-      crossorigin="">
-    </script>
-
-    <!--Stamen-->
-    <script 
-      type="text/javascript" 
-      src="https://stamen-maps.a.ssl.fastly.net/js/tile.stamen.js">
-    </script>
-
     <!--USGS API-->
-    <script src="../simpleAPI.js"></script>
+    <script src="../JS/simpleAPI.js"></script>
 
     <link rel="stylesheet" href="../styles.css" />
   </head>
@@ -69,17 +50,46 @@
             <li class="nav-item">
               <a class="nav-link" href="./chart.html">CHARTS</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./resources.html">RESOURCES</a>
-            </li>
             <li class="nav-item active">
-              <a class="nav-link" href="./about.html">ABOUT<span class="sr-only">(current)</span></a>
-            </li>
+                <a class="nav-link" href="./resources.html">RESOURCES<span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./about.html">ABOUT</a>
+              </li>
           </ul>
         </div>
       </nav>
     </header>
-    <div class="container-fluid content"></div>
+    <h1 class="text-primary text-center">Additional Resources</h1>
+    <!--Cards-->
+    <div class="container-fluid content">
+        <div class="row justify-content-center">
+            <div class="card col-12 col-md-3 p-2">
+                <img class="card-img-top" src="../IMG/USGS.png" alt="usgs logo">
+                <div class="card-body">
+                <h5 class="card-title">USGS Website</h5>
+                <p class="card-text">API source</p>
+                <a href="https://earthquake.usgs.gov/" class="btn btn-secondary">Link</a>
+                </div>
+            </div>
+            <div class="card col-3 p-2">
+                <img class="card-img-top bg-white" src="../IMG/ready.png" alt="ready.gov logo">
+                <div class="card-body">
+                <h5 class="card-title">Ready.gov</h5>
+                <p class="card-text">Earthquake and other emergency preparedness</p>
+                <a href="https://ready.gov/earthquakes" class="btn btn-secondary">Link</a>
+                </div>
+            </div>
+            <div class="card col-3 p-2">
+                <img class="card-img-top bg-white" src="../IMG/fema.png" alt="FEMA logo">
+                <div class="card-body">
+                <h5 class="card-title">FEMA Disaster Recovery Center Locator</h5>
+                <p class="card-text">Find a recovery center near you</p>
+                <a href="https://egateway.fema.gov/ESF6/DRCLocator" class="btn btn-secondary">Link</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <footer>
       <!--Collapsible Navigation Bar-->
       <nav class="navbar navbar-expand bg-dark navbar-dark">
@@ -94,11 +104,11 @@
           <li class="nav-item">
             <a class="nav-link" href="./chart.html">CHARTS</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="./resources.html">RESOURCES</a>
-          </li>
           <li class="nav-item active">
-            <a class="nav-link" href="./about.html">ABOUT<span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="./resources.html">RESOURCES<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./about.html">ABOUT</a>
           </li>
         </ul>
       </nav>
