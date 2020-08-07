@@ -384,23 +384,26 @@ async function createSimpleDonut(time, chartID){
 
 /**
  * Retrieve data from user input form, create a chart using said input.
+ * Ensure that within the form there is an element named 'error-output' for validation
  * @param {string} formID  id of form to grab data from
  * @param {string} chartID id of chart to draw chart into
  */
 async function createTypeChartViaForm(formID, chartID){
   let form = document.getElementById(formID);
+  let err = document.getElementById('error-output');
   let start = document.getElementById(formID).elements['startTime'].valueAsNumber;
   let end = document.getElementById(formID).elements['endTime'].valueAsNumber
   if(isNaN(start)){
-    console.log('start is bad')
+    err.innerHTML = `Please enter a valid start time.`
   }
   else if(isNaN(end)){
-    console.log('end is bad')
+    err.innerHTML = `Please enter a valid end time.`
   }
   else if(start >= end){
-    console.log('start cant be >= end')
+    err.innerHTML = `Start time cannot be later than end time.`
   }
   else{
+    err.innerHTML = ``;
     start = moment(start);
     end = moment(end);
     console.log(start, end);
