@@ -14,6 +14,6 @@ apiInfo(url_day)
 apiInfo(url_day_sig)
     .then(data => {
         var sig = document.getElementById("significant");
-        sig.innerHTML = "<p>Caused Damage</p><h2>" + data.features.length + "</h2>";
+        sig.innerHTML = "<p>Potential Damage</p><h2>" + data.features.length + "</h2>";
     })
     .catch(reason => console.log(reason.message));
