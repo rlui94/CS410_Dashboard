@@ -101,14 +101,14 @@
             </div>
           </div>
           <div class="row justify-content-center">
-            <!--Type Form-->
-            <div class="col-12 col-md-9" id="type-form-container">
+            <!--Input Form-->
+            <div class="col-12 col-md-9" id="form-container">
               <!--Descriptions-->
               <h5 class="mt-2 mb-4 type-form">Chart types of seismic activities.</h5>
               <h5 class="mt-2 mb-4 list-form" style="display: none">Show list of seismic activities.</h5>
               <!--Validation-->
               <div class="bg-danger rounded my-2" id="error-output"></div>
-              <form id="type-form">
+              <form id="inputForm">
                 <div class="form-group row justify-content-around">
                   <div class="col">
                     <label for="startTime">Start Time</label>
@@ -140,8 +140,8 @@
                   </div>
                 </div>
                 <!--Buttons - change button TYPE to align with backend-->
-                <button type="button" class="btn btn-secondary type-form" onclick="createTypeChartViaForm('type-form', 'type-chart')">Create type chart</button>
-                <button type="button" class="btn btn-secondary list-form" onclick="createTypeChartViaForm('list-form', 'type-chart')" 
+                <button type="button" class="btn btn-secondary type-form" onclick="createTypeChartViaForm('inputForm', 'type-chart')">Create type chart</button>
+                <button type="button" class="btn btn-secondary plot-form" onclick="createTypeChartViaForm('plot-form', 'type-chart')" 
                   style="display:none">List seismic activities</button>
               </form>
               <!--Results-->
