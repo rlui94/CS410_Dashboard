@@ -48,10 +48,10 @@ async function invokeAPI(){
  * @param {int} minLong   default -180
  * @param {int} maxLat    default 90
  * @param {int} maxLong   default 180
- * @param {int} startTime default 2020-07-13T12:00:00
- * @param {int} endTime   default 2020-07-13T18:00:00
+ * @param {int} startTime default one hour before current time
+ * @param {int} endTime   default current time
  */
-async function getViaLoc(minLat=-90, minLong=-180, maxLat=90, maxLong=180, startTime='2020-07-13T12:00:00', endTime='2020-07-13T18:00:00') {
+async function getViaLocTime(minLat=-90, minLong=-180, maxLat=90, maxLong=180, startTime=moment().subtract(1, 'hour'), endTime=moment()) {
     let url=`https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&minlatitude=${minLat}&minlongitude=${minLong}&maxlatitude=${maxLat}&maxlongitude=${maxLong}&starttime=${startTime}&endtime=${endTime}`
     try{
       var response = await fetch(url);
@@ -358,7 +358,7 @@ function setThenRefresh(time){
  * Make this grab form data in the future
  */
 async function createTestChart(chartID){
-    makeDonutChart(await getViaLoc(), document.getElementById(chartID));
+    makeDonutChart(await getViaLocTime(), document.getElementById(chartID));
 }
 
 /**
@@ -387,10 +387,27 @@ async function createSimpleDonut(time, chartID){
  * @param {string} formID  id of form to grab data from
  * @param {string} chartID id of chart to draw chart into
  */
-async function createChartViaForm(formID, chartID){
+async function createTypeChartViaForm(formID, chartID){
   let form = document.getElementById(formID);
-  makeDonutChart(await getViaLoc(form.elements['minLat'].value, form.elements['minLong'].value,
-    form.elements['maxLat'].value, form.elements['maxLong'].value), document.getElementById(chartID));
+  let start = document.getElementById(formID).elements['startTime'].valueAsNumber;
+  let end = document.getElementById(formID).elements['endTime'].valueAsNumber
+  if(isNaN(start)){
+    console.log('start is bad')
+  }
+  else if(isNaN(end)){
+    console.log('end is bad')
+  }
+  else if(start >= end){
+    console.log('start cant be >= end')
+  }
+  else{
+    start = moment(start);
+    end = moment(end);
+    console.log(start, end);
+    makeDonutChart(await getViaLocTime(form.elements['minLat'].value, form.elements['minLong'].value,
+    form.elements['maxLat'].value, form.elements['maxLong'].value, start, end), document.getElementById(chartID));
+  }
+  
 }
 
 /**
@@ -444,5 +461,23 @@ function setClickHandler(chartID, infoID){
         }
       }
     }
+  }
+}
+
+// some utilities for hiding and showing elements
+function hideElem(elemID){
+  document.getElementById(elemID).style.display = 'none';
+}
+
+function displayElem(elemID){
+  document.getElementById(elemID).style.display = 'block';
+}
+
+function toggleElemDisplay(elemID){
+  var node = document.getElementById(elemID);
+  if(node.style.display == 'none'){
+      node.style.display = 'block'
+  } else{
+      node.style.display = 'none';
   }
 }
