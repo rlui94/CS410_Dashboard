@@ -86,38 +86,62 @@
         </div>
       </div>
       <!--Input Form-->
-      <div class="row bg-dark rounded text-center text-white m-2 justify-content-around" >
-        <div class="col-12 col-md-9">
-          <h4 class="mt-2 mb-4">Input Location</h4>
-          <form id="location-form">
-            <div class="form-group">
-              <div class="row">
-                <div class="col">
-                  <label for="minLat">Minimum Latitude (-90 to 90)</label>
-                  <input type="text" class="form-control" id="minLat" name="minLat" placeholder="-90" value="-90">
-                </div>
-                <div class="col">
-                  <label for="maxLat">Maximum Latitude (-90 to 90)</label>
-                  <input type="text" class="form-control" id="maxLat" name="maxLat" placeholder="90" value="90">
-                </div>
-              </div>
+      <div class="row bg-dark rounded text-center text-white m-2 justify-content-around" id="input-form" >
+        <div class="col-12">
+          <h4>Earthquake Search</h4>
+          <!--Toggles-->
+          <div class="row justify-content-center">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-secondary active" onclick="formToggle('type')">
+                <input type="radio" checked><b>Location</b>
+              </label>
+              <label class="btn btn-secondary" onclick="formToggle('list')">
+                <input type="radio" ><b>Time</b>
+              </label>
             </div>
-            <div class="form-group">
-              <div class="row">
-                <div class="col">
-                  <label for="minLong">Minimum Longitude (-180 to 180)</label>
-                  <input type="text" class="form-control" id="minLong" name="minLong" placeholder="-180" value="-180">
+          </div>
+          <div class="row justify-content-center">
+            <!--Type Form-->
+            <div class="col-12 col-md-9" id="type-form-container">
+              <h5 class="mt-2 mb-4">Input Location</h5>
+              <p>Show types of seismic activities.</p>
+              <form id="type-form">
+                <div class="form-group row justify-content-around">
+                  <div class="col">
+                    <label for="startTime">Start Time</label>
+                    <input type="datetime-local" id="startTime" name="startTime">
+                  </div>
+                  <div class="col">
+                    <label for="endTime">End Time</label>
+                    <input type="datetime-local" id="endTime" name="endTime" >
+                  </div>
                 </div>
-                <div class="col">
-                  <label for="maxLong">Maximum Longitude (-180 to 180)</label>
-                  <input type="text" class="form-control" id="maxLong" name="maxLong" placeholder="180" value="180">
+                <div class="form-group row">
+                  <div class="col">
+                    <label for="minLat">Minimum Latitude (-90 to 90)</label>
+                    <input type="text" class="form-control" id="minLat" name="minLat" placeholder="-90" value="-90">
+                  </div>
+                  <div class="col">
+                    <label for="maxLat">Maximum Latitude (-90 to 90)</label>
+                    <input type="text" class="form-control" id="maxLat" name="maxLat" placeholder="90" value="90">
+                  </div>
                 </div>
-              </div>
+                <div class="form-group row">
+                  <div class="col">
+                    <label for="minLong">Minimum Longitude (-180 to 180)</label>
+                    <input type="text" class="form-control" id="minLong" name="minLong" placeholder="-180" value="-180">
+                  </div>
+                  <div class="col">
+                    <label for="maxLong">Maximum Longitude (-180 to 180)</label>
+                    <input type="text" class="form-control" id="maxLong" name="maxLong" placeholder="180" value="180">
+                  </div>
+                </div>
+                <!--Change button TYPE to align with backend-->
+                <button type="button" class="btn btn-secondary" onclick="createTypeChartViaForm('type-form', 'type-chart')">Create chart</button>
+              </form>
+              <canvas class="my-2" id="type-chart" aria-label="type chart" role="img"></canvas>
             </div>
-            <!--Change button TYPE to align with backend-->
-            <button type="button" class="btn btn-primary" onclick="createChartViaForm('location-form', 'locChart')">Create chart via Location</button>
-          </form>
-          <canvas id="locChart" aria-label="location chart" role="img"></canvas>
+          </div>
         </div>
       </div>
     </div>
