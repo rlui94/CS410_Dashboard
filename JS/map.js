@@ -42,9 +42,10 @@ var map = new L.Map("map", {
     minZoom: 1,
     worldCopyJump: true,
     maxBounds: [[90,-225],[-90, 225]],
-    maxBoundsViscosity: 1.0
+    maxBoundsViscosity: 1.0,
+    bounceAtZoomLimits: false,
 })
-map.fitWorld().zoomIn();
+map.fitBounds([[70,-160],[-70, 160]]).invalidateSize();
 let ctr = map.getCenter();
 
 //Add map tile to container using Stamen Tile
@@ -83,6 +84,9 @@ function markerAdjust(sublayer, zoom, stzoom){
     }
 }
 
+map.on("resize", function() {
+    map.fitBounds([[70,-160],[-70, 160]]).invalidateSize();
+})
 //Capture where zoom in/out starts
 var stzoom = 0;
 map.on("zoomstart", function() {
@@ -215,5 +219,19 @@ if(document.getElementById("quickStats")){
                 setTimeout(function(){map.flyTo(curCtr, curZoom)}, 4000);
             }
         })
+    })
+}
+
+function zoomToUser() {
+    var crosshair = document.getElementById("locate");
+    if(crosshair.classList.contains("active")){
+        crosshair.classList.remove("active");
+        map.fitBounds([[70,-160],[-70, 160]]).invalidateSize();
+        return;
+    }
+    crosshair.classList.add("active");
+    map.locate({
+        setView: true,
+        maxZoom: 5
     })
 }
