@@ -80,8 +80,10 @@ apiInfo(url_day)
 
 function displayMonth(request = "magnitude") {
     let markerFunction = addMagMarkers;
-    if(request == "depth" || document.getElementById("depthTab").classList.contains("set")){
-        markerFunction = addDepthMarkers;
+    if(document.getElementById("depthTab")){
+        if(request == "depth" || document.getElementById("depthTab").classList.contains("set")){
+         markerFunction = addDepthMarkers;
+        }
     }
     current.clearLayers();
     apiInfo(url_month)
@@ -95,8 +97,10 @@ function displayMonth(request = "magnitude") {
 
 function displayWeek(request = "magnitude") {
     let markerFunction = addMagMarkers;
-    if(request == "depth" || document.getElementById("depthTab").classList.contains("set")){
-        markerFunction = addDepthMarkers;
+    if(document.getElementById("depthTab")){
+        if(request == "depth" || document.getElementById("depthTab").classList.contains("set")){
+            markerFunction = addDepthMarkers;
+        }
     }
     current.clearLayers();
     apiInfo(url_week)
@@ -110,8 +114,10 @@ function displayWeek(request = "magnitude") {
 
 function displayDay(request = "magnitude") {
     let markerFunction = addMagMarkers;
-    if(request == "depth" || document.getElementById("depthTab").classList.contains("set")){
-        markerFunction = addDepthMarkers;
+    if(document.getElementById("depthTab")){
+        if(request == "depth" || document.getElementById("depthTab").classList.contains("set")){
+            markerFunction = addDepthMarkers;
+        }
     }
     current.clearLayers();
     apiInfo(url_day)
@@ -171,22 +177,46 @@ if(document.getElementById("quickStats")){
             map.flyTo(maxLoc, 5);
             setTimeout(function(){map.flyTo(curCtr, curZoom)}, 4000);
         })
+        .catch(reason => console.log(reason.message));
     })
 
     var showSig = document.getElementById("significant");
     showSig.addEventListener("click", function(event) {
-        apiInfo(url_day_sig)
+        let sigUrl = url_day_sig;
+        if(document.getElementById("showMonth").classList.contains("d-none")){
+            sigUrl = url_month_sig;
+        }
+        else if(document.getElementById("showWeek").classList.contains("d-none")){
+            sigUrl = url_week_sig;
+        }
+        apiInfo(sigUrl)
         .then(data => {
-            let counter = 4000;
+            console.log(data.features);
+            let i = 1;
             map.flyTo(data.features[0].geometry.coordinates.slice(0,2).reverse(), 6);
-            for(let i=1; i< data.features.length; ++i){
-                setTimeout(function(){map.flyTo(data.features[i].geometry.coordinates.slice(0,2).reverse(), 6)}, 4000);
-                counter += 4000;
-            }
-            setTimeout(function(){map.fitBounds([[70,-160],[-70, 160]]).invalidateSize()}, counter + 3000);
+            var popup = L.popup()
+                .setLatLng(data.features[0].geometry.coordinates.slice(0,2).reverse())
+                .setContent("<p><b>"+parseTime(data.features[0].properties.time)+"<br/>Magnitude: "+data.features[0].properties.mag+"<br/>"+data.features[0].properties.place+"</b></p>")
+                .openOn(map);
+            let flyInterval = setInterval(function(){
+                if(i >= data.features.length){
+                    map.flyToBounds([[70,-160],[-70, 160]]).invalidateSize();
+                    map.closePopup();
+                    clearInterval(flyInterval);
+                    return;
+                }
+                map.flyTo(data.features[i].geometry.coordinates.slice(0,2).reverse(), 6);
+                popup = L.popup()
+                    .setLatLng(data.features[i].geometry.coordinates.slice(0,2).reverse())
+                    .setContent("<p><b>"+parseTime(data.features[i].properties.time)+"<br/>Magnitude: "+data.features[i].properties.mag+"<br/>"+data.features[i].properties.place+"</b></p>")
+                    .openOn(map);
+                i++;
+            }, 4500);
         })
+        .catch(reason => console.log(reason.message));
     })
 }
+
 
 //Throws error message on locationError
 function onLocationError(e){
@@ -198,12 +228,14 @@ function onLocationFound(e){
     console.log(e.latlng);
     map.flyTo(e.latlng, 5);
     document.getElementById("locate").classList.add("active");
+    document.getElementById("locateText").textContent= "Zoom to Earth View";
 }
 
 //Gets user location and changes button to active
 function zoomToUser() {
     var crosshair = document.getElementById("locate");
     if(crosshair.classList.contains("active")){
+        document.getElementById("locateText").textContent= "Zoom to Your Location";
         crosshair.classList.remove("active");
         map.flyToBounds([[70,-160],[-70, 160]]).invalidateSize();
         return;

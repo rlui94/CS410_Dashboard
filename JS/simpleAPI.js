@@ -1,6 +1,8 @@
 //URLs for monthly, weekly, and daily earthquake geoJSON info
 const url_month = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
+const url_month_sig = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
 const url_week = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+const url_week_sig = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.geojson";
 const url_day = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
 const url_day_sig = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_day.geojson";
 const url_hour = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
