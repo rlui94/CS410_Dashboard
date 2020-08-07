@@ -404,9 +404,9 @@ async function createTypeChartViaForm(formID, chartID){
   }
   else{
     err.innerHTML = ``;
+    document.getElementById(chartID).style="display:inline";
     start = moment(start);
     end = moment(end);
-    console.log(start, end);
     makeDonutChart(await getViaLocTime(form.elements['minLat'].value, form.elements['minLong'].value,
     form.elements['maxLat'].value, form.elements['maxLong'].value, start, end), document.getElementById(chartID));
   }
