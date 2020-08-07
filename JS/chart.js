@@ -9,10 +9,12 @@ var barUrl = url_week;
 function formToggle(str){
     switch(str){
         case 'type': 
-            displayElem('type-form-container')
+            displayClass('type-form');
+            hideClass('list-form');
             break;
         case 'list':
-            hideElem('type-form-container');
+            hideClass('type-form');
+            displayClass('list-form');
             break;
         default:
     }
