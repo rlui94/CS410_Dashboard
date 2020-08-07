@@ -24,8 +24,7 @@ body{
 }
 
 #quickStats {
-    min-height: max-content;
-    max-height: 80vh;
+    max-height: 32em;
     
 }
 
@@ -39,8 +38,7 @@ body{
     border: solid #000000 4px;
     width: 100%;
     max-width: 750px;
-    min-height: 40em;
-    height: 75vh;
+    height: 40em;
 }
 
 .mapLegend #magScale {
@@ -60,8 +58,7 @@ body{
     margin-bottom: 1em;
     color: #000000;
     width: 100%;
-    min-height: 30em;
-    height: 72vh;
+    height: 30em;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -103,6 +100,13 @@ body{
     background-color: blue;
 }
 
+#locate:active, #locate.active {
+    background-color: blue;
+}
+#locate svg:hover, #locate svg:active{
+    filter: invert();
+}
+
 footer {
     margin-top: 2em;
 }
@@ -110,5 +114,11 @@ footer {
 @media only screen and (max-width: 992px){
     #type-chart {
         margin-top: 5px;
+    }
+}
+
+@media (max-width: 697px){
+    #map {
+        height: 30em;
     }
 }
