@@ -6,6 +6,18 @@ var interval = 60000;
 var barChart = null;
 var barUrl = url_week;
 
+function formToggle(str){
+    switch(str){
+        case 'type': 
+            displayElem('type-form-container')
+            break;
+        case 'list':
+            hideElem('type-form-container');
+            break;
+        default:
+    }
+}
+
 window.onload = createRefreshChart('refresh-chart');
 let refresh = window.setInterval(function(){updateRefreshChart()}, interval);
 window.onload = createQuakesChart('bar-chart');
