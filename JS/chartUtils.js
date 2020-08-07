@@ -391,8 +391,8 @@ async function createSimpleDonut(time, chartID){
 async function createTypeChartViaForm(formID, chartID){
   let form = document.getElementById(formID);
   let err = document.getElementById('error-output');
-  let start = document.getElementById(formID).elements['startTime'].valueAsNumber;
-  let end = document.getElementById(formID).elements['endTime'].valueAsNumber
+  let start = form.elements['startTime'].valueAsNumber;
+  let end = form.elements['endTime'].valueAsNumber;
   if(isNaN(start)){
     err.innerHTML = `Please enter a valid start time.`
   }
@@ -404,11 +404,11 @@ async function createTypeChartViaForm(formID, chartID){
   }
   else{
     err.innerHTML = ``;
-    document.getElementById(chartID).style="display:inline";
     start = moment(start);
     end = moment(end);
     makeDonutChart(await getViaLocTime(form.elements['minLat'].value, form.elements['minLong'].value,
     form.elements['maxLat'].value, form.elements['maxLong'].value, start, end), document.getElementById(chartID));
+    document.getElementById(chartID).style="display:inline";
   }
   
 }
