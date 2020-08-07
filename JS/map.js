@@ -225,7 +225,7 @@ function zoomToUser() {
     var crosshair = document.getElementById("locate");
     if(crosshair.classList.contains("active")){
         crosshair.classList.remove("active");
-        map.fitBounds([[70,-160],[-70, 160]]).invalidateSize();
+        map.flyToBounds([[70,-160],[-70, 160]]).invalidateSize();
         return;
     }
     crosshair.classList.add("active");
