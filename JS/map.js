@@ -41,7 +41,7 @@ var map = new L.Map("map", {
     zoomDelta: 0.5,
     minZoom: 1,
     worldCopyJump: true,
-    maxBounds: [[90,-225],[-90, 225]],
+    maxBounds: [[90,-225], [-90, 225]],
     maxBoundsViscosity: 1.0,
     bounceAtZoomLimits: false,
 })
@@ -74,10 +74,12 @@ var addDepthMarkers = function(feature, latlng){
 //Helper function to adjust markers on zoom
 function markerAdjust(sublayer, zoom, stzoom){
     if(zoom > stzoom){
-        return sublayer.options.radius + zoom;
+        console.log(stzoom, zoom);
+        return sublayer.options.radius + (zoom - stzoom);
     }
     else if(zoom < stzoom){
-        return sublayer.options.radius - stzoom;
+        console.log(stzoom, zoom);
+        return sublayer.options.radius - (stzoom - zoom);
     }
     return sublayer.options.radius;
 }
@@ -224,7 +226,10 @@ if(document.getElementById("quickStats")){
 function onLocationError(e){
     alert(e.message);
 }
-function onLocationFound(){
+
+function onLocationFound(e){
+    console.log(e.latlng);
+    map.flyTo(e.latlng, 5);
     document.getElementById("locate").classList.add("active");
 }
 
@@ -235,10 +240,7 @@ function zoomToUser() {
         map.flyToBounds([[70,-160],[-70, 160]]).invalidateSize();
         return;
     }
-    map.locate({
-        setView: true,
-        maxZoom: 5
-    })
+    map.locate();
     map.on("locationfound", onLocationFound);
     map.on("locationerror", onLocationError);
 }
