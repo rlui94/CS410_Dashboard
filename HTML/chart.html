@@ -86,7 +86,7 @@
         </div>
       </div>
       <!--Input Form-->
-      <div class="row bg-dark rounded text-center text-white m-2 justify-content-around" id="input-form" >
+      <div class="row bg-dark rounded text-center text-white m-2 py-2 justify-content-around" id="input-form" >
         <div class="col-12">
           <h4>Earthquake Search</h4>
           <!--Toggles-->
@@ -141,11 +141,12 @@
                 </div>
                 <!--Buttons - change button TYPE to align with backend-->
                 <button type="button" class="btn btn-secondary type-form" onclick="createTypeChartViaForm('type-form', 'type-chart')">Create type chart</button>
-                <button type="button" class="btn btn-secondary list-form" onclick="createTypeChartViaForm('type-form', 'type-chart')" 
+                <button type="button" class="btn btn-secondary list-form" onclick="createTypeChartViaForm('list-form', 'type-chart')" 
                   style="display:none">List seismic activities</button>
               </form>
               <!--Results-->
-              <canvas class="type-form my-2" id="type-chart" aria-label="type chart" role="img"></canvas>
+              <canvas class="type-form my-2" id="type-chart" aria-label="type chart" role="img" style="display:none"></canvas>
+              <div class="row" id="list-results"></div>
             </div>
           </div>
         </div>
