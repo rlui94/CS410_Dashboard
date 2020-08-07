@@ -1,39 +1,4 @@
-//Used to set marker color in map layer based on magnitude
-function chooseMagColor(value) {
-    switch (true){
-        case value < 3:
-            return "rgb(0, 255, 0)";
-        case value < 6:
-            return "rgb(255, 255, 0)";
-        case value < 8:
-            return "rgb(255, 0, 0)";
-        case value >= 8:
-            return "rgb(255, 0, 255)";
-        default:
-            console.log(value);
-            return "#000000";
-    }
-}
-function chooseDepthColor(value) {
-    switch(true) {
-        case value <= 70:
-            return "rgb(0, 200, 255)";
-        case value <= 300:
-            return "#0000ff";
-        case value > 300:
-            return "#800080";
-        default:
-            console.log(value);
-            return "#000000";
-    }
-}
 
-//Used to translate date/time from geoJSON file
-//to human readable format
-function parseTime(epochDate) {
-    var date = new Date(epochDate)
-    return date.toLocaleString()
-}
 
 //Create blank map container and set zoom
 var map = new L.Map("map", {
@@ -74,26 +39,26 @@ var addDepthMarkers = function(feature, latlng){
 //Helper function to adjust markers on zoom
 function markerAdjust(sublayer, zoom, stzoom){
     if(zoom > stzoom){
-        console.log(stzoom, zoom);
         return sublayer.options.radius + (zoom - stzoom);
     }
     else if(zoom < stzoom){
-        console.log(stzoom, zoom);
         return sublayer.options.radius - (stzoom - zoom);
     }
     return sublayer.options.radius;
 }
 
+//When map is resized, fit the whole globe in bounds
 map.on("resize", function() {
     map.fitBounds([[70,-160],[-70, 160]]).invalidateSize();
 })
+
 //Capture where zoom in/out starts
 var stzoom = 0;
 map.on("zoomstart", function() {
     stzoom = map.getZoom();
 });
 
-//Adjust size of markers based on zoom level
+//Adjust size of markers based on zoom level when zoom ends
 map.on("zoomend", function() {
     var zoom = map.getZoom();
     current.eachLayer(function(layer){
@@ -223,16 +188,19 @@ if(document.getElementById("quickStats")){
     })
 }
 
+//Throws error message on locationError
 function onLocationError(e){
     alert(e.message);
 }
 
+//Zooms to user location on locationFound
 function onLocationFound(e){
     console.log(e.latlng);
     map.flyTo(e.latlng, 5);
     document.getElementById("locate").classList.add("active");
 }
 
+//Gets user location and changes button to active
 function zoomToUser() {
     var crosshair = document.getElementById("locate");
     if(crosshair.classList.contains("active")){
@@ -243,4 +211,41 @@ function zoomToUser() {
     map.locate();
     map.on("locationfound", onLocationFound);
     map.on("locationerror", onLocationError);
+}
+
+//Used to set marker color in map layer based on magnitude
+function chooseMagColor(value) {
+    switch (true){
+        case value < 3:
+            return "rgb(0, 255, 0)";
+        case value < 6:
+            return "rgb(255, 255, 0)";
+        case value < 8:
+            return "rgb(255, 0, 0)";
+        case value >= 8:
+            return "rgb(255, 0, 255)";
+        default:
+            console.log(value);
+            return "#000000";
+    }
+}
+function chooseDepthColor(value) {
+    switch(true) {
+        case value <= 70:
+            return "rgb(0, 200, 255)";
+        case value <= 300:
+            return "#0000ff";
+        case value > 300:
+            return "#800080";
+        default:
+            console.log(value);
+            return "#000000";
+    }
+}
+
+//Used to translate date/time from geoJSON file
+//to human readable format
+function parseTime(epochDate) {
+    var date = new Date(epochDate)
+    return date.toLocaleString()
 }
