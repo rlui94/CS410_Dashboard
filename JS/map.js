@@ -57,7 +57,7 @@ map.addLayer(map_layer);
 var current = L.layerGroup().addTo(map);
 var addMagMarkers = function(feature, latlng){
     return L.circleMarker(latlng, {
-        radius: feature.properties.mag,
+        radius: feature.properties.mag + map.getZoom(),
         color: chooseMagColor(feature.properties.mag),
         opacity: 0.7,
     }).bindPopup("<p><b>"+parseTime(feature.properties.time)+"<br/>Magnitude: "+feature.properties.mag+"<br/>"+feature.properties.place+"</b></p>");
@@ -65,7 +65,7 @@ var addMagMarkers = function(feature, latlng){
 
 var addDepthMarkers = function(feature, latlng){
     return L.circleMarker(latlng, {
-        radius: feature.geometry.coordinates[2] / 100,
+        radius: (feature.geometry.coordinates[2] / 100) + map.getZoom(),
         color: chooseDepthColor(feature.geometry.coordinates[2]),
         opacity: 0.7,
     }).bindPopup("<p><b>"+parseTime(feature.properties.time)+"<br/>Magnitude: "+feature.properties.mag+"<br/>"+feature.properties.place+"</br>Depth: "+feature.geometry.coordinates[2]+"km</b></p>");
@@ -73,15 +73,13 @@ var addDepthMarkers = function(feature, latlng){
 
 //Helper function to adjust markers on zoom
 function markerAdjust(sublayer, zoom, stzoom){
-    if(stzoom < 2 || stzoom > 6 || zoom < 2 || zoom > 6){
-        return;
-    }
     if(zoom > stzoom){
-        return sublayer.options.radius * (zoom/3);
+        return sublayer.options.radius + zoom;
     }
-    else {
-        return sublayer.options.radius / (stzoom/3);
+    else if(zoom < stzoom){
+        return sublayer.options.radius - stzoom;
     }
+    return sublayer.options.radius;
 }
 
 map.on("resize", function() {
@@ -212,12 +210,13 @@ if(document.getElementById("quickStats")){
     showSig.addEventListener("click", function(event) {
         apiInfo(url_day_sig)
         .then(data => {
-            for(feature of data.features){
-                var curCtr = map.getCenter();
-                var curZoom = map.getZoom();
-                map.flyTo(feature.geometry.coordinates.slice(0,2).reverse(), 6);
-                setTimeout(function(){map.flyTo(curCtr, curZoom)}, 4000);
+            let counter = 4000;
+            map.flyTo(data.features[0].geometry.coordinates.slice(0,2).reverse(), 6);
+            for(let i=1; i< data.features.length; ++i){
+                setTimeout(function(){map.flyTo(data.features[i].geometry.coordinates.slice(0,2).reverse(), 6)}, 4000);
+                counter += 4000;
             }
+            setTimeout(function(){map.fitBounds([[70,-160],[-70, 160]]).invalidateSize()}, counter + 3000);
         })
     })
 }
