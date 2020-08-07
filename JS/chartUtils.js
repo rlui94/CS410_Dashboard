@@ -488,13 +488,13 @@ function toggleElemDisplay(elemID){
 function hideClass(className){
   obj = document.getElementsByClassName(className);
   for(i=0; i<obj.length; i++){
-    console.log(obj[i].style = 'display: none');
+    obj[i].style = 'display: none';
   }
 }
 
 function displayClass(className){
   obj = document.getElementsByClassName(className);
   for(i=0; i<obj.length; i++){
-    console.log(obj[i].style = 'display: inline');
+    obj[i].style = 'display: inline';
   }
 }

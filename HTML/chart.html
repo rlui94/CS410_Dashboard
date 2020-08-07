@@ -103,8 +103,11 @@
           <div class="row justify-content-center">
             <!--Type Form-->
             <div class="col-12 col-md-9" id="type-form-container">
-              <h5 class="mt-2 mb-4">Show types of seismic activities.</h5>
-              <div class="bg-danger rounded mb-2" id="error-output"></div>
+              <!--Descriptions-->
+              <h5 class="mt-2 mb-4 type-form">Chart types of seismic activities.</h5>
+              <h5 class="mt-2 mb-4 list-form" style="display: none">Show list of seismic activities.</h5>
+              <!--Validation-->
+              <div class="bg-danger rounded my-2" id="error-output"></div>
               <form id="type-form">
                 <div class="form-group row justify-content-around">
                   <div class="col">
@@ -136,10 +139,13 @@
                     <input type="text" class="form-control" id="maxLong" name="maxLong" placeholder="180" value="180">
                   </div>
                 </div>
-                <!--Change button TYPE to align with backend-->
-                <button type="button" class="btn btn-secondary" onclick="createTypeChartViaForm('type-form', 'type-chart')">Create chart</button>
+                <!--Buttons - change button TYPE to align with backend-->
+                <button type="button" class="btn btn-secondary type-form" onclick="createTypeChartViaForm('type-form', 'type-chart')">Create type chart</button>
+                <button type="button" class="btn btn-secondary list-form" onclick="createTypeChartViaForm('type-form', 'type-chart')" 
+                  style="display:none">List seismic activities</button>
               </form>
-              <canvas class="my-2" id="type-chart" aria-label="type chart" role="img"></canvas>
+              <!--Results-->
+              <canvas class="type-form my-2" id="type-chart" aria-label="type chart" role="img"></canvas>
             </div>
           </div>
         </div>
