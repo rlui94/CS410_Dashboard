@@ -446,3 +446,21 @@ function setClickHandler(chartID, infoID){
     }
   }
 }
+
+// some utilities for hiding and showing elements
+function hideElem(elemID){
+  document.getElementById(elemID).style.display = 'none';
+}
+
+function displayElem(elemID){
+  document.getElementById(elemID).style.display = 'block';
+}
+
+function toggleElemDisplay(elemID){
+  var node = document.getElementById(elemID);
+  if(node.style.display == 'none'){
+      node.style.display = 'block'
+  } else{
+      node.style.display = 'none';
+  }
+}
