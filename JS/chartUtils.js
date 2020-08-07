@@ -473,14 +473,28 @@ function hideElem(elemID){
 }
 
 function displayElem(elemID){
-  document.getElementById(elemID).style.display = 'block';
+  document.getElementById(elemID).style.display = 'inline';
 }
 
 function toggleElemDisplay(elemID){
   var node = document.getElementById(elemID);
   if(node.style.display == 'none'){
-      node.style.display = 'block'
+      node.style.display = 'inline'
   } else{
       node.style.display = 'none';
+  }
+}
+
+function hideClass(className){
+  obj = document.getElementsByClassName(className);
+  for(i=0; i<obj.length; i++){
+    console.log(obj[i].style = 'display: none');
+  }
+}
+
+function displayClass(className){
+  obj = document.getElementsByClassName(className);
+  for(i=0; i<obj.length; i++){
+    console.log(obj[i].style = 'display: inline');
   }
 }
