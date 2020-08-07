@@ -44,7 +44,7 @@
     </script>
 
     <!--USGS API-->
-    <script src="../simpleAPI.js"></script>
+    <script src="../JS/simpleAPI.js"></script>
 
     <link rel="stylesheet" href="../styles.css" />
   </head>
@@ -79,7 +79,29 @@
         </div>
       </nav>
     </header>
-    <div class="container-fluid content"></div>
+    <div class="container-fluid content">
+      <h1 class="text-primary text-center">About this Project</h1>
+      <div class="bg-dark rounded text-white m-2 justify-content-around p-2">
+        <p>
+        This dashboard presents an overview of seismic activity and provides graphs and related information for further insights.
+        This should be a one stop for the average user who will not need to go any further than the dashboard but will provide 
+        increased detail for users interested in exploring the data or seeking specific information.
+        </p> 
+        <p>
+        Currently we are using the information provided by the <a href="https://earthquake.usgs.gov/fdsnws/event/1/">USGS GeoJSON API</a> for our dashboard.
+        </p>
+        <p>Documentation and tutorials from: <br>
+          <ul>
+            <li>Leaflet: <a href="https://leafletjs.com/reference-1.6.0.html">https://leafletjs.com/reference-1.6.0.html</a> </li>
+            <li>Stamen: <a href="http://maps.stamen.com/#watercolor/12/37.7706/-122.3782">http://maps.stamen.com/#watercolor/12/37.7706/-122.3782</a></li>
+            <li>Bootstrap: <a href="https://getbootstrap.com/docs/4.5/getting-started/introduction/">https://getbootstrap.com/docs/4.5/getting-started/introduction</a></li>
+            <li>Chart.js: <a href="https://www.chartjs.org/docs/latest/">https://www.chartjs.org/docs/latest/</a></li>
+            <li>Moment.js: <a href="https://momentjs.com/docs/">https://momentjs.com/docs/</a></li>
+          </ul>
+        </p>
+
+      </div>
+    </div>
     <footer>
       <!--Collapsible Navigation Bar-->
       <nav class="navbar navbar-expand bg-dark navbar-dark">
