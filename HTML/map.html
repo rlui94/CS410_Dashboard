@@ -130,12 +130,12 @@
               </li>
             </ul>
             <!--Zoom to User location crosshair button-->
-            <button class="btn btn-outline-light px-0 py-0" title="Zoom to Your Location" id="locate" onclick="zoomToUser()">
+            <button class="btn btn-outline-light px-1 my-2" title="Zoom to Your Location" id="locate" onclick="zoomToUser()">
+              <div class="text-white d-inline mx-1" id="locateText">Zoom to Your Location</div>
               <svg id="normal" width="40" height="30">
                 <circle fill="none" stroke="white" stroke-width="3" cx="20" cy="15" r="10"/>
-                <path stroke="white" stroke-width="2" d="M20 0 L20 40"/>
-                <path stroke="white" stroke-width="2" d="M5 15 L35 15"/>
-                <circle fill="white" stroke="white" cx="20" cy="15" r="3"/>
+                <path stroke="white" stroke-width="2" d="M20 0 L20 12 M20 18 L20 30"/>
+                <path stroke="white" stroke-width="2" d="M5 15 L17 15 M23 15 L35 15"/>
               </svg>
             </button>
           </div>
@@ -146,26 +146,26 @@
           </div>
           <div class="row justify-content-around mapLegend" id="magLegend">
             <div class="col-3">
-              <h4 class="text-primary">Magnitude:</h4>
+              <h3 class="text-primary">Magnitude:</h3>
             </div> 
             <div class="col-8">
               <div class="d-flex flex-row justify-content-around rounded" id="magScale">
-                <h5>< 1</h5>
-                <h5>3</h5>
-                <h5>5</h5>
-                <h5>8+</h5>
+                <p class="my-0">< 1</p>
+                <p class="my-0">3</p>
+                <p class="my-0">5</p>
+                <p class="my-0">8+</p>
               </div>
             </div>
           </div>
           <div class="row justify-content-around mapLegend d-none" id="depthLegend">
             <div class="col-3">
-              <h4 class="text-primary">Depth:</h4>
+              <h3 class="text-primary">Depth:</h3>
             </div>
             <div class="col-8">
               <div class="d-flex flex-row justify-content-around rounded" id="depthScale">
-                <h5 class="text-white">< 70</h5>
-                <h5 class="text-white">70-300</h5>
-                <h5 class="text-white">300+</h5>
+                <p class="text-white my-0">< 70</p>
+                <p class="text-white my-0">70-300</p>
+                <p class="text-white my-0">300+</p>
               </div>
             </div>
           </div>

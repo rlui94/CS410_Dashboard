@@ -25,7 +25,14 @@ body{
 
 #quickStats {
     max-height: 32em;
-    
+}
+
+#quickStats h2 {
+    font-size: 125%;
+}
+
+#quickStats p {
+    font-size: 250%;
 }
 
 #quickStats .card:not(#total):hover{
@@ -41,16 +48,23 @@ body{
     height: 40em;
 }
 
-.mapLegend #magScale {
-    height: max-content;
+#magScale {
+    padding-top: 1px;
+    padding-bottom: 4px;
+    font-size: 150%;
+    font-weight: bolder;
+    color:#000000;
     background-image: linear-gradient(to right, green, green, yellow, yellow,red, purple);
 }
 
-.mapLegend #depthScale {
+#depthScale {
+    padding-top: 1px;
+    padding-bottom: 4px;
+    font-size: 150%;
     background-image: linear-gradient(to right, rgb(0, 200, 255), #0000ff, #800080);
 }
-.mapLegend h5 {
-    color: #000000;
+.mapLegend .text-primary {
+    font-size: 150%;
     font-weight: bolder;
 }
 
@@ -100,7 +114,7 @@ body{
     background-color: blue;
 }
 
-#locate:active, #locate.active {
+#locate:active, #locate.active, #locate:hover {
     background-color: blue;
 }
 #locate svg:hover, #locate svg:active{
@@ -109,6 +123,23 @@ body{
 
 footer {
     margin-top: 2em;
+}
+.dropdown h1{
+    font-size: 175%;
+}
+.dropdown .btn:active, .dropdown .btn:hover, .dropdown .btn:focus{
+    background-color: #000000;
+    border-width: 3px;
+}
+
+.dropdown-menu {
+    background-color: #000000;
+    border: solid #ffffff 2px;
+    border-top: 0;
+    z-index: 10000;
+}
+.dropdown-item {
+    font-weight: bold;
 }
 
 @media only screen and (max-width: 992px){

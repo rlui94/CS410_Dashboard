@@ -10,8 +10,8 @@ if(document.getElementById("activityPanel")){
 
                 toadd.classList.add("card");
                 details.classList.add("card-body");
-                details.innerHTML = "<b><u>Magnitude: " + feature.properties.mag.toFixed(2) +
-                                    "</u></b><br>" + feature.properties.place + "<br>" + parseTime(feature.properties.time);
+                details.innerHTML = "<b>Magnitude: " + feature.properties.mag.toFixed(2) +
+                                    "</b><br>" + feature.properties.place + "<br>" + parseTime(feature.properties.time);
                 //Intentional fall through of cases
                 switch (feature.properties.alert){
                     case "yellow":
