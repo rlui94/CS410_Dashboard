@@ -14,5 +14,7 @@ Currently we are using the information provided by the [USGS GeoJSON API](https:
     <li>Leaflet: https://leafletjs.com/reference-1.6.0.html
     <li>Stamen: http://maps.stamen.com/#watercolor/12/37.7706/-122.3782
     <li>Bootstrap: https://getbootstrap.com/docs/4.5/getting-started/introduction/
+    <li>Chart.js: https://www.chartjs.org/docs/latest/
+    <li>Moment.js: https://momentjs.com/docs/
   </ul>
 </p>
