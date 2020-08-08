@@ -218,6 +218,7 @@ async function updateRefreshChart(){
   }
   apiInfo(refreshUrl)
   .then(usgsObj => {
+    apiData = usgsObj;
     let results = []
     // place results into array of objects {x, y}
     for (let i=0; i<usgsObj.features.length; ++i){
