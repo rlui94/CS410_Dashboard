@@ -1,7 +1,7 @@
 //All seismic activity for the past hour
 //Magnitude, location, time,
 if(document.getElementById("activityPanel")){
-    apiInfo(url_hour)
+    apiInfo(url_day)
         .then(data => {
             for(feature of data.features){
                 var parent = document.getElementById("activityPanel");
@@ -45,11 +45,11 @@ if(document.getElementById("activityPanel")){
 //Pop-up Tsunami warning at under nav bar
 apiInfo(url_day)
     .then(data => {
-        var previous = document.querySelector("header");
+        var previous = document.querySelector(".dropdown");
         for(feature of data.features){
             var newAlert = document.createElement("div");
             var dismiss = document.createElement("button");
-            newAlert.classList.add("alert", "alert-danger", "alert-dismissible", "fade", "show");
+            newAlert.classList.add("col-12","col-sm-7","col-md-8","col-lg-9","col-xl-10","alert", "alert-danger", "alert-dismissible", "fade", "show");
             newAlert.setAttribute("role", "alert");
             if(feature.properties.tsunami == 1) {
                 newAlert.innerHTML = "<strong>TSUNAMI WARNING</strong><p>"+feature.properties.title +"<br/>"+ parseTime(feature.properties.time)+"</p><a href='"+feature.properties.url+"'>More Info</a>";
