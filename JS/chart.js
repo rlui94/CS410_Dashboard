@@ -5,6 +5,9 @@ var interval = 60000;
 // for modifying bar chart
 var barChart = null;
 var barUrl = url_week;
+// for plot chart
+var plotChart = null;
+var apiData = null;
 
 function formToggle(str){
     switch(str){
@@ -38,13 +41,13 @@ async function createPlot(formID, chartID, infoID){
         err.innerHTML = ``;
         start = moment(start);
         end = moment(end);
-
         getViaLocTime(form.elements['minLat'].value, form.elements['minLong'].value,
         form.elements['maxLat'].value, form.elements['maxLong'].value, start, end)
         .then(data => {
-            makeScatterChart(data, chartID, false, start, end);
-            setClickHandler(chartID, infoID);
-            document.getElementById(infoID).style="display:inline";
+            apiData = data;
+            plotChart = makeScatterChart(data, chartID, start, end);
+            setClickHandler(chartID, infoID, plotChart);
+            document.getElementById(infoID).style="display:block";
         })
         .catch(reason => console.log(reason.message));
     }

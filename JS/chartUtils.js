@@ -126,7 +126,7 @@ function makeDonutChart(usgsObj, chartNode){
  * @param {json string} usgsObj   a json'd object from USGS API
  * @param {html element obj} chartNode html canvas node eg "<canvas id="scatterChart" role="img"></canvas>"
  */
-function makeScatterChart(usgsObj, chartNode, refresh = false, minTime = moment().subtract(1, 'hour'), maxTime = moment()){
+function makeScatterChart(usgsObj, chartNode, minTime = moment().subtract(1, 'hour'), maxTime = moment()){
   let results = []
   // place results into array of objects {x, y}
   for (let i=0; i<usgsObj.features.length; ++i){
@@ -136,9 +136,8 @@ function makeScatterChart(usgsObj, chartNode, refresh = false, minTime = moment(
     })
   }
   // make the chart and insert into node
-  console.log(chartNode)
   Chart.defaults.global.defaultFontColor='#fff';
-  var newChart = new Chart(chartNode,{
+  chartVar = new Chart(chartNode,{
       type: 'scatter',
       data: {
         datasets: [{
@@ -195,9 +194,7 @@ function makeScatterChart(usgsObj, chartNode, refresh = false, minTime = moment(
           }
         },
     });
-    if(refresh){
-      refreshChart = newChart;
-    }
+    return chartVar;
 }
 
 /**
@@ -425,9 +422,9 @@ async function createRefreshChart(chartID, infoID = null){
   apiInfo(refreshUrl)
   .then(data => {
     apiData = data;
-    makeScatterChart(data, chartID, true);
+    refreshChart = makeScatterChart(data, chartID);
     if(infoID){
-      setClickHandler(chartID, infoID);
+      setClickHandler(chartID, infoID, refreshChart);
     }
   })
   .catch(reason => console.log(reason.message));
@@ -449,11 +446,12 @@ async function createQuakesChart(chartNode){
  * Create an event handler for getting information when clicking points on scatter plot
  * @param {string} chartID chart ID 
  */
-function setClickHandler(chartID, infoID){
+function setClickHandler(chartID, infoID, chartVar){
   document.getElementById(chartID).onclick = function(e){
-    var points = refreshChart.getElementAtEvent(e)[0];
+    var points = chartVar.getElementAtEvent(e)[0];
     if(points){
-      let time = refreshChart.data.datasets[points._datasetIndex].data[points._index].x;
+      let time = chartVar.data.datasets[points._datasetIndex].data[points._index].x;
+      console.log(time)
       for(let i=0; i<apiData.features.length; i++){
         if(apiData.features[i].properties.time == time){
           console.log(apiData.features[i].properties);
