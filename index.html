@@ -9,6 +9,13 @@
     <!--Popper.js-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 
+    <!--jquery-->
+    <script 
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous">
+    </script>
+
     <!--Bootstrap-->
     <link 
         rel="stylesheet"
@@ -16,11 +23,6 @@
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous" 
     />
-    <script 
-      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-      crossorigin="anonymous">
-    </script>
     <script 
       src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
       integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
@@ -63,6 +65,7 @@
     <script src="JS/dropdownUtil.js"></script>
 
     <link rel="stylesheet" href="styles.css" />
+
   </head>
 
   <body>
@@ -119,7 +122,6 @@
             <div class="col-6 col-md-3 col-lg-12 card">
               <canvas id="type-chart" aria-label="type donut chart" role="img"></canvas>
             </div>
-            <script src="./JS/stats.js"></script>
         </div>
         <!--Map Panel-->
         <div class="col-12 col-md-9 col-lg-7 col-xl-7 mb-5" id="mapContainer">
@@ -136,7 +138,6 @@
           </div>
           <!--Interactive Map-->
           <div class="my-0" id="map">
-            <script src="./JS/map.js"></script>
           </div>
           <div class="row justify-content-around mapLegend">
             <div class="col-3 col-sm-2 col-md-3 col-lg-2 text-primary">
@@ -155,7 +156,6 @@
         <div class="col-12 col-md-3 col-lg-3 col-xl-3">
           <h3 class="text-primary border border-primary rounded py-2 my-0 text-center">Past Hour</h5>
           <div id="activityPanel">
-            <script src="./JS/alerts.js"></script>
           </div>
         </div>
       </div>
@@ -226,5 +226,9 @@
       </nav>
       <p class="text-center text-white">Authors: John Lewis, Ryan Lui</p>
     </footer>
+
+    <script type="text/javascript" src="./JS/stats.js"></script>
+    <script type="text/javascript" src="./JS/map.js"></script>
+    <script type="text/javascript" src="./JS/alerts.js"></script>
   </body>
 </html>
