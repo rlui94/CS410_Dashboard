@@ -126,7 +126,7 @@ function makeDonutChart(usgsObj, chartNode){
  * @param {json string} usgsObj   a json'd object from USGS API
  * @param {html element obj} chartNode html canvas node eg "<canvas id="scatterChart" role="img"></canvas>"
  */
-function makeScatterChart(usgsObj, chartNode){
+function makeScatterChart(usgsObj, chartNode, refresh = false, minTime = moment().subtract(1, 'hour'), maxTime = moment()){
   let results = []
   // place results into array of objects {x, y}
   for (let i=0; i<usgsObj.features.length; ++i){
@@ -136,8 +136,9 @@ function makeScatterChart(usgsObj, chartNode){
     })
   }
   // make the chart and insert into node
+  console.log(chartNode)
   Chart.defaults.global.defaultFontColor='#fff';
-  refreshChart = new Chart(chartNode,{
+  var newChart = new Chart(chartNode,{
       type: 'scatter',
       data: {
         datasets: [{
@@ -170,8 +171,8 @@ function makeScatterChart(usgsObj, chartNode){
                   hour: 'M/D hA',
                   week: 'MM D',
                 },
-                min: moment().subtract(1, 'hour'),
-                max: moment(),
+                min: minTime,
+                max: maxTime,
               },
               bounds: 'data',
             }],
@@ -193,7 +194,10 @@ function makeScatterChart(usgsObj, chartNode){
             display: false,
           }
         },
-    })
+    });
+    if(refresh){
+      refreshChart = newChart;
+    }
 }
 
 /**
@@ -415,15 +419,15 @@ async function createTypeChartViaForm(formID, chartID){
 
 /**
  * Create initial refreshing chart object
- * @param {html element obj} chartNode html canvas node eg "<canvas id="scatterChart" role="img"></canvas>"
+ * @param {string} chartID ID of chart node
  */
-async function createRefreshChart(chartNode, infoID = null){
+async function createRefreshChart(chartID, infoID = null){
   apiInfo(refreshUrl)
   .then(data => {
     apiData = data;
-    makeScatterChart(data, chartNode);
+    makeScatterChart(data, chartID, true);
     if(infoID){
-      setClickHandler(chartNode, infoID);
+      setClickHandler(chartID, infoID);
     }
   })
   .catch(reason => console.log(reason.message));
