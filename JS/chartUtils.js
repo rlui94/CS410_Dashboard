@@ -476,15 +476,27 @@ function setClickHandler(chartID, infoID, chartVar){
   }
 }
 
-// some utilities for hiding and showing elements
+/**
+ * Hide an element given its ID
+ * @param {string} elemID ID of element to hide
+ */
 function hideElem(elemID){
   document.getElementById(elemID).style.display = 'none';
 }
 
+/**
+ * Display an element given its ID
+ * @param {string} elemID ID of element to display
+ */
 function displayElem(elemID){
   document.getElementById(elemID).style.display = 'inline';
 }
 
+/**
+ * Given an element ID, hide if it is being displayed,
+ * otherwise display it
+ * @param {string} elemID ID of element to toggle
+ */
 function toggleElemDisplay(elemID){
   var node = document.getElementById(elemID);
   if(node.style.display == 'none'){
@@ -494,6 +506,10 @@ function toggleElemDisplay(elemID){
   }
 }
 
+/**
+ * Hide a class of elements
+ * @param {string} className class of elements to hide
+ */
 function hideClass(className){
   obj = document.getElementsByClassName(className);
   for(i=0; i<obj.length; i++){
@@ -501,6 +517,10 @@ function hideClass(className){
   }
 }
 
+/**
+ * Display a class of elements
+ * @param {string} className class of elements to display
+ */
 function displayClass(className){
   obj = document.getElementsByClassName(className);
   for(i=0; i<obj.length; i++){
