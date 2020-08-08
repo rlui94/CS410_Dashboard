@@ -23,6 +23,12 @@ function formToggle(str){
     }
 }
 
+/**
+ * Create a scatter plot using information from a user input form
+ * @param {string} formID form element ID
+ * @param {string} chartID chart element ID
+ * @param {string} infoID info panel element ID
+ */
 async function createPlot(formID, chartID, infoID){
     let form = document.getElementById(formID);
     let err = document.getElementById('error-output');
