@@ -125,6 +125,8 @@ function makeDonutChart(usgsObj, chartNode){
  * create a scatter chart of time vs quake magnitude.
  * @param {json string} usgsObj   a json'd object from USGS API
  * @param {html element obj} chartNode html canvas node eg "<canvas id="scatterChart" role="img"></canvas>"
+ * @param {Date} minTime minimum time on graph x axis
+ * @param {Date} maxTime maximum time on graph x axis
  */
 function makeScatterChart(usgsObj, chartNode, minTime = moment().subtract(1, 'hour'), maxTime = moment()){
   let results = []
@@ -309,6 +311,7 @@ function makeBarChart(usgsObj, chartNode){
  * Updates the bar chart by calling API again and updating
  * the barChart object with new values based on current
  * barUrl value
+ * @param {string} time 'week' or 'month'
  */
 async function updateBarChart(time){
   switch(time){
@@ -343,7 +346,7 @@ async function updateBarChart(time){
 /**
  * Set the current refreshUrl based on time period chosen
  * update refresh chart based on new refreshUrl
- * @param {string} time - time period to switch to
+ * @param {string} time - time period to switch to (day, week, hour)
  */
 function setThenRefresh(time){
   switch(time){
@@ -418,6 +421,7 @@ async function createTypeChartViaForm(formID, chartID){
 /**
  * Create initial refreshing chart object
  * @param {string} chartID ID of chart node
+ * @param {string} infoID ID of info panel, null default
  */
 async function createRefreshChart(chartID, infoID = null){
   apiInfo(refreshUrl)
@@ -446,6 +450,8 @@ async function createQuakesChart(chartNode){
 /**
  * Create an event handler for getting information when clicking points on scatter plot
  * @param {string} chartID chart ID 
+ * @param {string} infoID info panel ID
+ * @param {chart object} chartVar chart object to set handler on
  */
 function setClickHandler(chartID, infoID, chartVar){
   document.getElementById(chartID).onclick = function(e){
