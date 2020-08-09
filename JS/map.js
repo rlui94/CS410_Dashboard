@@ -165,56 +165,87 @@ function displayMag() {
     }
 }
 
-if(document.getElementById("quickStats")){
-    var findLargest = document.getElementById("largest");
-    findLargest.addEventListener("click", function(event) {
-        apiInfo(url_day)
-        .then(data => {
-            var curCtr = map.getCenter();
-            var curZoom = map.getZoom();
-            var maxLoc = findMax(data.features).loc;
-            maxLoc.reverse();
-            map.flyTo(maxLoc, 5);
-            setTimeout(function(){map.flyTo(curCtr, curZoom)}, 4000);
-        })
-        .catch(reason => console.log(reason.message));
-    })
-
-    var showSig = document.getElementById("significant");
-    showSig.addEventListener("click", function(event) {
-        let sigUrl = url_day_sig;
-        if(document.getElementById("showMonth").classList.contains("d-none")){
-            sigUrl = url_month_sig;
-        }
-        else if(document.getElementById("showWeek").classList.contains("d-none")){
-            sigUrl = url_week_sig;
-        }
-        apiInfo(sigUrl)
-        .then(data => {
-            console.log(data.features);
-            let i = 1;
-            map.flyTo(data.features[0].geometry.coordinates.slice(0,2).reverse(), 6);
-            var popup = L.popup()
-                .setLatLng(data.features[0].geometry.coordinates.slice(0,2).reverse())
-                .setContent("<p><b>"+parseTime(data.features[0].properties.time)+"<br/>Magnitude: "+data.features[0].properties.mag+"<br/>"+data.features[0].properties.place+"</b></p>")
-                .openOn(map);
-            let flyInterval = setInterval(function(){
-                if(i >= data.features.length){
-                    map.flyToBounds([[70,-160],[-70, 160]]).invalidateSize();
-                    map.closePopup();
-                    clearInterval(flyInterval);
-                    return;
-                }
-                map.flyTo(data.features[i].geometry.coordinates.slice(0,2).reverse(), 6);
-                popup = L.popup()
-                    .setLatLng(data.features[i].geometry.coordinates.slice(0,2).reverse())
-                    .setContent("<p><b>"+parseTime(data.features[i].properties.time)+"<br/>Magnitude: "+data.features[i].properties.mag+"<br/>"+data.features[i].properties.place+"</b></p>")
+function zoomToMax() {
+    let maxUrl = url_day;
+    if(document.getElementById("showMonth").classList.contains("d-none")){
+        maxUrl = url_month;
+    }
+    else if(document.getElementById("showWeek").classList.contains("d-none")){
+        maxUrl = url_week;
+    }
+    else if(document.getElementById("showMe").classList.contains("d-none")){
+        map.locate();
+        map.on("locationerror", function(e){
+            onLocationError(e);
+        });
+        map.on("locationfound", function(e){
+            let queryUrl;
+            let weekAgo = new Date();
+            pastDate = weekAgo.getDate() - 7;
+            weekAgo.setDate(pastDate);
+            let dateString = weekAgo.getFullYear() + "-" + (weekAgo.getMonth()+1) + "-" + weekAgo.getDate();
+            queryUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime="+ dateString + "&latitude=" + e.latlng.lat +"&longitude=" + e.latlng.lng + "&maxradius=5";
+            apiInfo(queryUrl)
+            .then(data => {
+                var max = findMax(data.features);
+                L.popup()
+                    .setLatLng(max.geometry.coordinates.slice(0,2).reverse())
+                    .setContent("<p><b>" + parseTime(max.properties.time) + "<br/>Magnitude: "+ max.properties.mag + "<br/>" + max.properties.place + "</b></p>")
                     .openOn(map);
-                i++;
-            }, 4500);
-        })
-        .catch(reason => console.log(reason.message));
+                setTimeout(function(){map.closePopup();}, 4000);
+            })
+            .catch(reason => console.log(reason.message));
+        });
+        return;
+    }
+    apiInfo(maxUrl)
+    .then(data => {
+        var max = findMax(data.features);
+        L.popup()
+            .setLatLng(max.geometry.coordinates.slice(0,2).reverse())
+            .setContent("<p><b>" + parseTime(max.properties.time) + "<br/>Magnitude: "+ max.properties.mag + "<br/>" + max.properties.place + "</b></p>")
+            .openOn(map);
+        map.flyTo(max.geometry.coordinates.slice(0,2).reverse(), 5);
+        setTimeout(function(){
+            map.closePopup();
+            map.flyToBounds([[70,-160],[-70, 160]]).invalidateSize();
+        }, 4000);
     })
+    .catch(reason => console.log(reason.message));
+}
+
+function zoomToSig() {
+    let sigUrl = url_day_sig;
+    if(document.getElementById("showMonth").classList.contains("d-none")){
+        sigUrl = url_month_sig;
+    }
+    else if(document.getElementById("showWeek").classList.contains("d-none")){
+        sigUrl = url_week_sig;
+    }
+    apiInfo(sigUrl)
+    .then(data => {
+        let i = 1;
+        map.flyTo(data.features[0].geometry.coordinates.slice(0,2).reverse(), 6);
+        var popup = L.popup()
+            .setLatLng(data.features[0].geometry.coordinates.slice(0,2).reverse())
+            .setContent("<p><b>"+parseTime(data.features[0].properties.time)+"<br/>Magnitude: "+data.features[0].properties.mag+"<br/>"+data.features[0].properties.place+"</b></p>")
+            .openOn(map);
+        let flyInterval = setInterval(function(){
+            if(i >= data.features.length){
+                map.flyToBounds([[70,-160],[-70, 160]]).invalidateSize();
+                map.closePopup();
+                clearInterval(flyInterval);
+                return;
+            }
+            map.flyTo(data.features[i].geometry.coordinates.slice(0,2).reverse(), 6);
+            popup = L.popup()
+                .setLatLng(data.features[i].geometry.coordinates.slice(0,2).reverse())
+                .setContent("<p><b>"+parseTime(data.features[i].properties.time)+"<br/>Magnitude: "+data.features[i].properties.mag+"<br/>"+data.features[i].properties.place+"</b></p>")
+                .openOn(map);
+            i++;
+        }, 4500);
+    })
+    .catch(reason => console.log(reason.message));
 }
 
 
@@ -225,7 +256,6 @@ function onLocationError(e){
 
 //Zooms to user location on locationFound
 function onLocationFound(e){
-    console.log(e.latlng);
     map.flyTo(e.latlng, 5);
     document.getElementById("locate").classList.add("active");
     document.getElementById("locateText").textContent= "Zoom to Earth View";
@@ -241,8 +271,8 @@ function zoomToUser() {
         return;
     }
     map.locate();
-    map.on("locationfound", onLocationFound);
     map.on("locationerror", onLocationError);
+    map.on("locationfound", onLocationFound);
 }
 
 //Used to set marker color in map layer based on magnitude

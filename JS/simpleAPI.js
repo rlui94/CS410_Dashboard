@@ -19,11 +19,12 @@ async function apiInfo(url){
 
 //Find the maximum magnitude from API data
 function findMax(features){
-    var max = {mag: 0, loc: []};
+    var maxMag = 0;
+    var max;
     for(feature of features){
-        if(feature.properties.mag > max.mag) {
-            max.mag = feature.properties.mag;
-            max.loc = feature.geometry.coordinates.slice(0,2);
+        if(feature.properties.mag > maxMag) {
+            maxMag = feature.properties.mag;
+            max = feature;
         }
     }
     return max;
