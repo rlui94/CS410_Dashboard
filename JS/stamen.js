@@ -1,4 +1,5 @@
 //Stamen js file had to be hosted locally for secure site
+//from http://maps.stamen.com/
 (function(exports) {
 
     /*

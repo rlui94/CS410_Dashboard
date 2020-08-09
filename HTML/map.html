@@ -90,6 +90,9 @@
         <li class="nav-item">
           <a class="nav-link" data-toggle="tab" href="#depth" id="depthTab" onclick="displayDepth()" role="tab" aria-controls="depth" aria-selected="false">Depth</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#plates" id="plateTab" onclick="displayPlates()" role="tab" aria-controls="plates" aria-selected="false">Tectonics</a>
+        </li>
       </ul>
       <div class="row">
         <div class="col-12 col-lg-4 col-xl-5 order-1 order-lg-0">
@@ -97,9 +100,9 @@
             <div class="tab-pane fade show active" id="magnitude" role="tabpanel" aria-labelledby="magTab">
               <div class="container infoPanel">
                 <h1 class="text-primary text-center">About Magnitude</h1>
-                <p class="text-white">"Magnitude is expressed in whole numbers and decimal fractions. For example, a magnitude 5.3 is a moderate earthquake, and a 6.3 is a strong earthquake. Because of the logarithmic basis of the scale, each whole number increase in magnitude represents a tenfold increase in measured amplitude as measured on a seismogram.</p>
-                <p class="text-white">The Richter Scale (ML) is what most people have heard about, but in practice it is not commonly used anymore, except for small earthquakes recorded locally, for which ML and short-period surface wave magnitude (Mblg) are the only magnitudes that can be measured. For all other earthquakes, the moment magnitude (Mw) scale is a more accurate measure of the earthquake size. Magnitude (Mw) is based on physical properties of the earthquake derived from an analysis of all the waveforms recorded from the shaking.</p>
-                <p class="text-white">It takes into account the rigidity or strength of the rock along the fault, the area of the fault that slipped, and the distance the fault moved. Thus, stronger rock material, or a larger area, or more movement in an earthquake will all contribute to produce a larger magnitude."</p>
+                <p class="text-white">"<a href="https://earthquake.usgs.gov/learn/glossary/?term=magnitude">Magnitude</a> is expressed in whole numbers and decimal fractions. For example, a magnitude 5.3 is a moderate earthquake, and a 6.3 is a strong earthquake. Because of the logarithmic basis of the scale, each whole number increase in magnitude represents a tenfold increase in measured <a href="https://earthquake.usgs.gov/learn/glossary/?term=amplitude">amplitude</a> as measured on a <a href="https://earthquake.usgs.gov/learn/glossary/?term=seismogram">seismogram</a>.</p>
+                <p class="text-white">The <a href="https://earthquake.usgs.gov/learn/glossary/?term=Richter%20scale"i>Richter Scale</a> is what most people have heard about, but in practice it is not commonly used anymore, except for small earthquakes recorded locally, for which lateral and short-period surface wave magnitude are the only magnitudes that can be measured. For all other earthquakes, the <a href="https://earthquake.usgs.gov/learn/glossary/?term=moment%20magnitude">moment magnitude</a> (Mw) scale is a more accurate measure of the earthquake size. Magnitude (Mw) is based on physical properties of the earthquake derived from an analysis of all the waveforms recorded from the shaking.</p>
+                <p class="text-white">It takes into account the rigidity or strength of the rock along the <a href="https://earthquake.usgs.gov/learn/glossary/?term=fault">fault</a>, the area of the fault that slipped, and the distance the fault moved. Thus, stronger rock material, or a larger area, or more movement in an earthquake will all contribute to produce a larger magnitude."</p>
                 <a href="https://www.usgs.gov/natural-hazards/earthquake-hazards/science/earthquake-magnitude-energy-release-and-shaking-intensity?qt-science_center_objects=0#qt-science_center_objects">- USGS</a>
               </div>
             </div>
@@ -107,15 +110,25 @@
               <div class="container infoPanel">
                 <h1 class="text-primary text-center">About Depth</h1>
                 <p class="text-white">"Earthquakes can occur anywhere between the Earth's surface and about 700 kilometers below the surface. For scientific purposes, this earthquake depth range of 0 - 700 km is divided into three zones: shallow, intermediate, and deep.</p>
-                <p class="text-white">Shallow earthquakes are between 0 and 70 km deep; intermediate earthquakes, 70 - 300 km deep; and deep earthquakes, 300 - 700 km deep. In general, the term "deep-focus earthquakes" is applied to earthquakes deeper than 70 km. All earthquakes deeper than 70 km are localized within great slabs of lithosphere that are sinking into the Earth's mantle.</p>
+                <p class="text-white">Shallow earthquakes are between 0 and 70 km deep; intermediate earthquakes, 70 - 300 km deep; and deep earthquakes, 300 - 700 km deep. In general, the term "deep-<a href="https://earthquake.usgs.gov/learn/glossary/?term=focus">focus</a> earthquakes" is applied to earthquakes deeper than 70 km. All earthquakes deeper than 70 km are localized within great slabs of <a href="https://earthquake.usgs.gov/learn/glossary/?term=lithosphere">lithosphere</a> that are sinking into the Earth's <a href="https://earthquake.usgs.gov/learn/glossary/?term=mantle">mantle</a>.</p>
+                <p class="text-white">The most obvious indication on a <a href="https://earthquake.usgs.gov/learn/glossary/?term=seismogram">seismogram</a> that a large earthquake has a deep focus is the small <a href="https://earthquake.usgs.gov/learn/glossary/?term=amplitude">amplitude</a>, or height, of the recorded surface waves and the uncomplicated character of the <a href="https://earthquake.usgs.gov/learn/glossary/?term=P%20wave">P</a> and <a href="https://earthquake.usgs.gov/learn/glossary/?term=S%20wave">S</a> waves. Although the surface-wave pattern does generally indicate that an earthquake is either shallow or may have some depth, the most accurate method of determining the <a href="https://earthquake.usgs.gov/learn/glossary/?term=focal%20depth">focal depth</a> of an earthquake is to read a depth phase recorded on the seismogram. The depth phase is the characteristic phase pP-a P wave reflected from the surface of the Earth at a point relatively near the <a href="https://earthquake.usgs.gov/learn/glossary/?term=hypocenter">hypocenter</a>. At distant <a href="https://earthquake.usgs.gov/learn/glossary/?term=seismograph">seismograph</a> stations, the pP follows the P wave by a time interval that changes slowly with distance but rapidly with depth. This time interval, pP-P (pP minus P), is used to compute depth-of-focus tables. Using the time difference of pP-P as read from the seismogram and the distance between the <a href="https://earthquake.usgs.gov/learn/glossary/?term=epicenter">epicenter</a> and the seismograph station, the depth of the earthquake can be determined from published travel-time curves or depth tables.</p>
                 <p class="text-white">For quarry blasts that are recorded by the seismic network, the depth is fixed at 0 km since we can never determine a precise depth for these, but we know they are very close to the surface."</p>
                 <a href="https://www.usgs.gov/natural-hazards/earthquake-hazards/science/determining-depth-earthquake?qt-science_center_objects=0#qt-science_center_objects">- USGS</a>
               </div>
             </div>
+            <div class="tab-pane fade" id="plates" role="tabpanel" arialabelledby="plateTab">
+              <div class="container infoPanel">
+                <h1 class="text-primary text-center">Plate Tectonics</h1>
+                <p class="text-white">"Plate Tectonics is the theory supported by a wide range of evidence that considers the earth's <a href="https://earthquake.usgs.gov/learn/glossary/?term=crust">crust</a> and upper <a href="https://earthquake.usgs.gov/learn/glossary/?term=mantle">mantle</a> to be composed of several large, thin, relatively rigid plates that move relative to one another. Slip on faults that define the plate boundaries commonly results in earthquakes. Several styles of faults bound the plates, including <a href="https://earthquake.usgs.gov/learn/glossary/?term=thrust%20fault">thrust faults</a> along which plate material is subducted or consumed in the mantle, <a href="https://earthquake.usgs.gov/learn/glossary/?term=oceanic%20spreading%20ridge">oceanic spreading ridges</a> along which new crustal material is produced, and <a href="https://earthquake.usgs.gov/learn/glossary/?term=transform%20fault">transform faults</a> that accommodate horizontal slip (strike slip) between adjoining plates.</p>
+                <p class="text-white">See also <a href="http://pubs.usgs.gov/publications/text/dynamic.html">'This Dynamic Earth: The Story of Plate Tectonics'</a>."</p>
+                <a href="https://earthquake.usgs.gov/learn/glossary/?term=plate%20tectonics">- USGS</a>
+              </div>
+            </div>
           </div>
+          
         </div>
         <!--Map Container-->
-        <div class="col-12 col-lg-8 col-xl-7 text-center mt-3" id="mapContainer">
+        <div class="col-12 col-lg-8 col-xl-7 text-center my-3" id="mapContainer">
           <!--Toggle Buttons-->
           <div class="d-flex flex-row flex-wrap justify-content-around">
             <ul class="nav nav-pills justify" id="toggleBar">

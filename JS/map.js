@@ -1,5 +1,4 @@
 
-
 //Create blank map container and set zoom
 var map = new L.Map("map", {
     zoomSnap: 0.5,
@@ -17,8 +16,9 @@ let ctr = map.getCenter();
 var map_layer = new L.StamenTileLayer("toner");
 map.addLayer(map_layer);
 
-//Add magnitude markers to a map layer that can be added
-//or removed. Includes popup info on marker.
+//Returns magnitude markers and popup details to pointToLayer option
+//when creating geoJSON layer
+//current holds layer on map to be added and removed
 var current = L.layerGroup().addTo(map);
 var addMagMarkers = function(feature, latlng){
     return L.circleMarker(latlng, {
@@ -28,6 +28,8 @@ var addMagMarkers = function(feature, latlng){
     }).bindPopup("<p><b>"+parseTime(feature.properties.time)+"<br/>Magnitude: "+feature.properties.mag+"<br/>"+feature.properties.place+"</b></p>");
 }
 
+//Returns depth markers and popup details to pointToLayer option when
+//creating geoJSON layer
 var addDepthMarkers = function(feature, latlng){
     return L.circleMarker(latlng, {
         radius: (feature.geometry.coordinates[2] / 100) + map.getZoom(),
@@ -36,7 +38,13 @@ var addDepthMarkers = function(feature, latlng){
     }).bindPopup("<p><b>"+parseTime(feature.properties.time)+"<br/>Magnitude: "+feature.properties.mag+"<br/>"+feature.properties.place+"</br>Depth: "+feature.geometry.coordinates[2]+"km</b></p>");
 }
 
+//When map is resized, fit the whole globe in bounds
+map.on("resize", function() {
+    map.fitBounds([[70,-160],[-70, 160]]).invalidateSize();
+})
+
 //Helper function to adjust markers on zoom
+//used by map.on("zoomend", function())
 function markerAdjust(sublayer, zoom, stzoom){
     if(zoom > stzoom){
         return sublayer.options.radius + (zoom - stzoom);
@@ -47,12 +55,7 @@ function markerAdjust(sublayer, zoom, stzoom){
     return sublayer.options.radius;
 }
 
-//When map is resized, fit the whole globe in bounds
-map.on("resize", function() {
-    map.fitBounds([[70,-160],[-70, 160]]).invalidateSize();
-})
-
-//Capture where zoom in/out starts
+//Capture where zoom in/out starts for marker adjustment
 var stzoom = 0;
 map.on("zoomstart", function() {
     stzoom = map.getZoom();
@@ -69,6 +72,7 @@ map.on("zoomend", function() {
 });
 
 //Default map display 1 day magnitude activity
+//calls USGS api
 var maxLoc = [];
 apiInfo(url_day)
 .then(data => {
@@ -78,6 +82,8 @@ apiInfo(url_day)
 })
 .catch(reason => console.log(reason.message));
 
+//onclick event from id="pastMonth"
+//Displays mag or depth based on id=mapTabs selection
 function displayMonth(request = "magnitude") {
     let markerFunction = addMagMarkers;
     if(document.getElementById("depthTab")){
@@ -95,6 +101,8 @@ function displayMonth(request = "magnitude") {
     .catch(reason => console.log(reason.message));
 }
 
+//onclick event from id="pastWeek"
+//Displays mag or depth based on id=mapTabs selection
 function displayWeek(request = "magnitude") {
     let markerFunction = addMagMarkers;
     if(document.getElementById("depthTab")){
@@ -112,6 +120,8 @@ function displayWeek(request = "magnitude") {
     .catch(reason => console.log(reason.message));
 }
 
+//onclick event from id="today"
+//Displays mag or depth based on id=mapTabs selection
 function displayDay(request = "magnitude") {
     let markerFunction = addMagMarkers;
     if(document.getElementById("depthTab")){
@@ -129,12 +139,16 @@ function displayDay(request = "magnitude") {
     .catch(reason => console.log(reason.message));
 }
 
+//onclick event from id=plateTab
+//Adds depth markers to map based on id=toggleBar selection
+//calls {dispayMonth() | displayWeek() | displayDay()}
 function displayDepth() {
     document.getElementById("magTab").classList.remove("set");
     document.getElementById("depthTab").classList.add("set");
     document.getElementById("magLegend").classList.add("d-none");
     document.getElementById("depthLegend").classList.remove("d-none");
     var toggle = document.getElementById("toggleBar");
+    toggle.classList.remove("d-none");
     var choice = toggle.getElementsByClassName("active");
     if(choice[0].id == "pastMonth"){
         displayMonth("depth");
@@ -147,13 +161,37 @@ function displayDepth() {
     }
 }
 
+//onclick event from id=plateTab
+//Adds tectonic plate oulines to map
+//hides toggleBar functions
+//calls USGS api
+function displayPlates() {
+    document.getElementById("toggleBar").classList.add("d-none");
+    document.getElementById("magLegend").classList.add("d-none");
+    document.getElementById("depthLegend").classList.add("d-none");
+    current.clearLayers();
+    apiInfo("https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json")
+    .then(data => {
+        L.geoJSON(data, {
+            color: "red",
+            weight: 2
+        }).addTo(current);
+    })
+    .catch(reason => console.log(reason.message));
+}
+
+//onclick event from id=depthTab
+//displays magnitude markers on map based on id=toggleBar selection
+//calls {displayMonth() | displayWeek() | displayDay()}
 function displayMag() {
     document.getElementById("depthTab").classList.remove("set");
     document.getElementById("magTab").classList.add("set");
     document.getElementById("depthLegend").classList.add("d-none");
     document.getElementById("magLegend").classList.remove("d-none");
     var toggle = document.getElementById("toggleBar");
+    toggle.classList.remove("d-none");
     var choice = toggle.getElementsByClassName("active");
+
     if(choice[0].id == "pastMonth"){
         displayMonth();
     }
@@ -165,6 +203,10 @@ function displayMag() {
     }
 }
 
+//onclick event from  id=largest
+//Selects api url based on dropdownButton selection
+//Adds pop-up detail to marker and zooms/pans to location on map
+//calls USGS api
 function zoomToMax() {
     let maxUrl = url_day;
     if(document.getElementById("showMonth").classList.contains("d-none")){
@@ -214,6 +256,10 @@ function zoomToMax() {
     .catch(reason => console.log(reason.message));
 }
 
+//onclick event from id=significant
+//Selects api url to access based on dropdownButton selection
+//Adds pop-up details and zooms/pans to significant quakes at 4s interval
+//calls USGS api
 function zoomToSig() {
     let sigUrl = url_day_sig;
     if(document.getElementById("showMonth").classList.contains("d-none")){
@@ -248,20 +294,8 @@ function zoomToSig() {
     .catch(reason => console.log(reason.message));
 }
 
-
-//Throws error message on locationError
-function onLocationError(e){
-    alert(e.message);
-}
-
-//Zooms to user location on locationFound
-function onLocationFound(e){
-    map.flyTo(e.latlng, 5);
-    document.getElementById("locate").classList.add("active");
-    document.getElementById("locateText").textContent= "Zoom to Earth View";
-}
-
-//Gets user location and changes button to active
+//Gets user location and changes id="locate" button to active
+//zooms/pans to user location on successful locate, else throws error alert
 function zoomToUser() {
     var crosshair = document.getElementById("locate");
     if(crosshair.classList.contains("active")){
@@ -271,8 +305,14 @@ function zoomToUser() {
         return;
     }
     map.locate();
-    map.on("locationerror", onLocationError);
-    map.on("locationfound", onLocationFound);
+    map.on("locationerror", function(e){
+        alert(e.message);
+    });
+    map.on("locationfound", function(e){
+        map.flyTo(e.latlng, 5);
+        document.getElementById("locate").classList.add("active");
+        document.getElementById("locateText").textContent= "Zoom to Earth View";
+    });
 }
 
 //Used to set marker color in map layer based on magnitude
@@ -291,6 +331,8 @@ function chooseMagColor(value) {
             return "#000000";
     }
 }
+
+//used to set marker color in map layer based on depth
 function chooseDepthColor(value) {
     switch(true) {
         case value <= 70:

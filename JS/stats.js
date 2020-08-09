@@ -1,21 +1,6 @@
 var stats = document.getElementById("quickStats");
-/*apiInfo(url_day)
-    .then(data => {
-        var total = document.getElementById("total");
-        total.innerHTML = "<p>Total Quakes</p><h2>"+data.features.length+"</h2>";
 
-        var largest = document.getElementById("largest");
-        largest.innerHTML = "<p>Largest Quake</p><h2>" + findMax(data.features).mag.toFixed(1) +"</h2>";
-    })
-    .catch(reason => console.log(reason.message));
-
-apiInfo(url_day_sig)
-    .then(data => {
-        var sig = document.getElementById("significant");
-        sig.innerHTML = "<p>Potential Damage</p><h2>" + data.features.length + "</h2>";
-    })
-    .catch(reason => console.log(reason.message));
-*/
+//Adds content to id="quickStats" based on USGS api urls passed as args
 function showStats(url = url_day, url_sig = url_day_sig){
     apiInfo(url)
     .then(data => {
@@ -27,7 +12,7 @@ function showStats(url = url_day, url_sig = url_day_sig){
     })
     .catch(reason => console.log(reason.message));
 
-apiInfo(url_sig)
+    apiInfo(url_sig)
     .then(data => {
         var sig = document.getElementById("significant");
         sig.innerHTML = "<h2>Potential Damage</h2><p>" + data.features.length + "</p>";
@@ -36,4 +21,5 @@ apiInfo(url_sig)
 
 }
 
+//Initialize id="quickStats"
 showStats();

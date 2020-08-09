@@ -1,3 +1,6 @@
+//Changes map and stats based on id="dropdownButton" selection
+//changes menu options and button display to reflect selection
+//calls showStats() and displayDay()
 function changeToDay() {
     if(document.getElementById("locate").classList.contains("active")){
         document.getElementById("locateText").textContent= "Zoom to Your Location";
@@ -13,6 +16,9 @@ function changeToDay() {
 
 }
 
+//Changes map and stats based on id="dropdownButton" selection
+//changes menu options and button display to reflect selection
+//calls showStats() and displayDay()
 function changeToWeek() {
     if(document.getElementById("locate").classList.contains("active")){
         document.getElementById("locateText").textContent= "Zoom to Your Location";
@@ -29,6 +35,9 @@ function changeToWeek() {
 
 }
 
+//Changes map and stats based on id="dropdownButton" selection
+//changes menu options and button display to reflect selection
+//calls showStats() and displayMonth()
 function changeToMonth() {
     if(document.getElementById("locate").classList.contains("active")){
         document.getElementById("locateText").textContent= "Zoom to Your Location";
@@ -45,6 +54,10 @@ function changeToMonth() {
 
 }
 
+//Changes map and stats based on id="dropdownButton" selection
+//changes menu options and button display to reflect selection
+//creates USGS api query based on user location
+//calls showStats() and displayWeek()
 function changeToMe() {
     map.locate();
     map.on("locationerror", onLocationError);
@@ -61,7 +74,7 @@ function changeToMe() {
         document.getElementById("showMonth").classList.remove("d-none");
         document.getElementById("showWeek").classList.remove("d-none");
         document.getElementById("showDay").classList.remove("d-none");
-        let sigURL = queryURL + "&minmagnitude=5";
+        let sigURL = queryURL + "&minmagnitude=6.5";
         showStats(queryURL, sigURL);
     });
 }

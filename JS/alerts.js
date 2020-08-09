@@ -1,5 +1,7 @@
 //All seismic activity for the past hour
-//Magnitude, location, time,
+//If activityPanel is included on page, cards are populated with
+//activity details for the past hour
+//calls USGS api
 if(document.getElementById("activityPanel")){
     apiInfo(url_hour)
         .then(data => {
@@ -43,7 +45,8 @@ if(document.getElementById("activityPanel")){
 }
 
 //Pop-up Tsunami warning at under nav bar
-apiInfo(url_day)
+//calls USGS api
+apiInfo(url_hour)
     .then(data => {
         var previous = document.querySelector("header");
         for(feature of data.features){
