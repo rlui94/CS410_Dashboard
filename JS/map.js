@@ -268,6 +268,32 @@ function zoomToSig() {
     else if(document.getElementById("showWeek").classList.contains("d-none")){
         sigUrl = url_week_sig;
     }
+    else if(document.getElementById("showMe").classList.contains("d-none")){
+        map.locate();
+        map.on("locationerror", function(e){
+            onLocationError(e);
+        });
+        map.on("locationfound", function(e){
+            let queryUrl;
+            let weekAgo = new Date();
+            pastDate = weekAgo.getDate() - 7;
+            weekAgo.setDate(pastDate);
+            let dateString = weekAgo.getFullYear() + "-" + (weekAgo.getMonth()+1) + "-" + weekAgo.getDate();
+            queryUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime="+ dateString + "&latitude=" + e.latlng.lat +"&longitude=" + e.latlng.lng + "&maxradius=5&minmagnitude=6.5";
+            apiInfo(queryUrl)
+            .then(data => {
+                for(feature of data.features){
+                    L.popup({autoclose: false})
+                        .setLatLng(max.geometry.coordinates.slice(0,2).reverse())
+                        .setContent("<p><b>" + parseTime(max.properties.time) + "<br/>Magnitude: "+ max.properties.mag + "<br/>" + max.properties.place + "</b></p>")
+                        .openOn(map);
+                }
+                setTimeout(function(){map.closePopup();}, 4000);
+            })
+            .catch(reason => console.log(reason.message));
+        });
+        return;
+    }
     apiInfo(sigUrl)
     .then(data => {
         let i = 1;
