@@ -40,6 +40,9 @@ var addDepthMarkers = function(feature, latlng){
 
 //When map is resized, fit the whole globe in bounds
 map.on("resize", function() {
+    if(document.getElementById("locate").classList.contains("active")){
+        return;
+    }
     map.fitBounds([[70,-160],[-70, 160]]).invalidateSize();
 })
 
