@@ -125,8 +125,10 @@ function makeDonutChart(usgsObj, chartNode){
  * create a scatter chart of time vs quake magnitude.
  * @param {json string} usgsObj   a json'd object from USGS API
  * @param {html element obj} chartNode html canvas node eg "<canvas id="scatterChart" role="img"></canvas>"
+ * @param {Date} minTime minimum time on graph x axis
+ * @param {Date} maxTime maximum time on graph x axis
  */
-function makeScatterChart(usgsObj, chartNode){
+function makeScatterChart(usgsObj, chartNode, minTime = moment().subtract(1, 'hour'), maxTime = moment()){
   let results = []
   // place results into array of objects {x, y}
   for (let i=0; i<usgsObj.features.length; ++i){
@@ -137,7 +139,7 @@ function makeScatterChart(usgsObj, chartNode){
   }
   // make the chart and insert into node
   Chart.defaults.global.defaultFontColor='#fff';
-  refreshChart = new Chart(chartNode,{
+  chartVar = new Chart(chartNode,{
       type: 'scatter',
       data: {
         datasets: [{
@@ -170,8 +172,8 @@ function makeScatterChart(usgsObj, chartNode){
                   hour: 'M/D hA',
                   week: 'MM D',
                 },
-                min: moment().subtract(1, 'hour'),
-                max: moment(),
+                min: minTime,
+                max: maxTime,
               },
               bounds: 'data',
             }],
@@ -193,7 +195,8 @@ function makeScatterChart(usgsObj, chartNode){
             display: false,
           }
         },
-    })
+    });
+    return chartVar;
 }
 
 /**
@@ -217,6 +220,7 @@ async function updateRefreshChart(){
   }
   apiInfo(refreshUrl)
   .then(usgsObj => {
+    apiData = usgsObj;
     let results = []
     // place results into array of objects {x, y}
     for (let i=0; i<usgsObj.features.length; ++i){
@@ -307,6 +311,7 @@ function makeBarChart(usgsObj, chartNode){
  * Updates the bar chart by calling API again and updating
  * the barChart object with new values based on current
  * barUrl value
+ * @param {string} time 'week' or 'month'
  */
 async function updateBarChart(time){
   switch(time){
@@ -341,7 +346,7 @@ async function updateBarChart(time){
 /**
  * Set the current refreshUrl based on time period chosen
  * update refresh chart based on new refreshUrl
- * @param {string} time - time period to switch to
+ * @param {string} time - time period to switch to (day, week, hour)
  */
 function setThenRefresh(time){
   switch(time){
@@ -391,8 +396,8 @@ async function createSimpleDonut(time, chartID){
 async function createTypeChartViaForm(formID, chartID){
   let form = document.getElementById(formID);
   let err = document.getElementById('error-output');
-  let start = document.getElementById(formID).elements['startTime'].valueAsNumber;
-  let end = document.getElementById(formID).elements['endTime'].valueAsNumber
+  let start = form.elements['startTime'].valueAsNumber;
+  let end = form.elements['endTime'].valueAsNumber;
   if(isNaN(start)){
     err.innerHTML = `Please enter a valid start time.`
   }
@@ -404,26 +409,27 @@ async function createTypeChartViaForm(formID, chartID){
   }
   else{
     err.innerHTML = ``;
-    document.getElementById(chartID).style="display:inline";
     start = moment(start);
     end = moment(end);
     makeDonutChart(await getViaLocTime(form.elements['minLat'].value, form.elements['minLong'].value,
     form.elements['maxLat'].value, form.elements['maxLong'].value, start, end), document.getElementById(chartID));
+    document.getElementById(chartID).style="display:inline";
   }
   
 }
 
 /**
  * Create initial refreshing chart object
- * @param {html element obj} chartNode html canvas node eg "<canvas id="scatterChart" role="img"></canvas>"
+ * @param {string} chartID ID of chart node
+ * @param {string} infoID ID of info panel, null default
  */
-async function createRefreshChart(chartNode, infoID = null){
+async function createRefreshChart(chartID, infoID = null){
   apiInfo(refreshUrl)
   .then(data => {
     apiData = data;
-    makeScatterChart(data, chartNode);
+    refreshChart = makeScatterChart(data, chartID);
     if(infoID){
-      setClickHandler(chartNode, infoID);
+      setClickHandler(chartID, infoID, refreshChart);
     }
   })
   .catch(reason => console.log(reason.message));
@@ -444,12 +450,15 @@ async function createQuakesChart(chartNode){
 /**
  * Create an event handler for getting information when clicking points on scatter plot
  * @param {string} chartID chart ID 
+ * @param {string} infoID info panel ID
+ * @param {chart object} chartVar chart object to set handler on
  */
-function setClickHandler(chartID, infoID){
+function setClickHandler(chartID, infoID, chartVar){
   document.getElementById(chartID).onclick = function(e){
-    var points = refreshChart.getElementAtEvent(e)[0];
+    var points = chartVar.getElementAtEvent(e)[0];
     if(points){
-      let time = refreshChart.data.datasets[points._datasetIndex].data[points._index].x;
+      let time = chartVar.data.datasets[points._datasetIndex].data[points._index].x;
+      console.log(time)
       for(let i=0; i<apiData.features.length; i++){
         if(apiData.features[i].properties.time == time){
           console.log(apiData.features[i].properties);
@@ -467,15 +476,27 @@ function setClickHandler(chartID, infoID){
   }
 }
 
-// some utilities for hiding and showing elements
+/**
+ * Hide an element given its ID
+ * @param {string} elemID ID of element to hide
+ */
 function hideElem(elemID){
   document.getElementById(elemID).style.display = 'none';
 }
 
+/**
+ * Display an element given its ID
+ * @param {string} elemID ID of element to display
+ */
 function displayElem(elemID){
   document.getElementById(elemID).style.display = 'inline';
 }
 
+/**
+ * Given an element ID, hide if it is being displayed,
+ * otherwise display it
+ * @param {string} elemID ID of element to toggle
+ */
 function toggleElemDisplay(elemID){
   var node = document.getElementById(elemID);
   if(node.style.display == 'none'){
@@ -485,6 +506,10 @@ function toggleElemDisplay(elemID){
   }
 }
 
+/**
+ * Hide a class of elements
+ * @param {string} className class of elements to hide
+ */
 function hideClass(className){
   obj = document.getElementsByClassName(className);
   for(i=0; i<obj.length; i++){
@@ -492,6 +517,10 @@ function hideClass(className){
   }
 }
 
+/**
+ * Display a class of elements
+ * @param {string} className class of elements to display
+ */
 function displayClass(className){
   obj = document.getElementsByClassName(className);
   for(i=0; i<obj.length; i++){

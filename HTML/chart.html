@@ -95,20 +95,20 @@
               <label class="btn btn-secondary active" onclick="formToggle('type')">
                 <input type="radio" checked><b>Type</b>
               </label>
-              <label class="btn btn-secondary" onclick="formToggle('list')">
-                <input type="radio" ><b>List</b>
+              <label class="btn btn-secondary" onclick="formToggle('plot')">
+                <input type="radio" ><b>Plot</b>
               </label>
             </div>
           </div>
           <div class="row justify-content-center">
-            <!--Type Form-->
-            <div class="col-12 col-md-9" id="type-form-container">
+            <!--Input Form-->
+            <div class="col-12 col-md-9" id="form-container">
               <!--Descriptions-->
               <h5 class="mt-2 mb-4 type-form">Chart types of seismic activities.</h5>
-              <h5 class="mt-2 mb-4 list-form" style="display: none">Show list of seismic activities.</h5>
+              <h5 class="mt-2 mb-4 plot-form" style="display: none">Chart plot of seismic activities.</h5>
               <!--Validation-->
               <div class="bg-danger rounded my-2" id="error-output"></div>
-              <form id="type-form">
+              <form id="inputForm">
                 <div class="form-group row justify-content-around">
                   <div class="col">
                     <label for="startTime">Start Time</label>
@@ -140,15 +140,21 @@
                   </div>
                 </div>
                 <!--Buttons - change button TYPE to align with backend-->
-                <button type="button" class="btn btn-secondary type-form" onclick="createTypeChartViaForm('type-form', 'type-chart')">Create type chart</button>
-                <button type="button" class="btn btn-secondary list-form" onclick="createTypeChartViaForm('list-form', 'type-chart')" 
-                  style="display:none">List seismic activities</button>
+                <button type="button" class="btn btn-secondary type-form" onclick="createTypeChartViaForm('inputForm', 'type-chart')">Create type chart</button>
+                <button type="button" class="btn btn-secondary plot-form" onclick="createPlot('inputForm', 'plot-chart', 'info-panel')" 
+                  style="display:none">Plot seismic activities</button>
               </form>
-              <!--Results-->
-              <canvas class="type-form my-2" id="type-chart" aria-label="type chart" role="img" style="display:none"></canvas>
-              <div class="row" id="list-results"></div>
             </div>
           </div>
+          <!--Results-->
+              <div class="row m-2">
+                <canvas class="type-form my-2 mx" id="type-chart" aria-label="type chart" role="img"></canvas>
+                <canvas class="plot-form col-9 my-2 border rounded" style="display:none" id="plot-chart" aria-label="plot chart" role="img" ></canvas>
+                <div class="plot-form col-3 border rounded" style="display:none" id="info-panel">
+                  <h2>Info Panel</h2>
+                  <p>Select a data point!</p>
+                </div>
+              </div>
         </div>
       </div>
     </div>
