@@ -60,7 +60,9 @@ function changeToMonth() {
 //calls showStats() and displayWeek()
 function changeToMe() {
     map.locate();
-    map.on("locationerror", onLocationError);
+    map.on("locationerror", function(e){
+        alert(e.message);
+    });
     map.on("locationfound", function(e){
         displayWeek();
         let weekAgo = new Date();
@@ -68,7 +70,9 @@ function changeToMe() {
         weekAgo.setDate(pastDate);
         let dateString = weekAgo.getFullYear() + "-" + (weekAgo.getMonth()+1) + "-" + weekAgo.getDate();
         let queryURL = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime="+ dateString + "&latitude=" + e.latlng.lat +"&longitude=" + e.latlng.lng + "&maxradius=5";
-        onLocationFound(e);
+        map.flyTo(e.latlng, 5);
+        document.getElementById("locate").classList.add("active");
+        document.getElementById("locateText").textContent= "Zoom to Earth View";;
         document.getElementById("dropdownTitle").textContent = "Recent Near Me";
         document.getElementById("showMe").classList.add("d-none");
         document.getElementById("showMonth").classList.remove("d-none");
