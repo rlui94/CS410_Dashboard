@@ -60,26 +60,25 @@ function changeToMonth() {
 //calls showStats() and displayWeek()
 function changeToMe() {
     document.getElementById("mapContainer").scrollIntoView({behavior: 'smooth'});
-    map.locate();
-    map.on("locationerror", function(e){
-        alert(e.message);
-    });
-    map.on("locationfound", function(e){
-        displayWeek();
-        let weekAgo = new Date();
-        pastDate = weekAgo.getDate() - 7;
-        weekAgo.setDate(pastDate);
-        let dateString = weekAgo.getFullYear() + "-" + (weekAgo.getMonth()+1) + "-" + weekAgo.getDate();
-        let queryURL = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime="+ dateString + "&latitude=" + e.latlng.lat +"&longitude=" + e.latlng.lng + "&maxradius=5";
-        map.flyTo(e.latlng, 5);
-        document.getElementById("locate").classList.add("active");
-        document.getElementById("locateText").textContent= "Zoom to Earth View";;
-        document.getElementById("dropdownTitle").textContent = "Recent Near Me";
-        document.getElementById("showMe").classList.add("d-none");
-        document.getElementById("showMonth").classList.remove("d-none");
-        document.getElementById("showWeek").classList.remove("d-none");
-        document.getElementById("showDay").classList.remove("d-none");
-        let sigURL = queryURL + "&minmagnitude=6.5";
-        showStats(queryURL, sigURL);
-    });
+    if(window.navigator.geolocation){
+        window.navigator.geolocation
+            .getCurrentPosition(function (position){
+                displayWeek();
+                let weekAgo = new Date();
+                pastDate = weekAgo.getDate() - 7;
+                weekAgo.setDate(pastDate);
+                let dateString = weekAgo.getFullYear() + "-" + (weekAgo.getMonth()+1) + "-" + weekAgo.getDate();
+                let queryURL = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime="+ dateString + "&latitude=" + position.coords.latitude +"&longitude=" + position.coords.longitude + "&maxradius=5";
+                map.flyTo([position.coords.latitude, position.coords.longitude], 5);
+                document.getElementById("locate").classList.add("active");
+                document.getElementById("locateText").textContent= "Zoom to Earth View";;
+                document.getElementById("dropdownTitle").textContent = "Recent Near Me";
+                document.getElementById("showMe").classList.add("d-none");
+                document.getElementById("showMonth").classList.remove("d-none");
+                document.getElementById("showWeek").classList.remove("d-none");
+                document.getElementById("showDay").classList.remove("d-none");
+                let sigURL = queryURL + "&minmagnitude=6.5";
+                showStats(queryURL, sigURL);
+            }, function(position){alert("Couldn't aquire location")});
+    }
 }
