@@ -211,7 +211,7 @@ function displayMag() {
 //Adds pop-up detail to marker and zooms/pans to location on map
 //calls USGS api
 function zoomToMax() {
-    document.getElementById("mapContainer").scrollIntoView(false);
+    document.getElementById("mapContainer").scrollIntoView({behavior: 'smooth'});
     let maxUrl = url_day;
     if(document.getElementById("showMonth").classList.contains("d-none")){
         maxUrl = url_month;
@@ -265,7 +265,7 @@ function zoomToMax() {
 //Adds pop-up details and zooms/pans to significant quakes at 4s interval
 //calls USGS api
 function zoomToSig() {
-    document.getElementById("mapContainer").scrollIntoView(false);
+    document.getElementById("mapContainer").scrollIntoView({behavior: 'smooth'});
     let sigUrl = url_day_sig;
     if(document.getElementById("showMonth").classList.contains("d-none")){
         sigUrl = url_month_sig;
