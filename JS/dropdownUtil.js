@@ -59,7 +59,6 @@ function changeToMonth() {
 //creates USGS api query based on user location
 //calls showStats() and displayWeek()
 function changeToMe() {
-    document.getElementById("mapContainer").scrollIntoView({behavior: 'smooth'});
     if(window.navigator.geolocation){
         window.navigator.geolocation
             .getCurrentPosition(function (position){
