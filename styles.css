@@ -54,7 +54,7 @@ body{
     font-size: 150%;
     font-weight: bolder;
     color:#000000;
-    background-image: linear-gradient(to right, green, green, yellow, yellow,red, purple);
+    background-image: linear-gradient(to right, green, rgb(0, 128, 79), blue,rgb(60, 0, 128), purple,red);
 }
 
 #depthScale {

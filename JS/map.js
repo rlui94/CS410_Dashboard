@@ -22,7 +22,7 @@ map.addLayer(map_layer);
 var current = L.layerGroup().addTo(map);
 var addMagMarkers = function(feature, latlng){
     return L.circleMarker(latlng, {
-        radius: feature.properties.mag + map.getZoom(),
+        radius: ((feature.properties.mag**2)/5) + map.getZoom(),
         color: chooseMagColor(feature.properties.mag),
         opacity: 0.7,
     }).bindPopup("<p><b>"+parseTime(feature.properties.time)+"<br/>Magnitude: "+feature.properties.mag+"<br/>"+feature.properties.place+"</b></p>");
@@ -352,11 +352,11 @@ function chooseMagColor(value) {
         case value < 3:
             return "rgb(0, 255, 0)";
         case value < 6:
-            return "rgb(255, 255, 0)";
+            return "blue";
         case value < 8:
-            return "rgb(255, 0, 0)";
+            return "red";
         case value >= 8:
-            return "rgb(255, 0, 255)";
+            return "purple";
         default:
             console.log(value);
             return "#000000";
