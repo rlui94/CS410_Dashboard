@@ -364,7 +364,7 @@ function chooseMagColor(value) {
         case value < 3:
             return "rgb(0, 255, 0)";
         case value < 6:
-            return "rgb(0,0,255)";
+            return "#007bff";
         case value < 8:
             return "red";
         case value >= 8:
