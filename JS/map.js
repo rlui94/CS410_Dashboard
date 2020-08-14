@@ -366,9 +366,9 @@ function chooseMagColor(value) {
         case value < 6:
             return "#007bff";
         case value < 8:
-            return "red";
-        case value >= 8:
             return "purple";
+        case value >= 8:
+            return "red";
         default:
             console.log(value);
             return "#000000";
