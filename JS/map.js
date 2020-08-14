@@ -210,6 +210,18 @@ function displayMag() {
 //Selects api url based on dropdownButton selection
 //Adds pop-up detail to marker and zooms/pans to location on map
 //calls USGS api
+function keyZoom(event) {
+    console.log(event);
+    console.log(event.key);
+    if(event.key == " " || event.key == "Enter"){
+        if(event.srcElement.id == "largest"){
+            zoomToMax();
+        }
+        if(event.srcElement.id == "significant"){
+            zoomToSig();
+        }
+    }
+}
 function zoomToMax() {
     document.getElementById("mapContainer").scrollIntoView({behavior: 'smooth'});
     let maxUrl = url_day;

@@ -9,6 +9,7 @@ function showStats(url = url_day, url_sig = url_day_sig){
 
         var largest = document.getElementById("largest");
         largest.innerHTML = "<h2>Largest Quake</h2><p>" + findMax(data.features).properties.mag.toFixed(1) +"</p>";
+        largest.tabIndex = 0;
     })
     .catch(reason => console.log(reason.message));
 
@@ -16,6 +17,7 @@ function showStats(url = url_day, url_sig = url_day_sig){
     .then(data => {
         var sig = document.getElementById("significant");
         sig.innerHTML = "<h2>Potential Damage</h2><p>" + data.features.length + "</p>";
+        sig.tabIndex = 0;
     })
     .catch(reason => console.log(reason.message));
 
