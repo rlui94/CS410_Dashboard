@@ -18,3 +18,9 @@ Currently we are using the information provided by the [USGS GeoJSON API](https:
     <li>Moment.js: https://momentjs.com/docs/
   </ul>
 </p>
+<p>Find more of our projects here: <br>
+  <ul>
+    <li>John Lewis: <a href="https://github.com/freethinkingzen">GitHub</a> </li>
+    <li>Ryan Lui: <a href="https://github.com/rlui94">GitHub</a></li>
+  </ul>
+</p>
